@@ -66,3 +66,29 @@ SET FOREIGN_KEY_CHECKS = 1;
 INSERT INTO `user` VALUES (1,'admin','$2a$10$jHv51I.opW58VUwKDoz0EOapAYJkwUXhbtseuFLRMiejlGXP1J4ui','Not disclose','1992-10-26');
 INSERT INTO `users_roles` VALUES (1,1);
 INSERT INTO `users_roles` VALUES (1,2);
+
+
+
+
+
+
+DROP TABLE IF EXISTS Store;
+CREATE TABLE Store(
+store_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+store_name VARCHAR(255) NOT NULL,
+store_address VARCHAR(255),
+store_state VARCHAR(255),
+store_longitude VARCHAR(255),
+store_latitude VARCHAR(255),
+brands_num INTEGER(10)
+)AUTO_INCREMENT = 1;
+INSERT INTO Store VALUES ("123","Coles","1 King St","NSW","151","33",20);
+
+DROP TABLE IF EXISTS Brand;
+CREATE TABLE Brand(
+brand_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+brand_name VARCHAR(255) NOT NULL,
+brand_category VARCHAR(255),
+image VARCHAR(255)
+)AUTO_INCREMENT = 1;
+INSERT INTO Brand VALUES ("123","A egg","egg","c://image");
