@@ -4,8 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import au.usyd.elec5619.domain.Brand;
-import au.usyd.elec5619.domain.Brand;
+import au.usyd.elec5619.KAF.model.Brand;
 
 
 @Repository

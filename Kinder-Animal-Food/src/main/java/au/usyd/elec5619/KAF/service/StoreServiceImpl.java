@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import au.usyd.elec5619.domain.Store;
+import au.usyd.elec5619.KAF.dao.StoreDao;
+import au.usyd.elec5619.KAF.model.Store;
 
 @Service
 public class StoreServiceImpl implements StoreService {

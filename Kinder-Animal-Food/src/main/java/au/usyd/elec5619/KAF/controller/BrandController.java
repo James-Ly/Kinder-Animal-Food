@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import au.usyd.elec5619.domain.Brand;
-import au.usyd.elec5619.service.BrandService;
+import au.usyd.elec5619.KAF.model.Brand;
+import au.usyd.elec5619.KAF.service.BrandService;
 
 @Controller
 public class BrandController {

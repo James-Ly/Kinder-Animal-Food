@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
-import au.usyd.elec5619.domain.Brand;
+import au.usyd.elec5619.KAF.model.Brand;
 
 @Service
 public class BrandDaoImpl implements BrandDao {
