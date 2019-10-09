@@ -32,7 +32,7 @@
 		<!-- Add a link to point to /systems ... this is for the admins -->
 		
 		<p>
-			<a href="${pageContext.request.contextPath}/systems">Admin page</a>
+			<a href="${pageContext.request.contextPath}/systems/">Admin page</a>
 		</p>
 	
 	</security:authorize>
