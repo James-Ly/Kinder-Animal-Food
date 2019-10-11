@@ -66,3 +66,87 @@ SET FOREIGN_KEY_CHECKS = 1;
 INSERT INTO `user` VALUES (1,'admin','$2a$10$jHv51I.opW58VUwKDoz0EOapAYJkwUXhbtseuFLRMiejlGXP1J4ui','Not disclose','1992-10-26');
 INSERT INTO `users_roles` VALUES (1,1);
 INSERT INTO `users_roles` VALUES (1,2);
+
+--
+-- Table structure for table `Accreditation`
+--
+
+DROP TABLE IF EXISTS `Accreditation`;
+CREATE TABLE `Accreditation` (
+  `accreditation_id` int(10) NOT NULL AUTO_INCREMENT,
+  `accreditation_name` varchar(255) NOT NULL,
+  `rating` varchar(5) NOT NULL,
+
+  PRIMARY KEY (`accreditation_id`)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+INSERT INTO `Accreditation` VALUES 
+(1, 'Cage Caged', 'good'), (2, 'New Cage caged', 'avoid');
+
+
+--
+-- Table structure for table `Brand`
+--
+
+DROP TABLE IF EXISTS `Brand`;
+CREATE TABLE `Brand` (
+  `brand_id` int(10) NOT NULL AUTO_INCREMENT,
+  `brand_name` varchar(255) NOT NULL,
+  `brand_category` varchar(255) NOT NULL,
+  `accreditation_id` int(10) NOT NULL,
+  `image` varchar(255) NOT NULL,
+
+  PRIMARY KEY (`brand_id`),
+
+  CONSTRAINT `FK_Accreditation` FOREIGN KEY (`accreditation_id`) 
+  REFERENCES `Accreditation` (`accreditation_id`) 
+  ON DELETE CASCADE ON UPDATE CASCADE
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+INSERT INTO `Brand` VALUES ('1', 'A egg', 'egg', 1, 'c://image');
+
+
+--
+-- Table structure for table `Store`
+--
+
+DROP TABLE IF EXISTS `Store`;
+CREATE TABLE `Store` (
+  `store_id` int(10) NOT NULL AUTO_INCREMENT,
+  `store_name` varchar(255) NOT NULL,
+  `store_address` varchar(255) NOT NULL,
+  `store_state` varchar(255) NOT NULL,
+  `store_longitude` varchar(255) NOT NULL,
+  `store_latitude` varchar(255) NOT NULL,
+  `brands_num` int(10) NOT NULL,
+
+  PRIMARY KEY (`store_id`)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+INSERT INTO `Store` VALUES ('1', 'Coles', '1 King St', 'NSW', '151', '33', 20);
+INSERT INTO `Store` VALUES ('2', 'WW', '2 King St', 'NSW', '152', '34', 20);
+
+
+--
+-- Table structure for table `Product`
+--
+
+DROP TABLE IF EXISTS `Product`;
+CREATE TABLE `Product`(
+  `product_id` int (10) NOT NULL AUTO_INCREMENT,
+  `store_id` int(10) NOT NULL,
+  `brand_id` int(10) NOT NULL,
+
+  PRIMARY KEY (`product_id`),
+
+  CONSTRAINT `FK_Store` FOREIGN KEY (`store_id`) 
+  REFERENCES `Store` (`store_id`) 
+  ON DELETE CASCADE ON UPDATE CASCADE,
+
+  CONSTRAINT `FK_Brand` FOREIGN KEY (`brand_id`) 
+  REFERENCES `Brand` (`brand_id`) 
+  ON DELETE CASCADE ON UPDATE CASCADE
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+INSERT INTO `Product` (`store_id`, `brand_id`) VALUES ('1', '1');
+
