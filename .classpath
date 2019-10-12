@@ -3,5 +3,8 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="Kinder-Animal-Food/src/main/java"/>
 	<classpathentry kind="src" path="Kinder-Animal-Food/src/test/java"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="Kinder-Animal-Food/pom.xml"/>
 	<classpathentry kind="output" path="Kinder-Animal-Food/target/classes"/>
 </classpath>
