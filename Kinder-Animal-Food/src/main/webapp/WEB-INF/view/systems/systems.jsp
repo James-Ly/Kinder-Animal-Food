@@ -64,17 +64,17 @@ a:active  { color: white;}
 		</tr>		
 		<tr>
 			<td align="left" height = "40">
-				<div id="Arial"><a href="Insert" style="font-size:15px">&nbsp;&nbsp;&nbsp;Import Data</a></div>
+				<div id="Arial"><a href="/Kinder-Animal-Food/systems/Insert" style="font-size:15px">&nbsp;&nbsp;&nbsp;Import Data</a></div>
 			</td>
 		</tr>		
 		<tr>
 			<td align="left" height = "40">
-				<div id="Arial"><a href="UpdateDeleteBrand" style="font-size:15px">&nbsp;&nbsp;&nbsp;Update/ Delete Brand</a></div>
+				<div id="Arial"><a href="/Kinder-Animal-Food/systems/UpdateDeleteBrand" style="font-size:15px">&nbsp;&nbsp;&nbsp;Update/ Delete Brand</a></div>
 			</td>
 		</tr>		
 		<tr>
 			<td align="left" height = "40">
-				<div id="Arial"><a href="UpdateDeleteStore" style="font-size:15px">&nbsp;&nbsp;&nbsp;Update/ Delete Store</a></div>
+				<div id="Arial"><a href="/Kinder-Animal-Food/systems/UpdateDeleteStore" style="font-size:15px">&nbsp;&nbsp;&nbsp;Update/ Delete Store</a></div>
 			</td>
 		</tr>		
 		<tr>

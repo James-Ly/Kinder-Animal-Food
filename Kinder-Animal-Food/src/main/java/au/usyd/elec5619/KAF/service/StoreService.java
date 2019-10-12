@@ -19,4 +19,6 @@ public interface StoreService {
 	boolean editStore(Store store);
 	
 	Integer countStore();
+	
+	boolean setBrandsNum(Integer store_id, Integer brands_num);
 }

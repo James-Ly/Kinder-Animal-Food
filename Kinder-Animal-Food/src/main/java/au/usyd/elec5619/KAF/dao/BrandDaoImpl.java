@@ -37,7 +37,7 @@ public class BrandDaoImpl implements BrandDao {
 	}
 	@Override
 	@Transactional
-	public 	Brand searchBrandByID(Integer brand_id) {
+	public Brand searchBrandByID(Integer brand_id) {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 
@@ -52,6 +52,26 @@ public class BrandDaoImpl implements BrandDao {
 		}
 
 		return brand;
+	}
+	
+	@Override
+	@Transactional
+	public List<Brand> searchBrandByNameCategory(String brand_name, String brand_category) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+
+		Query<Brand> theQuery = currentSession.createQuery("from Brand where brand_name=:bName AND brand_category=:bCategory", Brand.class);
+		theQuery.setParameter("bName", brand_name);
+		theQuery.setParameter("bCategory", brand_category);
+
+		List<Brand> brands = null;
+		try {
+			brands = theQuery.getResultList();
+		} catch (Exception e) {
+			brands = null;
+		}
+
+		return brands;
 	}
 
 	@Override
@@ -136,7 +156,7 @@ public class BrandDaoImpl implements BrandDao {
 		Session currentSession = sessionFactory.getCurrentSession();
 				
 		Query theQuery = currentSession.createQuery(
-				"update Brand set brand_name=:bName AND brand_category=:bAddress AND image=:bImage where brand_id=:bID");
+				"update Brand set brand_name=:bName, brand_category=:bAddress, image=:bImage where brand_id=:bID");
 		theQuery.setParameter("bName", brand.getBrand_name());
 		theQuery.setParameter("bAddress", brand.getBrand_category());
 		theQuery.setParameter("bImage", brand.getImage());

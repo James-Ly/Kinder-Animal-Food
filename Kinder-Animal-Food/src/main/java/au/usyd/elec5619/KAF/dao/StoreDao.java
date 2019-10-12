@@ -20,4 +20,6 @@ public interface StoreDao {
 	
 	boolean editStore(Store store);
 	
+	boolean setBrandsNum(Integer store_id, Integer brands_num);
+	
 }

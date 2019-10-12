@@ -8,9 +8,13 @@ public interface ProductDao {
 	
 	Product searchProductByID(Integer product_id);
 	
-	List<Product> searchProduct(Product product);
+	Product searchProduct(Integer store_id, Integer brand_id);
 	
 	List<Product> productList();
+	
+	List<Integer> searchBrandByStore(Integer product_id);
+	
+	List<Integer> searchStoreByBrand(Integer brand_id);
 	
 	boolean insertProduct(Product product);
 	
