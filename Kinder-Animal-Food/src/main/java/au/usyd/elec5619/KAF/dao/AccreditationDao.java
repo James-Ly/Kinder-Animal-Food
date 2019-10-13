@@ -8,7 +8,7 @@ public interface AccreditationDao {
 	
 	Accreditation searchAccreditationByID(Integer accreditation_id);
 	
-	List<Accreditation> searchAccreditation(Accreditation accreditation);
+	Accreditation searchAccreditation(Accreditation accreditation);
 	
 	List<Accreditation> accreditationList();
 	
@@ -17,5 +17,4 @@ public interface AccreditationDao {
 	boolean deleteAccreditation(Integer accreditation_id);
 	
 	boolean editAccreditation(Accreditation accreditation);
-	 
 }

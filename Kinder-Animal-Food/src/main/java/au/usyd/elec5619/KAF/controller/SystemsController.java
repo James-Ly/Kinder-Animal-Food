@@ -96,15 +96,16 @@ public class SystemsController {
 		List<BrandWithAccreditation> brandWithAccreditations = new ArrayList<BrandWithAccreditation>();
 		for (int i = 0; i < brands.size(); i++) {
 			BrandWithAccreditation brandWithAccreditation = new BrandWithAccreditation();
-			Accreditation accreditation = accreditationService.searchAccreditation(brands.get(i).getAccreditation_id());
-			
+			Accreditation accreditation = accreditationService
+					.searchAccreditationByID(brands.get(i).getAccreditation_id());
+
 			brandWithAccreditation.setAccreditation_name(accreditation.getAccreditation_name());
 			brandWithAccreditation.setRating(accreditation.getRating());
 			brandWithAccreditation.setBrand(brands.get(i));
-			
+
 			brandWithAccreditations.add(brandWithAccreditation);
 		}
-		
+
 		map.put("brands", brandWithAccreditations);
 
 		return mav;
@@ -123,17 +124,22 @@ public class SystemsController {
 
 //  Store and Brand Insert
 	@RequestMapping(value = "/Insert")
-	public ModelAndView storeInsert(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView storeInsert(HttpServletRequest request, HttpServletResponse response, ModelMap map) {
 		ModelAndView mav = new ModelAndView("systems/Insert");
+
+		List<Accreditation> accreditations = accreditationService.accreditationList();
+		map.put("accreditations", accreditations);
 
 		mav.addObject("store", new Store());
 		mav.addObject("brand", new Brand());
+		mav.addObject("accreditation", new Accreditation());
 
 		return mav;
 	}
 
 	@RequestMapping(value = "/storeInsertProcess")
-	public ModelAndView storeInsertProcess(HttpServletRequest request, HttpServletResponse response, Store store, Brand brand) {
+	public ModelAndView storeInsertProcess(HttpServletRequest request, HttpServletResponse response, Store store,
+			Brand brand) {
 		ModelAndView mav = new ModelAndView("systems/Insert");
 
 		if (!storeService.insertStore(store)) {
@@ -142,21 +148,62 @@ public class SystemsController {
 //			mav.addObject("message", "Insert successfully!!");
 			mav.addObject("message", storeService.countStore());
 		}
-		
+
 		return mav;
 	}
 
+	/**
+	 * Insert new accreditation if not exists and insert new brand.
+	 * 
+	 * @param request       HttpServletRequest
+	 * @param response      HttpServletResponse
+	 * @param map           ModelMap
+	 * @param brand         Brand
+	 * @param store         Store
+	 * @param accreditation Accreditation
+	 * @return ModelAndView
+	 */
 	@RequestMapping(value = "/brandInsertProcess")
-	public ModelAndView brandInsertProcess(HttpServletRequest request, HttpServletResponse response, Brand brand, Store store) {
+	public ModelAndView brandInsertProcess(HttpServletRequest request, HttpServletResponse response, ModelMap map,
+			Brand brand, Store store, Accreditation accreditation) {
 		ModelAndView mav = new ModelAndView("systems/Insert");
+		List<Accreditation> accreditations = accreditationService.accreditationList();
+		// return message
+		String message = "";
 
-		if (!brandService.insertBrand(brand)) {
-			mav.addObject("message", "Brand already exists!!");
+		if (brandService.searchBrand(brand)) {
+			message += "Brand already exists. ";
 		} else {
-//			mav.addObject("message", "Insert successfully!!");
-			mav.addObject("message", brandService.countBrand());
+			accreditations = accreditationService.accreditationList();
+
+			// search exist accreditation
+			Accreditation accreditationSearch = accreditationService.searchAccreditation(accreditation);
+			int accreditation_id;
+			// Accreditation not exists
+			if (accreditationSearch == null) {
+				// add new accreditation
+				accreditationService.insertAccreditation(accreditation);
+				// accreditation id = original size + 1 (AUTO_INCREMENT)
+				accreditation_id = accreditations.size() + 1;
+				message += String.format("Accreditation added(id: %d). ", accreditation_id);
+			}
+			// Accreditation exists
+			else {
+				// accreditation id = exist accreditation's id
+				accreditation_id = accreditationSearch.getAccreditation_id();
+				message += String.format("Accreditation exists(id: %d). ", accreditation_id);
+			}
+			// Add accreditation id into new brand
+			brand.setAccreditation_id(accreditation_id);
+			// Insert new brand
+			if (brandService.insertBrand(brand)) {
+				message += "Brand insert success.";
+			}
 		}
+		accreditations = accreditationService.accreditationList();
+		map.put("accreditations", accreditations);
 		
+		mav.addObject("message", message);
 		return mav;
 	}
 }

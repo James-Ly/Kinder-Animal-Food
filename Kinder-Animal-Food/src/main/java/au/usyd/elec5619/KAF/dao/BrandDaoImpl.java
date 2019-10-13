@@ -61,11 +61,10 @@ public class BrandDaoImpl implements BrandDao {
 		Session currentSession = sessionFactory.getCurrentSession();
 
 		Query<Brand> theQuery = currentSession.createQuery(
-				"from Brand where brand_name=:bName AND brand_category=:bAddress AND image=:bImage",
+				"from Brand where brand_name=:bName AND brand_category=:bCategory",
 				Brand.class);
 		theQuery.setParameter("bName", brand.getBrand_name());
-		theQuery.setParameter("bAddress", brand.getBrand_category());
-		theQuery.setParameter("bImage", brand.getImage());
+		theQuery.setParameter("bCategory", brand.getBrand_category());
 
 
 		List<Brand> brands = null;

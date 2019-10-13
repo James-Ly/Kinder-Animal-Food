@@ -19,4 +19,6 @@ public interface BrandService {
 	boolean editBrand(Brand brand);
 	
 	Integer countBrand();
+
+	boolean searchBrand(Brand brand);
 }

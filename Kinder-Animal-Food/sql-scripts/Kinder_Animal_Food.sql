@@ -94,7 +94,7 @@ CREATE TABLE `Brand` (
   `brand_name` varchar(255) NOT NULL,
   `brand_category` varchar(255) NOT NULL,
   `accreditation_id` int(10) NOT NULL,
-  `image` varchar(255) NOT NULL,
+  `image` varchar(255),
 
   PRIMARY KEY (`brand_id`),
 

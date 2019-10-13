@@ -17,9 +17,16 @@ public class AccreditationServiceImpl implements AccreditationService {
 
 	@Override
 	@Transactional
-	public Accreditation searchAccreditation(Integer accreditation_id) {
+	public Accreditation searchAccreditationByID(Integer accreditation_id) {
 
 		return accreditationDao.searchAccreditationByID(accreditation_id);
+	}
+	
+	@Override
+	@Transactional
+	public Accreditation searchAccreditation(Accreditation accreditation) {
+
+		return accreditationDao.searchAccreditation(accreditation);
 	}
 
 	@Override
@@ -32,12 +39,11 @@ public class AccreditationServiceImpl implements AccreditationService {
 	@Transactional
 	public boolean insertAccreditation(Accreditation accreditation) {
 
-		if (accreditationDao.searchAccreditation(accreditation).size() != 0) {
-			return false;
-		} else {
-			accreditationDao.insertAccreditation(accreditation);
+		if (accreditationDao.insertAccreditation(accreditation)) {
 			return true;
 		}
+		return false;
+		
 	}
 
 	@Override
