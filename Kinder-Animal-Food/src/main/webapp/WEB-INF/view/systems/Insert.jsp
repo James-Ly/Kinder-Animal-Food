@@ -351,8 +351,38 @@
 
 	};
 
-	var accreditations = getAccreditations();
-	autoShow(accreditations, '#accreditation_name', '#rating');
-	imageConvert();
-	addressSearch();
+	(function($) {
+		$.fn.inputFilter = function(inputFilter) {
+			return this
+					.on(
+							"input keydown keyup mousedown mouseup select contextmenu drop",
+							function() {
+								if (inputFilter(this.value)) {
+									this.oldValue = this.value;
+									this.oldSelectionStart = this.selectionStart;
+									this.oldSelectionEnd = this.selectionEnd;
+								} else if (this.hasOwnProperty("oldValue")) {
+									this.value = this.oldValue;
+									this.setSelectionRange(
+											this.oldSelectionStart,
+											this.oldSelectionEnd);
+								}
+							});
+		};
+	}(jQuery));
+
+	$(document).ready(function() {
+		var accreditations = getAccreditations();
+		autoShow(accreditations, '#accreditation_name', '#rating');
+		imageConvert();
+		addressSearch();
+		$("#store_state")[0].maxLength = 3;
+		$("#store_postcode")[0].maxLength = 4;
+		$("#store_state").inputFilter(function(value) {
+			return /^[a-z]*$/i.test(value);
+		});
+		$("#store_postcode").inputFilter(function(value) {
+			return /^\d*$/.test(value);
+		});
+	});
 </script>
