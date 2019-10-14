@@ -128,7 +128,14 @@ public class SystemsController {
 		return "redirect:UpdateDeleteBrand";
 	}
 
-//  Store and Brand Insert
+	/**
+	 * Store and Brand Insert.
+	 * 
+	 * @param request  HttpServletRequest
+	 * @param response HttpServletResponse
+	 * @param map      ModelMap
+	 * @return ModelAndView
+	 */
 	@RequestMapping(value = "/Insert")
 	public ModelAndView storeInsert(HttpServletRequest request, HttpServletResponse response, ModelMap map) {
 		ModelAndView mav = new ModelAndView("systems/Insert");
@@ -146,20 +153,35 @@ public class SystemsController {
 	/**
 	 * Insert new store if not exists.
 	 * 
-	 * @param request HttpServletRequest
-	 * @param response HttpServletResponse
-	 * @param store Store
-	 * @param brand Brand
+	 * @param request       HttpServletRequest
+	 * @param response      HttpServletResponse
+	 * @param map           ModelMap
+	 * @param store         Store
+	 * @param brand         Brand
 	 * @param accreditation Accreditation
 	 * @return ModelAndView
 	 */
 	@RequestMapping(value = "/storeInsertProcess")
-	public ModelAndView storeInsertProcess(HttpServletRequest request, HttpServletResponse response, Store store,
-			Brand brand, Accreditation accreditation) {
+	public ModelAndView storeInsertProcess(HttpServletRequest request, HttpServletResponse response, ModelMap map,
+			Store store, Brand brand, Accreditation accreditation) {
 		ModelAndView mav = new ModelAndView("systems/Insert");
 
+		List<Accreditation> accreditations = accreditationService.accreditationList();
+		map.put("accreditations", accreditations);
 		// return message
 		String message = "";
+		// state uppercase
+		store.setStore_state(store.getStore_state().toUpperCase());
+		if (store.getStore_state() == null) {
+			return mav.addObject("message", "Null Input.");
+		} else if (store.getStore_state().length() > 3) {
+			return mav.addObject("message", "State incorrect.");
+		}
+		if (store.getStore_postcode() == null) {
+			return mav.addObject("message", "Null Input.");
+		} else if (store.getStore_postcode().length() > 4) {
+			return mav.addObject("message", "Postcode incorrect.");
+		}
 		// get longitude and latitude by address
 		String[] coordinates = addressGetCoordinate(store.getStore_address());
 		// if get longitude and latitude failed
@@ -172,7 +194,7 @@ public class SystemsController {
 			store.setStore_longitude(coordinates[1]);
 			if (storeService.insertStore(store)) {
 				message += "Store insert success.";
-			} 
+			}
 			// store duplicated
 			else {
 				message += "Store already exists.";
