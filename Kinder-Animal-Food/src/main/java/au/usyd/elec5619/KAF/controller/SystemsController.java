@@ -23,9 +23,11 @@ import com.google.gson.JsonObject;
 import au.usyd.elec5619.KAF.model.Accreditation;
 import au.usyd.elec5619.KAF.model.Brand;
 import au.usyd.elec5619.KAF.model.BrandWithAccreditation;
+import au.usyd.elec5619.KAF.model.Report;
 import au.usyd.elec5619.KAF.model.Store;
 import au.usyd.elec5619.KAF.service.AccreditationService;
 import au.usyd.elec5619.KAF.service.BrandService;
+import au.usyd.elec5619.KAF.service.ReportService;
 import au.usyd.elec5619.KAF.service.StoreService;
 
 @Controller
@@ -40,7 +42,10 @@ public class SystemsController {
 
 	@Autowired
 	AccreditationService accreditationService;
-
+	
+	@Autowired
+	ReportService reportService;
+	
 	@GetMapping("/")
 	public String showSystems() {
 
@@ -128,6 +133,16 @@ public class SystemsController {
 		return "redirect:UpdateDeleteBrand";
 	}
 
+	@RequestMapping(value = "/CheckReport")
+	public ModelAndView checkReport(HttpServletRequest request, HttpServletResponse response, ModelMap map) {
+		ModelAndView mav = new ModelAndView("systems/CheckReport");
+		
+		List<Report> reports = reportService.getReportList();
+		map.put("reports", reports);
+		
+		return mav;
+	}
+	
 	/**
 	 * Store and Brand Insert.
 	 * 
@@ -235,8 +250,10 @@ public class SystemsController {
 			if (accreditationSearch == null) {
 				// add new accreditation
 				accreditationService.insertAccreditation(accreditation);
-				// accreditation id equals original size + 1 (AUTO_INCREMENT)
-				accreditation_id = accreditations.size() + 1;
+				//accreditation_id = accreditations.size() + 1;
+				// accreditation id equals new accreditation's id
+				accreditationSearch = accreditationService.searchAccreditation(accreditation);
+				accreditation_id = accreditationSearch.getAccreditation_id();
 				message += String.format("Accreditation added(id: %d). ", accreditation_id);
 			}
 			// Accreditation exists
