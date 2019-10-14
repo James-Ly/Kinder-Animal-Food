@@ -1,7 +1,9 @@
 package au.usyd.elec5619.KAF.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +14,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import au.usyd.elec5619.KAF.model.Accreditation;
 import au.usyd.elec5619.KAF.model.Brand;
@@ -137,18 +143,42 @@ public class SystemsController {
 		return mav;
 	}
 
+	/**
+	 * Insert new store if not exists.
+	 * 
+	 * @param request HttpServletRequest
+	 * @param response HttpServletResponse
+	 * @param store Store
+	 * @param brand Brand
+	 * @param accreditation Accreditation
+	 * @return ModelAndView
+	 */
 	@RequestMapping(value = "/storeInsertProcess")
 	public ModelAndView storeInsertProcess(HttpServletRequest request, HttpServletResponse response, Store store,
-			Brand brand) {
+			Brand brand, Accreditation accreditation) {
 		ModelAndView mav = new ModelAndView("systems/Insert");
 
-		if (!storeService.insertStore(store)) {
-			mav.addObject("message", "Store already exists!!");
+		// return message
+		String message = "";
+		// get longitude and latitude by address
+		String[] coordinates = addressGetCoordinate(store.getStore_address());
+		// if get longitude and latitude failed
+		if (coordinates[0] == null || coordinates[1] == null) {
+			message += "Address error (get coordinates failed).";
 		} else {
-//			mav.addObject("message", "Insert successfully!!");
-			mav.addObject("message", storeService.countStore());
+			// set latitude into store
+			store.setStore_latitude(coordinates[0]);
+			// set longitude into store
+			store.setStore_longitude(coordinates[1]);
+			if (storeService.insertStore(store)) {
+				message += "Store insert success.";
+			} 
+			// store duplicated
+			else {
+				message += "Store already exists.";
+			}
 		}
-
+		mav.addObject("message", message);
 		return mav;
 	}
 
@@ -183,45 +213,34 @@ public class SystemsController {
 			if (accreditationSearch == null) {
 				// add new accreditation
 				accreditationService.insertAccreditation(accreditation);
-				// accreditation id = original size + 1 (AUTO_INCREMENT)
+				// accreditation id equals original size + 1 (AUTO_INCREMENT)
 				accreditation_id = accreditations.size() + 1;
 				message += String.format("Accreditation added(id: %d). ", accreditation_id);
 			}
 			// Accreditation exists
 			else {
-				// accreditation id = exist accreditation's id
+				// accreditation id equals exist accreditation's id
 				accreditation_id = accreditationSearch.getAccreditation_id();
 				message += String.format("Accreditation exists(id: %d). ", accreditation_id);
 			}
 			// Add accreditation id into new brand
 			brand.setAccreditation_id(accreditation_id);
-			
-			//定义文件名
-			//String fileName = "";
-			//获取原始文件名
-			//String uploadFileName = image.getOriginalFilename();
+
+			// 定义文件名
+			// String fileName = "";
+			// 获取原始文件名
+			// String uploadFileName = image.getOriginalFilename();
 			/*
-			MultipartFile multipartFile = brand.getImage();
-			System.out.println(image);
-			List<String> fileNames = new ArrayList<String>();
-	        if (null != multipartFile)
-	        {
-	                String fileName = multipartFile.getOriginalFilename();
-	                fileNames.add(fileName);
-	 
-	                File imageFile = new File(request.getServletContext().getRealPath("/image"), fileName);
-	                try
-	                {
-	                    multipartFile.transferTo(imageFile);
-	                } catch (IOException e)
-	                {
-	                    e.printStackTrace();
-	                }
-	        }
-			*/
-			
-			
-			
+			 * MultipartFile multipartFile = brand.getImage(); System.out.println(image);
+			 * List<String> fileNames = new ArrayList<String>(); if (null != multipartFile)
+			 * { String fileName = multipartFile.getOriginalFilename();
+			 * fileNames.add(fileName);
+			 * 
+			 * File imageFile = new File(request.getServletContext().getRealPath("/image"),
+			 * fileName); try { multipartFile.transferTo(imageFile); } catch (IOException e)
+			 * { e.printStackTrace(); } }
+			 */
+
 			// Insert new brand
 			if (brandService.insertBrand(brand)) {
 				message += "Brand insert success.";
@@ -229,10 +248,50 @@ public class SystemsController {
 		}
 		accreditations = accreditationService.accreditationList();
 		map.put("accreditations", accreditations);
-		
+
 		mav.addObject("message", message);
 		return mav;
 	}
+
+	/**
+	 * Input full address and return latitude and longitude.
+	 * 
+	 * @param address full address
+	 * @return String[latitude,longitude]
+	 */
+	private String[] addressGetCoordinate(String address) {
+		// API KEY
+		String api_key = "56e3b46c-5fcc-4384-858b-40f54bce3976";
+		System.out.println("Input store address: " + address);
+		// RestTemplate
+		RestTemplate restTemplate = new RestTemplate();
+		// URL
+		String url = "https://api.addressify.com.au/addresspro/info?api_key={api_key}&term={address}";
+		// transmit parameters by Map
+		Map<String, Object> params = new HashMap<>();
+		params.put("api_key", api_key);
+		params.put("address", address);
+		// get API response in String
+		String res = restTemplate.getForObject(url, String.class, params);
+		System.out.println("API response: " + res);
+
+		// Convert String to Json
+		JsonObject convertedObject = new Gson().fromJson(res, JsonObject.class);
+
+		String coordinates[] = new String[2];
+		// Check Longitude and Latitude null or not
+		if (convertedObject.get("Longitude").isJsonNull() || convertedObject.get("Latitude").isJsonNull()) {
+			coordinates[0] = null;
+			coordinates[1] = null;
+		} else {
+			coordinates[0] = convertedObject.get("Latitude").getAsString();
+			coordinates[1] = convertedObject.get("Longitude").getAsString();
+		}
+		System.out.println("Latitude: " + coordinates[0]);
+		System.out.println("Longitude: " + coordinates[1]);
+
+		return coordinates;
+	};
 }
 
 //	// Store delete insert update functions
