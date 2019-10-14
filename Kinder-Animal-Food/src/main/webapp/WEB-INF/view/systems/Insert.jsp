@@ -58,27 +58,43 @@
 		<table align="center">
 			<tr>
 				<td><form:label path="brand_name">Brand Name</form:label></td>
-				<td><form:input placeholder="Please enter the brand name" size="40"
-						path="brand_name" name="brand_name" id="brand_name" /></td>
+				<td><form:input placeholder="Please enter the brand name"
+						size="40" path="brand_name" name="brand_name" id="brand_name" />
+					<span style="margin-left: 10px; display: none; color: red"
+					id="brandNameNull">Please enter the brand name！</span></td>
 			</tr>
 			<tr>
 				<td><form:label path="brand_category">Brand Category</form:label></td>
-				<td><form:input placeholder="Please enter the category" size="40" path="brand_category" name="brand_category"
-						id="brand_category" /></td>
+				<td><form:input placeholder="Please enter the category"
+						size="40" path="brand_category" name="brand_category"
+						id="brand_category" /><span
+					style="margin-left: 10px; display: none; color: red"
+					id="brandCategoryNull">Please enter the category！</span></td>
 			</tr>
 			<tr>
 				<td><form:label path="image">image: </form:label></td>
-				<td><form:input path="image" name="image" id="image" /></td>
-			<tr>
+				<td><input type="file" id="imageSelect"
+					accept="image/x-png,image/jpeg,image/jpg" /><span
+					style="display: none"><form:input path="image" name="image"
+							id="image" /></span>
+				<div
+						style="border: 1px solid #F00; width: 200px; height: 200px; overflow: hidden">
+						<img src="" id="img" style="max-width: 200px; max-height: 200px">
+					</div></td>
+				<tr>
 				<td><form:form id="AccreditationInsertForm"
 						modelAttribute="accreditation" action="brandInsertProcess"
 						method="post">
 						<table align="center">
 							<tr>
 								<td><form:label path="accreditation_name">Accreditation</form:label></td>
-								<td><form:input placeholder="Please enter the accreditation" size="40"
-								path="accreditation_name"
-										name="accreditation_name" id="accreditation_name" /></td>
+								<td><form:input
+										placeholder="Please enter the accreditation" size="40"
+										path="accreditation_name" name="accreditation_name"
+										id="accreditation_name" /><span
+									style="margin-left: 10px; display: none; color: red"
+									id="accreditationNameNull">Please enter the
+										accreditation！</span></td>
 							</tr>
 							<tr>
 								<td><form:label path="rating">Rating</form:label></td>
@@ -96,8 +112,8 @@
 					</form:form></td>
 			</tr>
 			<tr>
-				<td align="center"><form:button id="brandInsert"
-						name="brandInsert">Brand Insert</form:button></td>
+				<td align="center"><button type="button" id="brandInsert"
+						name="brandInsert" onclick="submitBrand()">Brand Insert</button></td>
 			</tr>
 		</table>
 
@@ -113,7 +129,7 @@
 </body>
 </html>
 
-<script>
+<script type="text/JavaScript">
 	function createstyle(css) {
 		var mystyle = $('#mystyle');
 		if (!mystyle.length > 0) {
@@ -125,6 +141,11 @@
 	}
 
 	function autoShow(list, id, select_id) {
+		var accreditation_name = document.getElementById("accreditation_name").value;
+		if (accreditation_name != "") {
+			ratingChange(list, accreditation_name, select_id);
+		}
+
 		id = id || "#value";
 		var wd = $(id)[0].clientWidth;
 		var hg = $(id)[0].clientHeight;
@@ -156,11 +177,7 @@
 					$('#suggest li').css(css_li);
 					$('#suggest li').bind('click', function(e) {
 						var target = $(e.target).html();
-						for (var i = 0; i < list.length; i++) {
-							if (list[i].name == target){
-								$(select_id).val(list[i].rating);
-							}
-						}
+						ratingChange(list, target, select_id);
 						$(id).val(target);
 						$('#suggest').hide();
 					});
@@ -179,6 +196,14 @@
 
 	}
 
+	function ratingChange(list, target, select_id) {
+		for (var i = 0; i < list.length; i++) {
+			if (list[i].name == target) {
+				$(select_id).val(list[i].rating);
+			}
+		}
+	}
+
 	function getAccreditations() {
 		var accreditations = [];
 		<c:forEach items="${requestScope.accreditations}" var="accreditation">
@@ -190,6 +215,63 @@
 		return accreditations;
 	}
 
+	function validateBrand() {
+		var brand_name = document.getElementById('brand_name').value;
+		var brand_category = document.getElementById('brand_category').value;
+		var accreditation_name = document.getElementById('accreditation_name').value;
+
+		var brandNameNull = document.getElementById('brandNameNull');
+		var brandCategoryNull = document.getElementById('brandCategoryNull');
+		var accreditationNameNull = document
+				.getElementById('accreditationNameNull');
+
+		var validate = true;
+		if (brand_name == "") {
+			brandNameNull.style.display = "";
+			validate = false;
+		} else {
+			brandNameNull.style.display = "none";
+		}
+		if (brand_category == "") {
+			brandCategoryNull.style.display = "";
+			validate = false;
+		} else {
+			brandCategoryNull.style.display = "none";
+		}
+		if (accreditation_name == "") {
+			accreditationNameNull.style.display = "";
+			validate = false;
+		} else {
+			accreditationNameNull.style.display = "none";
+		}
+		return validate;
+	}
+
+	function submitBrand() {
+		if (validateBrand()) {
+			alert(document.getElementById("image").value);
+			var brandInsertForm = document.getElementById("brandInsertForm");
+			brandInsertForm.submit();
+		}
+	}
+	
+	function imageConvert(){
+		var inputBox = document.getElementById("imageSelect");
+		inputBox.addEventListener("change", function() {
+			//alert(document.getElementById("imageSelect").value);
+			var reader = new FileReader();
+			reader.readAsDataURL(inputBox.files[0]);
+			// Initiate an asynchronous request
+			reader.onload = function() {
+				// After the reading is completed, the data is saved in the result attribute of the object.
+				console.log(this.result)
+				document.getElementById("img").src = this.result;
+				document.getElementById("image").value = this.result;
+			}
+		})
+	}
 	var accreditations = getAccreditations();
 	autoShow(accreditations, '#accreditation_name', '#rating');
+	imageConvert();
+	
 </script>

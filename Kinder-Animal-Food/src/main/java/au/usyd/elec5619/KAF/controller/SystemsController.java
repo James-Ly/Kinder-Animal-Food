@@ -195,6 +195,33 @@ public class SystemsController {
 			}
 			// Add accreditation id into new brand
 			brand.setAccreditation_id(accreditation_id);
+			
+			//定义文件名
+			//String fileName = "";
+			//获取原始文件名
+			//String uploadFileName = image.getOriginalFilename();
+			/*
+			MultipartFile multipartFile = brand.getImage();
+			System.out.println(image);
+			List<String> fileNames = new ArrayList<String>();
+	        if (null != multipartFile)
+	        {
+	                String fileName = multipartFile.getOriginalFilename();
+	                fileNames.add(fileName);
+	 
+	                File imageFile = new File(request.getServletContext().getRealPath("/image"), fileName);
+	                try
+	                {
+	                    multipartFile.transferTo(imageFile);
+	                } catch (IOException e)
+	                {
+	                    e.printStackTrace();
+	                }
+	        }
+			*/
+			
+			
+			
 			// Insert new brand
 			if (brandService.insertBrand(brand)) {
 				message += "Brand insert success.";
