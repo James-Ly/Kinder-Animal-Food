@@ -16,33 +16,38 @@
 		action="storeInsertProcess" method="post">
 		<table align="center">
 			<tr>
-				<td><form:label path="store_name">store name: </form:label></td>
-				<td><form:input path="store_name" name="store_name"
-						id="store_name" /></td>
+				<td><form:label path="store_name">Store Name</form:label></td>
+				<td><form:input placeholder="Please enter the store name"
+						size="40" path="store_name" name="store_name" id="store_name" /><span
+					style="margin-left: 10px; display: none; color: red"
+					id="storeNameNull">Please enter the store name！</span></td>
 			</tr>
 			<tr>
-				<td><form:label path="store_address">store address: </form:label></td>
-				<td><form:input path="store_address" name="store_address"
-						id="store_address" /></td>
+				<td><form:label path="store_address">Store Address</form:label></td>
+				<td><form:input placeholder="Please enter the store address"
+						size="40" path="store_address" name="store_address"
+						id="store_address" /><span
+					style="margin-left: 10px; display: none; color: red"
+					id="storeAddressNull">Please enter the store address！</span></td>
 			</tr>
 			<tr>
-				<td><form:label path="store_state">store state: </form:label></td>
-				<td><form:input path="store_state" name="store_state"
-						id="store_state" /></td>
+				<td><form:label path="store_state">Store State</form:label></td>
+				<td><form:input placeholder="Please enter the store state"
+						size="40" path="store_state" name="store_state" id="store_state" /><span
+					style="margin-left: 10px; display: none; color: red"
+					id="storeStateNull">Please enter the store state！</span></td>
 			</tr>
 			<tr>
-				<td><form:label path="store_longitude">store longitude: </form:label></td>
-				<td><form:input path="store_longitude" name="store_longitude"
-						id="store_longitude" /></td>
+				<td><form:label path="store_postcode">Postcode</form:label></td>
+				<td><form:input placeholder="Please enter the store postcode"
+						size="40" path="store_postcode" name="store_postcode"
+						id="store_postcode" /><span
+					style="margin-left: 10px; display: none; color: red"
+					id="storePostcodeNull">Please enter the store postcode！</span></td>
 			</tr>
 			<tr>
-				<td><form:label path="store_latitude">store latitude: </form:label></td>
-				<td><form:input path="store_latitude" name="store_latitude"
-						id="store_latitude" /></td>
-			</tr>
-			<tr>
-				<td align="center"><form:button id="storeInsert"
-						name="storeInsert">Insert</form:button></td>
+				<td align="center"><form:button type="button" id="storeInsert"
+						name="storeInsert" onclick="submitStore()">Store Insert</form:button></td>
 			</tr>
 		</table>
 	</form:form>
@@ -72,16 +77,16 @@
 					id="brandCategoryNull">Please enter the category！</span></td>
 			</tr>
 			<tr>
-				<td><form:label path="image">image: </form:label></td>
+				<td><form:label path="image">Image</form:label></td>
 				<td><input type="file" id="imageSelect"
 					accept="image/x-png,image/jpeg,image/jpg" /><span
 					style="display: none"><form:input path="image" name="image"
 							id="image" /></span>
-				<div
+					<div
 						style="border: 1px solid #F00; width: 200px; height: 200px; overflow: hidden">
 						<img src="" id="img" style="max-width: 200px; max-height: 200px">
 					</div></td>
-				<tr>
+			<tr>
 				<td><form:form id="AccreditationInsertForm"
 						modelAttribute="accreditation" action="brandInsertProcess"
 						method="post">
@@ -249,13 +254,59 @@
 
 	function submitBrand() {
 		if (validateBrand()) {
-			alert(document.getElementById("image").value);
+			//alert(document.getElementById("image").value);
 			var brandInsertForm = document.getElementById("brandInsertForm");
 			brandInsertForm.submit();
 		}
 	}
-	
-	function imageConvert(){
+
+	function validateStore() {
+		var store_name = document.getElementById('store_name').value;
+		var store_address = document.getElementById('store_address').value;
+		var store_state = document.getElementById('store_state').value;
+		var store_postcode = document.getElementById('store_postcode').value;
+
+		var storeNameNull = document.getElementById('storeNameNull');
+		var storeAddressNull = document.getElementById('storeAddressNull');
+		var storeStateNull = document.getElementById('storeStateNull');
+		var storePostcodeNull = document.getElementById('storePostcodeNull');
+
+		var validate = true;
+		if (store_name == "") {
+			storeNameNull.style.display = "";
+			validate = false;
+		} else {
+			storeNameNull.style.display = "none";
+		}
+		if (store_address == "") {
+			storeAddressNull.style.display = "";
+			validate = false;
+		} else {
+			storeAddressNull.style.display = "none";
+		}
+		if (store_state == "") {
+			storeStateNull.style.display = "";
+			validate = false;
+		} else {
+			storeStateNull.style.display = "none";
+		}
+		if (store_postcode == "") {
+			storePostcodeNull.style.display = "";
+			validate = false;
+		} else {
+			storePostcodeNull.style.display = "none";
+		}
+		return validate;
+	}
+
+	function submitStore() {
+		if (validateStore()) {
+			var storeInsertForm = document.getElementById("storeInsertForm");
+			storeInsertForm.submit();
+		}
+	}
+
+	function imageConvert() {
 		var inputBox = document.getElementById("imageSelect");
 		inputBox.addEventListener("change", function() {
 			//alert(document.getElementById("imageSelect").value);
@@ -270,8 +321,38 @@
 			}
 		})
 	}
+
+	function addressSearch() {
+		// key for test
+		var api_key = "RK7X3GFB9DVQEL6PNJ8U";
+		// key for submit
+		//var api_key = "U9GBLPQND8YEFC4TR6HJ";
+		var widget, initAF = function() {
+			widget = new AddressFinder.Widget($("#store_address")[0], api_key,
+					'AU', {
+						"address_params" : {
+							"post_box" : "0"
+						}
+					});
+
+			widget.on("result:select", function(fullAddress, metaData) {
+				$('#store_address')[0].value = metaData.full_address;
+				$('#store_state')[0].value = metaData.state_territory;
+				$('#store_postcode')[0].value = metaData.postcode;
+			});
+		};
+
+		$(document).ready(
+				function() {
+					$.getScript(
+							'https://api.addressfinder.io/assets/v3/widget.js',
+							initAF);
+				});
+
+	};
+
 	var accreditations = getAccreditations();
 	autoShow(accreditations, '#accreditation_name', '#rating');
 	imageConvert();
-	
+	addressSearch();
 </script>

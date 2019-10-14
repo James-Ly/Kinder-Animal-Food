@@ -19,5 +19,6 @@ public interface StoreDao {
 	boolean deleteStore(Integer store_id);
 	
 	boolean editStore(Store store);
+
 	
 }

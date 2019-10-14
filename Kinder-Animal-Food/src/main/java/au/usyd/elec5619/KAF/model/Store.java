@@ -25,6 +25,9 @@ public class Store {
 	@Column(name = "store_state")
 	private String store_state;
 	
+	@Column(name = "store_postcode")
+	private String store_postcode;
+	
 	@Column(name = "store_longitude")
 	private String store_longitude;
 	
@@ -57,6 +60,12 @@ public class Store {
 	}
 	public void setStore_state(String store_state) {
 		this.store_state = store_state;
+	}
+	public String getStore_postcode() {
+		return store_postcode;
+	}
+	public void setStore_postcode(String store_postcode) {
+		this.store_postcode = store_postcode;
 	}
 	public String getStore_longitude() {
 		return store_longitude;

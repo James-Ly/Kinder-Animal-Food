@@ -115,7 +115,8 @@ CREATE TABLE `Store` (
   `store_id` int(10) NOT NULL AUTO_INCREMENT,
   `store_name` varchar(255) NOT NULL,
   `store_address` varchar(255) NOT NULL,
-  `store_state` varchar(255) NOT NULL,
+  `store_state` varchar(3) NOT NULL,
+  `store_postcode` varchar(4) NOT NULL,
   `store_longitude` varchar(255) NOT NULL,
   `store_latitude` varchar(255) NOT NULL,
   `brands_num` int(10) NOT NULL,
@@ -123,8 +124,8 @@ CREATE TABLE `Store` (
   PRIMARY KEY (`store_id`)
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
-INSERT INTO `Store` VALUES ('1', 'Coles', '1 King St', 'NSW', '151', '33', 20);
-INSERT INTO `Store` VALUES ('2', 'WW', '2 King St', 'NSW', '152', '34', 20);
+INSERT INTO `Store` VALUES ('1', 'Coles', '1 King St', 'NSW', '2000', '151', '33', 20);
+INSERT INTO `Store` VALUES ('2', 'WW', '2 King St', 'NSW', '2100', '152', '34', 20);
 
 
 --
