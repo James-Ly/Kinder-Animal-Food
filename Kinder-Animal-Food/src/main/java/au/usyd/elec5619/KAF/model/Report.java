@@ -24,6 +24,9 @@ public class Report {
 	@Column(name = "report_time")
 	private Date report_time;
 
+	@Column(name = "brand_id")
+	private Integer brand_id;
+
 	@Column(name = "store_name_by_user")
 	private String store_name_by_user;
 
@@ -61,6 +64,14 @@ public class Report {
 
 	public void setReport_time(Date report_time) {
 		this.report_time = report_time;
+	}
+
+	public Integer getBrand_id() {
+		return brand_id;
+	}
+
+	public void setBrand_id(Integer brand_id) {
+		this.brand_id = brand_id;
 	}
 
 	public String getStore_name_by_user() {

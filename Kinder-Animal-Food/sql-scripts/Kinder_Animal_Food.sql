@@ -162,18 +162,25 @@ DROP TABLE IF EXISTS `Report`;
 CREATE TABLE `Report`(
   `report_id` int (10) NOT NULL AUTO_INCREMENT,
   `user_id` int (11) NOT NULL,
+  `brand_id` int (10) NOT NULL,
   `report_time` DATETIME NOT NULL,
   `store_name_by_user` varchar(255) NOT NULL,
   `store_address_by_user` varchar(255) NOT NULL,
   `store_state_by_user` varchar(3),
   `store_postcode_by_user` varchar(4),
+  #P for pending, D for deleted, C for confirmed
+  `status` varchar(1) NOT NULL,
 
   PRIMARY KEY (`report_id`),
 
   CONSTRAINT `FK_User` FOREIGN KEY (`user_id`) 
   REFERENCES `user` (`id`) 
+  ON DELETE CASCADE ON UPDATE CASCADE,
+
+  CONSTRAINT `FK_Report_Brand` FOREIGN KEY (`brand_id`) 
+  REFERENCES `Brand` (`brand_id`) 
   ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
-INSERT INTO `Report` (`user_id`, `report_time`, `store_name_by_user`, `store_address_by_user`) VALUES ('1', '2019-10-13 16:59:59', 'Coles', '650 George St, Sydney');
-INSERT INTO `Report` VALUES ('2', '1', '2019-10-14 16:59:59', 'Coles', '650 George St, Sydney', 'NSW', '2000');
+INSERT INTO `Report` (`user_id`, `report_time`, `brand_id`, `store_name_by_user`, `store_address_by_user`, `status`) VALUES ('1', '2019-10-13 16:59:59', '1','Coles', '650 George St, Sydney', 'P');
+INSERT INTO `Report` VALUES ('2', '1', '2','2019-10-14 16:59:59', 'Coles', '650 George St, Sydney', 'NSW', '2000', 'P');

@@ -28,6 +28,8 @@
 									color="Black" size="4px">&nbsp;&nbsp;User ID</font></strong></td>
 							<td width="200"><strong><font face="Arial"
 									color="Black" size="4px">&nbsp;&nbsp;Report Time</font></strong></td>
+									<td width="100"><strong><font face="Arial"
+									color="Black" size="4px">&nbsp;&nbsp;Brand ID</font></strong></td>
 							<td width="200"><strong><font face="Arial"
 									color="Black" size="4px">&nbsp;&nbsp;Store Name</font></strong></td>
 							<td width="200"><strong><font face="Arial"
@@ -45,6 +47,7 @@
 								<td>${s.getReport_id()}</td>
 								<td>${s.getUser_id()}</td>
 								<td>${s.getReport_time()}</td>
+								<td>${s.getBrand_id()}</td>
 								<td>${s.getStore_name_by_user()}</td>
 								<td>${s.getStore_address_by_user()}</td>
 								<td>${s.getStore_state_by_user()}</td>

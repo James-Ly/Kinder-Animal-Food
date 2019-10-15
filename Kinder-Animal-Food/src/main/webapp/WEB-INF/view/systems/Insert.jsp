@@ -7,6 +7,7 @@
 <html>
 <head>
 <title>Insert Data</title>
+<meta http-equiv="content-language" content="en">
 <meta charset="UTF-8">
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"
 	type="text/javascript"></script>
@@ -79,14 +80,14 @@
 			<tr>
 				<td><form:label path="image">Image</form:label></td>
 				<td><input type="file" id="imageSelect"
-					accept="image/x-png,image/jpeg,image/jpg" /><span
+					accept="image/*" /><span
 					style="display: none"><form:input path="image" name="image"
 							id="image" /></span>
 					<div
 						style="border: 1px solid #F00; width: 200px; height: 200px; overflow: hidden">
 						<img src="" id="img" style="max-width: 200px; max-height: 200px">
 					</div></td>
-			<tr>
+				<tr>
 				<td><form:form id="AccreditationInsertForm"
 						modelAttribute="accreditation" action="brandInsertProcess"
 						method="post">
@@ -372,6 +373,7 @@
 	}(jQuery));
 
 	$(document).ready(function() {
+		
 		var accreditations = getAccreditations();
 		autoShow(accreditations, '#accreditation_name', '#rating');
 		imageConvert();
