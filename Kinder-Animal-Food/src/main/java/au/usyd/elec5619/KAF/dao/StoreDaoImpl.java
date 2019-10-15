@@ -62,11 +62,11 @@ public class StoreDaoImpl implements StoreDao {
 		Session currentSession = sessionFactory.getCurrentSession();
 
 		Query<Store> theQuery = currentSession.createQuery(
-				"from Store where store_name=:sName AND store_address=:sAddress AND store_state=:sState AND store_longitude=:sLongitude AND store_latitude=:sLatitude",
+				"from Store where store_address=:sAddress AND store_state=:sState AND store_postcode=:sPostcode AND store_longitude=:sLongitude AND store_latitude=:sLatitude",
 				Store.class);
-		theQuery.setParameter("sName", store.getStore_name());
 		theQuery.setParameter("sAddress", store.getStore_address());
 		theQuery.setParameter("sState", store.getStore_state());
+		theQuery.setParameter("sPostcode", store.getStore_postcode());
 		theQuery.setParameter("sLongitude", store.getStore_longitude());
 		theQuery.setParameter("sLatitude", store.getStore_latitude());
 
@@ -138,10 +138,13 @@ public class StoreDaoImpl implements StoreDao {
 		Session currentSession = sessionFactory.getCurrentSession();
 
 		Query theQuery = currentSession.createQuery(
-				"update Store set store_name=:sName, store_address=:sAddress, store_state=:sState, store_longitude=:sLongitude, store_latitude=:sLatitude where store_id=:sID");
+
+				"update Store set store_name=:sName AND store_address=:sAddress AND store_state=:sState AND store_postcode=:sPostcode AND store_longitude=:sLongitude AND store_latitude=:sLatitude where store_id=:sID");
+
 		theQuery.setParameter("sName", store.getStore_name());
 		theQuery.setParameter("sAddress", store.getStore_address());
 		theQuery.setParameter("sState", store.getStore_state());
+		theQuery.setParameter("sPostcode", store.getStore_postcode());
 		theQuery.setParameter("sLongitude", store.getStore_longitude());
 		theQuery.setParameter("sLatitude", store.getStore_latitude());
 		theQuery.setParameter("sID", store.getStore_id());
@@ -154,6 +157,7 @@ public class StoreDaoImpl implements StoreDao {
 
 		return true;
 	}
+
 	
 	@Override
 	@Transactional

@@ -43,6 +43,17 @@ public class BrandServiceImpl implements BrandService {
 	
 	@Override
 	@Transactional
+	public boolean searchBrand(Brand brand) {
+
+		if (brandDao.searchBrand(brand).size() != 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	@Transactional
 	public boolean insertBrand(Brand brand) {
 
 		if (brandDao.searchBrand(brand).size() != 0) {

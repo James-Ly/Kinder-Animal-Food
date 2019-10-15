@@ -38,7 +38,7 @@ public class AccreditationDaoImpl implements AccreditationDao {
 
 	@Override
 	@Transactional
-	public List<Accreditation> searchAccreditation(Accreditation accreditation) {
+	public Accreditation searchAccreditation(Accreditation accreditation) {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 
@@ -48,14 +48,14 @@ public class AccreditationDaoImpl implements AccreditationDao {
 		theQuery.setParameter("aName", accreditation.getAccreditation_name());
 		theQuery.setParameter("aRating", accreditation.getRating());
 
-		List<Accreditation> accreditations = null;
+		Accreditation accreditationTemp = null;
 		try {
-			accreditations = theQuery.getResultList();
+			accreditationTemp = theQuery.getSingleResult();
 		} catch (Exception e) {
-			accreditations = null;
+			accreditationTemp = null;
 		}
 
-		return accreditations;
+		return accreditationTemp;
 	}
 	
 	@Override

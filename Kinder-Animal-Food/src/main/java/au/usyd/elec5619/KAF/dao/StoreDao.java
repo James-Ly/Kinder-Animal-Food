@@ -19,6 +19,7 @@ public interface StoreDao {
 	boolean deleteStore(Integer store_id);
 	
 	boolean editStore(Store store);
+
 	
 	boolean setBrandsNum(Integer store_id, Integer brands_num);
 	

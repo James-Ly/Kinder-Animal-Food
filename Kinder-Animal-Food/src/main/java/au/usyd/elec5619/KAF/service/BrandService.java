@@ -21,6 +21,7 @@ public interface BrandService {
 	boolean editBrand(Brand brand);
 	
 	Integer countBrand();
+
 	
 	BrandWithAccreditation setBrandWithAccreditation(Brand brand);
 	
@@ -30,4 +31,8 @@ public interface BrandService {
 	
 	List<Brand> searchBrandByNameCategory(String brand_name, String brand_category);
 	
+
+
+	boolean searchBrand(Brand brand);
+
 }

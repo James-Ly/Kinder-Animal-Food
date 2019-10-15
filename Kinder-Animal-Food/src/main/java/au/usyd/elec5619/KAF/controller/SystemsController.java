@@ -1,7 +1,9 @@
 package au.usyd.elec5619.KAF.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +15,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import au.usyd.elec5619.KAF.model.Accreditation;
 import au.usyd.elec5619.KAF.model.Brand;
@@ -41,6 +47,10 @@ public class SystemsController {
 
 	@Autowired
 	ProductService productService;
+	
+	@Autowired
+	ReportService reportService;
+	
 
 	@GetMapping("/")
 	public String showSystems() {
@@ -239,6 +249,7 @@ public class SystemsController {
 		List<Brand> brands = brandService.brandList();
 		List<BrandWithAllAccreditations> brandWithAllAccreditations = new ArrayList<BrandWithAllAccreditations>();
 		for (int i = 0; i < brands.size(); i++) {
+
 			if (i == 0) {
 				brandWithAllAccreditations.add(brandService.setBrandWithAllAccreditations(brands.get(0)));
 				continue;
@@ -285,6 +296,7 @@ public class SystemsController {
 		return "redirect:UpdateDeleteBrand";
 	}
 
+
 //  Brands detail
 	@RequestMapping("/BrandDetails/{name}/{category}")
 	public ModelAndView showBrandDetails(HttpServletRequest request, HttpServletResponse response, ModelMap map,
@@ -305,47 +317,214 @@ public class SystemsController {
 	
 	
 	
+
+
+	@RequestMapping(value = "/CheckReport")
+	public ModelAndView checkReport(HttpServletRequest request, HttpServletResponse response, ModelMap map) {
+		ModelAndView mav = new ModelAndView("systems/CheckReport");
+		
+		List<Report> reports = reportService.getReportList();
+		map.put("reports", reports);
+		
+		return mav;
+	}
 	
-//  Store and Brand Insert
+	/**
+	 * Store and Brand Insert.
+	 * 
+	 * @param request  HttpServletRequest
+	 * @param response HttpServletResponse
+	 * @param map      ModelMap
+	 * @return ModelAndView
+	 */
+
 	@RequestMapping(value = "/Insert")
-	public ModelAndView storeInsert(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView storeInsert(HttpServletRequest request, HttpServletResponse response, ModelMap map) {
 		ModelAndView mav = new ModelAndView("systems/Insert");
+
+		List<Accreditation> accreditations = accreditationService.accreditationList();
+		map.put("accreditations", accreditations);
 
 		mav.addObject("store", new Store());
 		mav.addObject("brand", new Brand());
+		mav.addObject("accreditation", new Accreditation());
 
 		return mav;
 	}
 
+	/**
+	 * Insert new store if not exists.
+	 * 
+	 * @param request       HttpServletRequest
+	 * @param response      HttpServletResponse
+	 * @param map           ModelMap
+	 * @param store         Store
+	 * @param brand         Brand
+	 * @param accreditation Accreditation
+	 * @return ModelAndView
+	 */
 	@RequestMapping(value = "/storeInsertProcess")
-	public ModelAndView storeInsertProcess(HttpServletRequest request, HttpServletResponse response, Store store,
-			Brand brand) {
+
+	public ModelAndView storeInsertProcess(HttpServletRequest request, HttpServletResponse response, ModelMap map,
+			Store store, Brand brand, Accreditation accreditation) {
+
 		ModelAndView mav = new ModelAndView("systems/Insert");
 
-		if (!storeService.insertStore(store)) {
-			mav.addObject("message", "Store already exists!!");
-		} else {
-//			mav.addObject("message", "Insert successfully!!");
-			mav.addObject("message", storeService.countStore());
+		List<Accreditation> accreditations = accreditationService.accreditationList();
+		map.put("accreditations", accreditations);
+		// return message
+		String message = "";
+		// state uppercase
+		store.setStore_state(store.getStore_state().toUpperCase());
+		if (store.getStore_state() == null) {
+			return mav.addObject("message", "Null Input.");
+		} else if (store.getStore_state().length() > 3) {
+			return mav.addObject("message", "State incorrect.");
 		}
+		if (store.getStore_postcode() == null) {
+			return mav.addObject("message", "Null Input.");
+		} else if (store.getStore_postcode().length() > 4) {
+			return mav.addObject("message", "Postcode incorrect.");
+		}
+		// get longitude and latitude by address
+		String[] coordinates = addressGetCoordinate(store.getStore_address());
+		// if get longitude and latitude failed
+		if (coordinates[0] == null || coordinates[1] == null) {
+			message += "Address error (get coordinates failed).";
+		} else {
+			// set latitude into store
+			store.setStore_latitude(coordinates[0]);
+			// set longitude into store
+			store.setStore_longitude(coordinates[1]);
+			if (storeService.insertStore(store)) {
+				message += "Store insert success.";
+			}
+			// store duplicated
+			else {
+				message += "Store already exists.";
+			}
+		}
+		mav.addObject("message", message);
 
 		return mav;
 	}
 
+	/**
+	 * Insert new accreditation if not exists and insert new brand.
+	 * 
+	 * @param request       HttpServletRequest
+	 * @param response      HttpServletResponse
+	 * @param map           ModelMap
+	 * @param brand         Brand
+	 * @param store         Store
+	 * @param accreditation Accreditation
+	 * @return ModelAndView
+	 */
 	@RequestMapping(value = "/brandInsertProcess")
-	public ModelAndView brandInsertProcess(HttpServletRequest request, HttpServletResponse response, Brand brand,
-			Store store) {
-		ModelAndView mav = new ModelAndView("systems/Insert");
 
-		if (!brandService.insertBrand(brand)) {
-			mav.addObject("message", "Brand already exists!!");
+	public ModelAndView brandInsertProcess(HttpServletRequest request, HttpServletResponse response, ModelMap map,
+			Brand brand, Store store, Accreditation accreditation) {
+
+		ModelAndView mav = new ModelAndView("systems/Insert");
+		List<Accreditation> accreditations = accreditationService.accreditationList();
+		// return message
+		String message = "";
+
+		if (brandService.searchBrand(brand)) {
+			message += "Brand already exists. ";
 		} else {
-//			mav.addObject("message", "Insert successfully!!");
-			mav.addObject("message", brandService.countBrand());
+			accreditations = accreditationService.accreditationList();
+
+			// search exist accreditation
+			Accreditation accreditationSearch = accreditationService.searchAccreditation(accreditation);
+			int accreditation_id;
+			// Accreditation not exists
+			if (accreditationSearch == null) {
+				// add new accreditation
+				accreditationService.insertAccreditation(accreditation);
+				//accreditation_id = accreditations.size() + 1;
+				// accreditation id equals new accreditation's id
+				accreditationSearch = accreditationService.searchAccreditation(accreditation);
+				accreditation_id = accreditationSearch.getAccreditation_id();
+				message += String.format("Accreditation added(id: %d). ", accreditation_id);
+			}
+			// Accreditation exists
+			else {
+				// accreditation id equals exist accreditation's id
+				accreditation_id = accreditationSearch.getAccreditation_id();
+				message += String.format("Accreditation exists(id: %d). ", accreditation_id);
+			}
+			// Add accreditation id into new brand
+			brand.setAccreditation_id(accreditation_id);
+
+			// 定义文件名
+			// String fileName = "";
+			// 获取原始文件名
+			// String uploadFileName = image.getOriginalFilename();
+			/*
+			 * MultipartFile multipartFile = brand.getImage(); System.out.println(image);
+			 * List<String> fileNames = new ArrayList<String>(); if (null != multipartFile)
+			 * { String fileName = multipartFile.getOriginalFilename();
+			 * fileNames.add(fileName);
+			 * 
+			 * File imageFile = new File(request.getServletContext().getRealPath("/image"),
+			 * fileName); try { multipartFile.transferTo(imageFile); } catch (IOException e)
+			 * { e.printStackTrace(); } }
+			 */
+
+			// Insert new brand
+			if (brandService.insertBrand(brand)) {
+				message += "Brand insert success.";
+			}
 		}
+
+		accreditations = accreditationService.accreditationList();
+		map.put("accreditations", accreditations);
+
+		mav.addObject("message", message);
 
 		return mav;
 	}
+
+	/**
+	 * Input full address and return latitude and longitude.
+	 * 
+	 * @param address full address
+	 * @return String[latitude,longitude]
+	 */
+	private String[] addressGetCoordinate(String address) {
+		// API KEY
+		String api_key = "56e3b46c-5fcc-4384-858b-40f54bce3976";
+		System.out.println("Input store address: " + address);
+		// RestTemplate
+		RestTemplate restTemplate = new RestTemplate();
+		// URL
+		String url = "https://api.addressify.com.au/addresspro/info?api_key={api_key}&term={address}";
+		// transmit parameters by Map
+		Map<String, Object> params = new HashMap<>();
+		params.put("api_key", api_key);
+		params.put("address", address);
+		// get API response in String
+		String res = restTemplate.getForObject(url, String.class, params);
+		System.out.println("API response: " + res);
+
+		// Convert String to Json
+		JsonObject convertedObject = new Gson().fromJson(res, JsonObject.class);
+
+		String coordinates[] = new String[2];
+		// Check Longitude and Latitude null or not
+		if (convertedObject.get("Longitude").isJsonNull() || convertedObject.get("Latitude").isJsonNull()) {
+			coordinates[0] = null;
+			coordinates[1] = null;
+		} else {
+			coordinates[0] = convertedObject.get("Latitude").getAsString();
+			coordinates[1] = convertedObject.get("Longitude").getAsString();
+		}
+		System.out.println("Latitude: " + coordinates[0]);
+		System.out.println("Longitude: " + coordinates[1]);
+
+		return coordinates;
+	};
 }
 
 //	// Store delete insert update functions

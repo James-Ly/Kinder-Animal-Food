@@ -1,5 +1,6 @@
 package au.usyd.elec5619.KAF.model;
 
+
 public class BrandWithAccreditation {
 	
 	private Integer brand_id;

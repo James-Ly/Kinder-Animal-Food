@@ -94,7 +94,7 @@ CREATE TABLE `Brand` (
   `brand_name` varchar(255) NOT NULL,
   `brand_category` varchar(255) NOT NULL,
   `accreditation_id` int(10) NOT NULL,
-  `image` varchar(255) NOT NULL,
+  `image` MEDIUMTEXT,
 
   PRIMARY KEY (`brand_id`),
 
@@ -118,7 +118,8 @@ CREATE TABLE `Store` (
   `store_id` int(10) NOT NULL AUTO_INCREMENT,
   `store_name` varchar(255) NOT NULL,
   `store_address` varchar(255) NOT NULL,
-  `store_state` varchar(255) NOT NULL,
+  `store_state` varchar(3) NOT NULL,
+  `store_postcode` varchar(4) NOT NULL,
   `store_longitude` varchar(255) NOT NULL,
   `store_latitude` varchar(255) NOT NULL,
   `brands_num` int(10) NOT NULL,
@@ -126,8 +127,9 @@ CREATE TABLE `Store` (
   PRIMARY KEY (`store_id`)
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
-INSERT INTO `Store` VALUES ('1', 'Coles', '1 King St', 'NSW', '151', '33', 2);
-INSERT INTO `Store` VALUES ('2', 'WW', '2 King St', 'NSW', '152', '34', 2);
+
+INSERT INTO `Store` VALUES ('1', 'Coles', '1 King St', 'NSW', '2000', '151', '33', 20);
+INSERT INTO `Store` VALUES ('2', 'WW', '2 King St', 'NSW', '2100', '152', '34', 20);
 
 
 --
@@ -156,3 +158,22 @@ INSERT INTO `Product` (`store_id`, `brand_id`) VALUES ('1', '2');
 INSERT INTO `Product` (`store_id`, `brand_id`) VALUES ('2', '1');
 INSERT INTO `Product` (`store_id`, `brand_id`) VALUES ('2', '2');
 
+DROP TABLE IF EXISTS `Report`;
+CREATE TABLE `Report`(
+  `report_id` int (10) NOT NULL AUTO_INCREMENT,
+  `user_id` int (11) NOT NULL,
+  `report_time` DATETIME NOT NULL,
+  `store_name_by_user` varchar(255) NOT NULL,
+  `store_address_by_user` varchar(255) NOT NULL,
+  `store_state_by_user` varchar(3),
+  `store_postcode_by_user` varchar(4),
+
+  PRIMARY KEY (`report_id`),
+
+  CONSTRAINT `FK_User` FOREIGN KEY (`user_id`) 
+  REFERENCES `user` (`id`) 
+  ON DELETE CASCADE ON UPDATE CASCADE
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+INSERT INTO `Report` (`user_id`, `report_time`, `store_name_by_user`, `store_address_by_user`) VALUES ('1', '2019-10-13 16:59:59', 'Coles', '650 George St, Sydney');
+INSERT INTO `Report` VALUES ('2', '1', '2019-10-14 16:59:59', 'Coles', '650 George St, Sydney', 'NSW', '2000');

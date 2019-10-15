@@ -59,12 +59,12 @@ a:active  { color: white;}
 		</tr>
 		<tr>
 			<td align="left" height = "40">
-				<div id="Arial"><a href="#" style="font-size:15px">&nbsp;&nbsp;&nbsp;Report</a></div>
+				<div id="Arial"><a href="CheckReport" style="font-size:15px">&nbsp;&nbsp;&nbsp;Check Report</a></div>
 			</td>
 		</tr>		
 		<tr>
 			<td align="left" height = "40">
-				<div id="Arial"><a href="/Kinder-Animal-Food/systems/Insert" style="font-size:15px">&nbsp;&nbsp;&nbsp;Import Data</a></div>
+				<div id="Arial"><a href="Insert" style="font-size:15px">&nbsp;&nbsp;&nbsp;Insert Data</a></div>
 			</td>
 		</tr>		
 		<tr>
