@@ -26,10 +26,12 @@ import au.usyd.elec5619.KAF.model.Brand;
 import au.usyd.elec5619.KAF.model.BrandWithAccreditation;
 import au.usyd.elec5619.KAF.model.BrandWithAllAccreditations;
 import au.usyd.elec5619.KAF.model.Product;
+import au.usyd.elec5619.KAF.model.Report;
 import au.usyd.elec5619.KAF.model.Store;
 import au.usyd.elec5619.KAF.service.AccreditationService;
 import au.usyd.elec5619.KAF.service.BrandService;
 import au.usyd.elec5619.KAF.service.ProductService;
+import au.usyd.elec5619.KAF.service.ReportService;
 import au.usyd.elec5619.KAF.service.StoreService;
 
 @Controller
