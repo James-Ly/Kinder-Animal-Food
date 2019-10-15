@@ -103,7 +103,10 @@ CREATE TABLE `Brand` (
   ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
-INSERT INTO `Brand` VALUES ('1', 'A egg', 'egg', 1, 'c://image');
+INSERT INTO `Brand` VALUES ('1', 'A egg', 'egg', 1, 'c://image1');
+INSERT INTO `Brand` VALUES ('2', 'B egg', 'egg', 2, 'c://image2');
+INSERT INTO `Brand` VALUES ('3', 'A egg', 'egg', 2, 'c://image1');
+INSERT INTO `Brand` VALUES ('4', 'B egg', 'egg', 1, 'c://image2');
 
 
 --
@@ -123,6 +126,7 @@ CREATE TABLE `Store` (
 
   PRIMARY KEY (`store_id`)
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
 
 INSERT INTO `Store` VALUES ('1', 'Coles', '1 King St', 'NSW', '2000', '151', '33', 20);
 INSERT INTO `Store` VALUES ('2', 'WW', '2 King St', 'NSW', '2100', '152', '34', 20);
@@ -150,6 +154,9 @@ CREATE TABLE `Product`(
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 INSERT INTO `Product` (`store_id`, `brand_id`) VALUES ('1', '1');
+INSERT INTO `Product` (`store_id`, `brand_id`) VALUES ('1', '2');
+INSERT INTO `Product` (`store_id`, `brand_id`) VALUES ('2', '1');
+INSERT INTO `Product` (`store_id`, `brand_id`) VALUES ('2', '2');
 
 DROP TABLE IF EXISTS `Report`;
 CREATE TABLE `Report`(

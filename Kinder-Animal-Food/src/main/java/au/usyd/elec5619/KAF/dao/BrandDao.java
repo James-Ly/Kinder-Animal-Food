@@ -11,6 +11,8 @@ public interface BrandDao {
 	
 	Brand searchBrandByID(Integer brand_id);
 	
+	List<Brand> searchBrandByNameCategory(String brand_name, String brand_category);
+	
 	List<Brand> searchBrand(Brand brand);
 	
 	List<Brand> brandList();

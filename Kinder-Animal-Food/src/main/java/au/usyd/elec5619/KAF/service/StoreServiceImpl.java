@@ -63,13 +63,12 @@ public class StoreServiceImpl implements StoreService {
 	@Transactional
 	public boolean editStore(Store store) {
 
-		if (storeDao.searchStore(store) != null) {
+		if (storeDao.searchStore(store).size() != 0) {
+			return false;
+		} else {
 			storeDao.editStore(store);
 			return true;
-		} else {
-			return false;
 		}
-
 	}
 
 	@Override
@@ -79,6 +78,16 @@ public class StoreServiceImpl implements StoreService {
 		Integer conut = storeDao.storeList().size();
 
 		return conut;
+	}
+
+	@Override
+	@Transactional
+	public boolean setBrandsNum(Integer store_id, Integer brands_num) {
+		if (storeDao.setBrandsNum(store_id, brands_num)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

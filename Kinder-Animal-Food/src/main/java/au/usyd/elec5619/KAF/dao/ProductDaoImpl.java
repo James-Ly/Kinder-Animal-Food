@@ -38,24 +38,24 @@ public class ProductDaoImpl implements ProductDao {
 
 	@Override
 	@Transactional
-	public List<Product> searchProduct(Product product) {
+	public Product searchProduct(Integer store_id, Integer brand_id) {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 
 		Query<Product> theQuery = currentSession.createQuery(
 				"from Product where store_id=:pStoreID AND brand_id=:pBrandID",
 				Product.class);
-		theQuery.setParameter("pStoreID", product.getStore_id());
-		theQuery.setParameter("pBrandID", product.getBrand_id());
+		theQuery.setParameter("pStoreID", store_id);
+		theQuery.setParameter("pBrandID", brand_id);
 
-		List<Product> products = null;
+		Product product = null;
 		try {
-			products = theQuery.getResultList();
+			product = theQuery.getSingleResult();
 		} catch (Exception e) {
-			products = null;
+			product = null;
 		}
 
-		return products;
+		return product;
 	}
 	
 	@Override
@@ -74,6 +74,42 @@ public class ProductDaoImpl implements ProductDao {
 		}
 
 		return products;
+	}
+	
+	@Override
+	@Transactional
+	public List<Integer> searchBrandByStore(Integer store_id){
+		Session currentSession = sessionFactory.getCurrentSession();
+
+		Query theQuery = currentSession.createQuery("select brand_id from Product where store_id=:sID");
+		theQuery.setParameter("sID", store_id);
+
+		List<Integer> store_ids = null;
+		try {
+			store_ids = theQuery.getResultList();
+		} catch (Exception e) {
+			store_ids = null;
+		}
+
+		return store_ids;
+	}
+	
+	@Override
+	@Transactional
+	public List<Integer> searchStoreByBrand(Integer brand_id){
+		Session currentSession = sessionFactory.getCurrentSession();
+
+		Query theQuery = currentSession.createQuery("select store_id from Product where brand_id=:bID");
+		theQuery.setParameter("bID", brand_id);
+
+		List<Integer> brand_ids = null;
+		try {
+			brand_ids = theQuery.getResultList();
+		} catch (Exception e) {
+			brand_ids = null;
+		}
+
+		return brand_ids;
 	}
 	
 	@Override

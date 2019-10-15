@@ -138,7 +138,9 @@ public class StoreDaoImpl implements StoreDao {
 		Session currentSession = sessionFactory.getCurrentSession();
 
 		Query theQuery = currentSession.createQuery(
+
 				"update Store set store_name=:sName AND store_address=:sAddress AND store_state=:sState AND store_postcode=:sPostcode AND store_longitude=:sLongitude AND store_latitude=:sLatitude where store_id=:sID");
+
 		theQuery.setParameter("sName", store.getStore_name());
 		theQuery.setParameter("sAddress", store.getStore_address());
 		theQuery.setParameter("sState", store.getStore_state());
@@ -156,4 +158,23 @@ public class StoreDaoImpl implements StoreDao {
 		return true;
 	}
 
+	
+	@Override
+	@Transactional
+	public boolean setBrandsNum(Integer store_id, Integer brands_num) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+
+		Query theQuery = currentSession.createQuery("update Store set brands_num=:sBrandsNum where store_id=:sID");
+		theQuery.setParameter("sBrandsNum", brands_num);
+		theQuery.setParameter("sID", store_id);
+		
+		try {
+			theQuery.executeUpdate();
+		} catch (Exception e) {
+			return false;
+		}
+
+		return true;
+	}
 }

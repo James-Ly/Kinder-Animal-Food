@@ -7,7 +7,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="Generator" content="EditPlus®">
+<meta name="Generator" content="EditPlus">
 <meta name="Author" content="">
 <meta name="Keywords" content="">
 <meta name="Description" content="">
@@ -48,6 +48,11 @@ a:active {
 	color: black;
 	font-family: "Arial";
 }
+
+#Blue a {
+	color: blue;
+	font-family: "Arial";
+}
 </style>
 <title>StoreDetails</title>
 </head>
@@ -59,8 +64,7 @@ a:active {
 		<tr>
 			<td align="center">
 				<div id="HWHP">
-					<a href="/Kinder-Animal_food/systems/" style="font-size: 40px">Kinder
-						Animal Food</a>
+					<a href=" " style="font-size: 40px">Kinder Animal Food</a>
 				</div>
 			</td>
 			<td>&nbsp;</td>
@@ -134,100 +138,57 @@ a:active {
 				</table>
 			</td>
 			<!--Control Panel Finish -->
-			<!--Store Details  -->
+			<!--Brand Details  -->
 			<td align="left" valign="top" width=100%><c:forEach
-					items="${requestScope.stores}" var="s">
+					items="${requestScope.brandWithAllAccreditations}" var="b">
 					<table bgcolor="#f5f5f5">
 						<tr>
 							<td width=100% colspan="2" align="left" valign="top">
-								<p>${s.getStore_name()}</p>
-								<p>${s.getStore_address()}</p>
+								<p>${b.getBrand_name()}</p>
 							</td>
 						</tr>
 						<tr>
 							<td align="left" valign="top">
 								<p>
 								<div id="Black">
-									<a href="../StoreDetails/${s.getStore_id()}">Summary</a>
+									<a href="${b.getBrand_name()}">Summary</a>
 								</div>
 								</p>
 								<p>
 								<div id="Black">
-									<a href="${s.getStore_id()}">Brand</a>
+									<a href="../BrandAccreditation/${b.getBrand_name()}">Accreditation</a>
 								</div>
 								</p>
 							</td>
 
 							<td>
-								<form method="get" action="StoreBrandDelete/${s.getStore_id()}">
-									<!--select all-->
-									<input name="" type="button" class="input_hide"
-										onClick="AllCheck (this.form);return false;"
-										value="select all">
-									<!--submit-->
-									<div id="Blue">
-										<a href="javascript:void(window.open('StoreBrandAdd/${s.getStore_id()}','','height=529, width=700, top=265,left=645, toolbar=no, menubar=no, scrollbars=yes, resizable=yes,location=no, status=no'))"
-												target="_self">Add Brand To Store</a >
-									</div>
-									<input type="submit" value="Delete Brand">
-									<hr>
-									<table border="0">
-										<tr>
-											<td width="500">Brand Name</td>
-											<td width="80">Category</td>
-											<td width="200">Delete Brand</td>
-										</tr>
-										<c:forEach items="${requestScope.brands}" var="b">
-											<tr>
-												<td>${b.getBrand_name()}</td>
-												<td>${b.getBrand_category()}</td>
-												<td><input type="checkbox" name="delete"
-													value="${b.getBrand_id()}"></td>
-											</tr>
-										</c:forEach>
-									</table>
-								</form>
+
+								<table width=100% height=500>
+									<tr>
+										<td valign="top" align="center">Brand name:</td>
+										<td valign="top">${b.getBrand_name()}</td>
+									</tr>
+									<tr>
+										<td valign="top" align="center">Category:</td>
+										<td valign="top">${b.getBrand_category()}</td>
+									</tr>
+									<tr>
+										<td colspan="2" valign="top" align="center">${b.getAccreditations().size()}
+											accreditation(s) for this brand.</td>
+									</tr>
+									<tr>
+										<td colspan="2" valign="top" align="center">
+											<div id="Blue">
+												<a
+													href="javascript:void(window.open('BrandEdit/${s.getBrand_name()}','','height=529, width=700, top=265,left=645, toolbar=no, menubar=no, scrollbars=yes, resizable=yes,location=no, status=no'))"
+													target="_self">Edit Brand</a>
+											</div>
+										</td>
+									</tr>
+								</table>
 							</td>
 						</tr>
 					</table>
 				</c:forEach></td>
+		</tr>
 	</table>
-	</table>
-
-	<script type="text/javascript">
-		// 选择状态
-		var selectState = false;
-		// 全选或者全取消
-		function AllCheck(thisform) {
-			for (var i = 0; i < thisform.elements.length; i++) {
-				// 提取控件  
-				var checkbox = thisform.elements[i];
-				checkbox.checked = !selectState;
-			}
-			selectState = !selectState;
-		}
-
-		// 反选
-		function ChangeCheck(thisform) {
-			// 遍历 form  
-			for (var i = 0; i < thisform.elements.length; i++) {
-				// 提取控件  
-				var checkbox = thisform.elements[i];
-				// 检查是否是指定的控件  
-				if (checkbox.name === "groupCheckbox"
-						&& checkbox.type === "checkbox"
-						&& checkbox.checked === false) {
-					// 正选  
-					checkbox.checked = true;
-				} else if (checkbox.name === "groupCheckbox"
-						&& checkbox.type === "checkbox"
-						&& checkbox.checked === true) {
-					// 反选  
-					checkbox.checked = false;
-				}
-			}
-		}
-	</script>
-</body>
-</html>
-

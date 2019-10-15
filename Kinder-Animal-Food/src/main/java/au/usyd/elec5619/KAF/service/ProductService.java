@@ -8,7 +8,13 @@ public interface ProductService {
 
 	Product searchProduct(Integer product_id);
 	
+	Product searchProduct(Integer store_id, Integer brand_id);
+	
 	List<Product> productList();
+	
+	List<Integer> searchBrandByStore(Integer product_id);
+	
+	List<Integer> searchStoreByBrand(Integer brand_id);
 	
 	boolean insertProduct(Product product);
 	
