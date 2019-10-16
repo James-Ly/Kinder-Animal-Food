@@ -12,3 +12,13 @@
 	width:100%;
 	font-weight:bold;
 }
+
+.error-container{
+	display:block-inline;
+	width:100%;
+	margin-bottom:6px;
+}
+
+.error{
+	color:red;
+}

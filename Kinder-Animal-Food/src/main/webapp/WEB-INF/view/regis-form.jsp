@@ -33,7 +33,7 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="${pageContext.request.contextPath}/register/showMyLoginPage">Login</a>
+            <a class="nav-link js-scroll-trigger" href="${pageContext.request.contextPath}/showMyLoginPage">Login</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="${pageContext.request.contextPath}/register/showRegistrationForm">Signup</a>
@@ -76,34 +76,34 @@
 					            </div>
 					        </div>
 					    </div>
+					    <div clas="error-container">
+					    	<form:errors path="userName" class="error" />
+					    	<form:errors path="password" class="error" />
+					    	<form:errors path="matchingPassword" class="error" />
+					    	<form:errors path="gender" class="error" />
+					    </div>
 					    
-					    
-
 						<!-- User name -->
 						<div style="margin-bottom: 25px" class="input-group">
 							<span class="input-group-text">Email</span> 
-							<form:errors path="userName" cssClass="error" />
-							<form:input path="userName" placeholder="username (*)" class="form-control" />
+							<form:input path="userName" placeholder="email (*)" class="form-control" />
 						</div>
 
 						<!-- Password -->
 						<div style="margin-bottom: 25px" class="input-group">
 							<span class="input-group-text">Password</span> 
-							<form:errors path="password" cssClass="error" />
 							<form:password path="password" placeholder="password (*)" class="form-control" />
 						</div>
 						
 						<!-- Confirm Password -->
 						<div style="margin-bottom: 25px" class="input-group">
 							<span class="input-group-text">Confirm password</span> 
-							<form:errors path="matchingPassword" cssClass="error" />
 							<form:password path="matchingPassword" placeholder="confirm password (*)" class="form-control" />
 						</div>
 					
 						<!-- Gender -->
 						<div style="margin-bottom: 25px" class="input-group">
 							<span class="input-group-text">Gender</span> 
-							<form:errors path="gender" cssClass="error" />
 							<form:select path = "gender" placeholder = "gender (*)" class = "form-control">
 								<form:option value = "Female" label = "Female"/>
 								<form:option value = "Male" label = "Male"/>

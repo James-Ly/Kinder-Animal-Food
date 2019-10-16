@@ -54,10 +54,10 @@ public class RegistrationController {
 		String userName = theCrmUser.getUserName();
 		logger.info("Processing registration form for: " + userName);
 		
-		// form validation
-//		 if (theBindingResult.hasErrors()){
-//			 return "registration-form";
-//		}
+//		 form validation
+		 if (theBindingResult.hasErrors()){
+			 return "regis-form";
+		}
 
 		// check the database if user already exists
         User existing = userService.findByUserName(userName);

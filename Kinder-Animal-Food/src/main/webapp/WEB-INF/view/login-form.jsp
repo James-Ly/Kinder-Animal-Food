@@ -33,7 +33,7 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="${pageContext.request.contextPath}/register/showMyLoginPage">Login</a>
+            <a class="nav-link js-scroll-trigger" href="${pageContext.request.contextPath}/showMyLoginPage">Login</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="${pageContext.request.contextPath}/register/showRegistrationForm">Signup</a>
@@ -66,7 +66,7 @@
 									<c:if test="${param.error != null}">
 										
 										<div class="alert alert-danger col-xs-offset-1 col-xs-10">
-											Invalid username and password.
+											Invalid email and password.
 										</div>
 		
 									</c:if>
@@ -89,7 +89,7 @@
 						<div style="margin-bottom: 25px" class="input-group">
 							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span> 
 							
-							<input type="text" name="username" placeholder="username" class="form-control">
+							<input type="text" name="username" placeholder="email" class="form-control">
 						</div>
 
 						<!-- Password -->
