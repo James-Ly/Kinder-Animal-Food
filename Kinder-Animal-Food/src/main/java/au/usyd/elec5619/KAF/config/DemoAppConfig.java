@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
@@ -28,7 +30,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 @EnableTransactionManagement
 @ComponentScan(basePackages="au.usyd.elec5619.KAF")
 @PropertySource("classpath:persistence-mysql.properties")
-public class DemoAppConfig {
+public class DemoAppConfig implements WebMvcConfigurer {
 
 	// set up variable to hold the properties
 	@Autowired
@@ -50,8 +52,15 @@ public class DemoAppConfig {
 		return viewResolver;
 	}
 	
-	// define a bean for our security datasource
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+	}
 	
+	
+	
+	
+	// define a bean for our security datasource
 	@Bean
 	public DataSource securityDataSource() {
 		

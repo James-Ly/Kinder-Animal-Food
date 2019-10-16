@@ -42,7 +42,7 @@ public class RegistrationController {
 		
 		theModel.addAttribute("crmUser", new CrmUser());
 		
-		return "registration-form";
+		return "regis-form";
 	}
 
 	@PostMapping("/processRegistrationForm")
@@ -66,7 +66,7 @@ public class RegistrationController {
 			theModel.addAttribute("registrationError", "User name already exists.");
 
 			logger.warning("User name already exists.");
-        	return "registration-form";
+        	return "regis-form";
         }
      // create user account        		
         System.out.println(theCrmUser);

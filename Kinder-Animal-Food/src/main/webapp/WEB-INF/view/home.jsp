@@ -5,10 +5,11 @@
 
 <head>
 	<title>KINDER ANIMAL FOOD Home Page</title>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/test.css">
 </head>
 
 <body>
-	<h2>KINDER ANIMAL FOOD Home Page</h2>
+	<h2 class="test">KINDER ANIMAL FOOD Home Page</h2>
 	<hr>
 	
 	<p>
