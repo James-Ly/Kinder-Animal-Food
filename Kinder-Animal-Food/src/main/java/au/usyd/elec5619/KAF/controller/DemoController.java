@@ -11,6 +11,11 @@ public class DemoController {
 		return "home";
 	}
 	
+	@GetMapping("/locate")
+	public String showLocate() {
+		return "client/locate";
+	}
+	
 }
 
 
