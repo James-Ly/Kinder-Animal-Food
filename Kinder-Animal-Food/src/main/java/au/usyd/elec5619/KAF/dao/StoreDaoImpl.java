@@ -19,7 +19,7 @@ public class StoreDaoImpl implements StoreDao {
 
 	@Override
 	@Transactional
-	public List<Store> searchStoreByName(String store_name) {
+	public List<Store> searchStore(String store_name) {
 
 		Session currentSession = sessionFactory.getCurrentSession();
 
@@ -38,7 +38,7 @@ public class StoreDaoImpl implements StoreDao {
 
 	@Override
 	@Transactional
-	public Store searchStoreByID(Integer store_id) {
+	public Store searchStore(Integer store_id) {
 
 		Session currentSession = sessionFactory.getCurrentSession();
 
@@ -139,7 +139,7 @@ public class StoreDaoImpl implements StoreDao {
 
 		Query theQuery = currentSession.createQuery(
 
-				"update Store set store_name=:sName AND store_address=:sAddress AND store_state=:sState AND store_postcode=:sPostcode AND store_longitude=:sLongitude AND store_latitude=:sLatitude where store_id=:sID");
+				"update Store set store_name=:sName, store_address=:sAddress, store_state=:sState, store_postcode=:sPostcode, store_longitude=:sLongitude, store_latitude=:sLatitude where store_id=:sID");
 
 		theQuery.setParameter("sName", store.getStore_name());
 		theQuery.setParameter("sAddress", store.getStore_address());

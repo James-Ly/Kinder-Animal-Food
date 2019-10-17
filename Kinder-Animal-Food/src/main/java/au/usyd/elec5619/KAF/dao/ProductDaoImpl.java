@@ -19,7 +19,7 @@ public class ProductDaoImpl implements ProductDao {
 
 	@Override
 	@Transactional
-	public Product searchProductByID(Integer product_id) {
+	public Product searchProduct(Integer product_id) {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 
@@ -78,7 +78,8 @@ public class ProductDaoImpl implements ProductDao {
 	
 	@Override
 	@Transactional
-	public List<Integer> searchBrandByStore(Integer store_id){
+	public List<Integer> searchBrandByStore(Integer store_id) {
+		
 		Session currentSession = sessionFactory.getCurrentSession();
 
 		Query theQuery = currentSession.createQuery("select brand_id from Product where store_id=:sID");
@@ -133,7 +134,7 @@ public class ProductDaoImpl implements ProductDao {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 
-		Query theQuery = currentSession.createQuery("delete Product where product_id = :pID");
+		Query<Integer> theQuery = currentSession.createQuery("delete Product where product_id = :pID");
 		theQuery.setParameter("pID", product_id);
 
 		try {
@@ -151,7 +152,7 @@ public class ProductDaoImpl implements ProductDao {
 
 		Session currentSession = sessionFactory.getCurrentSession();
 				
-		Query theQuery = currentSession.createQuery(
+		Query<Integer> theQuery = currentSession.createQuery(
 				"update Product set store_id=:pStoreID AND brand_id=:pBrandID where product_id=:pID");
 		theQuery.setParameter("pStoreID", product.getStore_id());
 		theQuery.setParameter("pBrandID", product.getBrand_id());

@@ -93,20 +93,40 @@ CREATE TABLE `Brand` (
   `brand_id` int(10) NOT NULL AUTO_INCREMENT,
   `brand_name` varchar(255) NOT NULL,
   `brand_category` varchar(255) NOT NULL,
-  `accreditation_id` int(10) NOT NULL,
   `image` MEDIUMTEXT,
 
-  PRIMARY KEY (`brand_id`),
+  PRIMARY KEY (`brand_id`)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+INSERT INTO `Brand` VALUES (1, 'A egg', 'egg', 'c://image1');
+INSERT INTO `Brand` VALUES (2, 'B egg', 'egg', 'c://image2');
+
+
+--
+-- Table structure for table `BrandAccreditation`
+--
+DROP TABLE IF EXISTS `BrandAccreditation`;
+CREATE TABLE `BrandAccreditation` (
+  `brandAccreditation_id` int(10) NOT NULL AUTO_INCREMENT,
+  `brand_id` int(10) NOT NULL,
+  `accreditation_id` int(10) NOT NULL,
+
+  PRIMARY KEY (`brandAccreditation_id`),
+
+  CONSTRAINT `FK_BrandA` FOREIGN KEY (`brand_id`) 
+  REFERENCES `Brand` (`brand_id`) 
+  ON DELETE CASCADE ON UPDATE CASCADE,
 
   CONSTRAINT `FK_Accreditation` FOREIGN KEY (`accreditation_id`) 
   REFERENCES `Accreditation` (`accreditation_id`) 
   ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
-INSERT INTO `Brand` VALUES ('1', 'A egg', 'egg', 1, 'c://image1');
-INSERT INTO `Brand` VALUES ('2', 'B egg', 'egg', 2, 'c://image2');
-INSERT INTO `Brand` VALUES ('3', 'A egg', 'egg', 2, 'c://image1');
-INSERT INTO `Brand` VALUES ('4', 'B egg', 'egg', 1, 'c://image2');
+INSERT INTO `BrandAccreditation` VALUES (1, 1, 1);
+INSERT INTO `BrandAccreditation` VALUES (2, 1, 2);
+INSERT INTO `BrandAccreditation` VALUES (3, 2, 1);
+INSERT INTO `BrandAccreditation` VALUES (4, 2, 2);
+
 
 
 --
@@ -128,8 +148,8 @@ CREATE TABLE `Store` (
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 
-INSERT INTO `Store` VALUES ('1', 'Coles', '1 King St', 'NSW', '2000', '151', '33', 20);
-INSERT INTO `Store` VALUES ('2', 'WW', '2 King St', 'NSW', '2100', '152', '34', 20);
+INSERT INTO `Store` VALUES ('1', 'Coles', '1 King St', 'NSW', '2000', '151', '33', 2);
+INSERT INTO `Store` VALUES ('2', 'WW', '2 King St', 'NSW', '2100', '152', '34', 2);
 
 
 --
@@ -153,10 +173,16 @@ CREATE TABLE `Product`(
   ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
-INSERT INTO `Product` (`store_id`, `brand_id`) VALUES ('1', '1');
-INSERT INTO `Product` (`store_id`, `brand_id`) VALUES ('1', '2');
-INSERT INTO `Product` (`store_id`, `brand_id`) VALUES ('2', '1');
-INSERT INTO `Product` (`store_id`, `brand_id`) VALUES ('2', '2');
+INSERT INTO `Product` (`store_id`, `brand_id`) VALUES (1, 1);
+INSERT INTO `Product` (`store_id`, `brand_id`) VALUES (1, 2);
+INSERT INTO `Product` (`store_id`, `brand_id`) VALUES (2, 1);
+INSERT INTO `Product` (`store_id`, `brand_id`) VALUES (2, 2);
+
+
+
+--
+-- Table structure for table `Report`
+--
 
 DROP TABLE IF EXISTS `Report`;
 CREATE TABLE `Report`(

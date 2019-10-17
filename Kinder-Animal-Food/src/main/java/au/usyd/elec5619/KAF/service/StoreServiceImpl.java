@@ -17,21 +17,22 @@ public class StoreServiceImpl implements StoreService {
 
 	@Override
 	@Transactional
-	public List<Store> searchStoreByName(String store_name) {
+	public List<Store> searchStore(String store_name) {
 
-		return storeDao.searchStoreByName(store_name);
+		return storeDao.searchStore(store_name);
 	}
 
 	@Override
 	@Transactional
-	public Store searchStoreByID(Integer store_id) {
+	public Store searchStore(Integer store_id) {
 
-		return storeDao.searchStoreByID(store_id);
+		return storeDao.searchStore(store_id);
 	}
 
 	@Override
 	@Transactional
 	public List<Store> storeList() {
+		
 		return storeDao.storeList();
 	}
 
@@ -51,7 +52,8 @@ public class StoreServiceImpl implements StoreService {
 	@Transactional
 	public boolean deleteStore(Integer store_id) {
 
-		if (storeDao.deleteStore(store_id)) {
+		if (storeDao.searchStore(store_id) != null) {
+			storeDao.deleteStore(store_id);
 			return true;
 		} else {
 			return false;
@@ -63,11 +65,11 @@ public class StoreServiceImpl implements StoreService {
 	@Transactional
 	public boolean editStore(Store store) {
 
-		if (storeDao.searchStore(store).size() != 0) {
-			return false;
-		} else {
+		if (storeDao.searchStore(store.getStore_id()) != null) {
 			storeDao.editStore(store);
 			return true;
+		} else {
+			return false;
 		}
 	}
 
@@ -83,11 +85,11 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	@Transactional
 	public boolean setBrandsNum(Integer store_id, Integer brands_num) {
+		
 		if (storeDao.setBrandsNum(store_id, brands_num)) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-
 }

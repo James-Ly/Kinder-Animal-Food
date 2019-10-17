@@ -19,7 +19,7 @@ public class BrandDaoImpl implements BrandDao {
 
 	@Override
 	@Transactional
-	public List<Brand> searchBrandByName(String brand_name) {
+	public List<Brand> searchBrand(String brand_name) {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 
@@ -35,9 +35,10 @@ public class BrandDaoImpl implements BrandDao {
 
 		return brands;
 	}
+	
 	@Override
 	@Transactional
-	public Brand searchBrandByID(Integer brand_id) {
+	public Brand searchBrand(Integer brand_id) {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 
@@ -56,36 +57,13 @@ public class BrandDaoImpl implements BrandDao {
 	
 	@Override
 	@Transactional
-	public List<Brand> searchBrandByNameCategory(String brand_name, String brand_category) {
+	public List<Brand> searchBrand(String brand_name, String brand_category) {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 
 		Query<Brand> theQuery = currentSession.createQuery("from Brand where brand_name=:bName AND brand_category=:bCategory", Brand.class);
 		theQuery.setParameter("bName", brand_name);
 		theQuery.setParameter("bCategory", brand_category);
-
-		List<Brand> brands = null;
-		try {
-			brands = theQuery.getResultList();
-		} catch (Exception e) {
-			brands = null;
-		}
-
-		return brands;
-	}
-
-	@Override
-	@Transactional
-	public List<Brand> searchBrand(Brand brand) {
-		
-		Session currentSession = sessionFactory.getCurrentSession();
-
-		Query<Brand> theQuery = currentSession.createQuery(
-				"from Brand where brand_name=:bName AND brand_category=:bCategory",
-				Brand.class);
-		theQuery.setParameter("bName", brand.getBrand_name());
-		theQuery.setParameter("bCategory", brand.getBrand_category());
-
 
 		List<Brand> brands = null;
 		try {

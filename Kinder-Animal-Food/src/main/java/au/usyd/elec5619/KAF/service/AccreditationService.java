@@ -6,7 +6,9 @@ import au.usyd.elec5619.KAF.model.Accreditation;
 
 public interface AccreditationService {
 
-	Accreditation searchAccreditation(Accreditation accreditation);
+	Accreditation searchAccreditation(Integer accreditation_id);
+	
+	Accreditation searchAccreditation(String accreditation_name);
 	
 	List<Accreditation> accreditationList();
 	
@@ -17,6 +19,4 @@ public interface AccreditationService {
 	boolean editAccreditation(Accreditation accreditation);
 	
 	Integer countAccreditation();
-
-	Accreditation searchAccreditationByID(Integer accreditation_id);
 }

@@ -20,7 +20,7 @@
 	<h1>Edit Store Details</h1>
 	<hr>
 	<form:form id="storeEditForm" method="post" modelAttribute="nStore"
-		action="/Kinder-Animal-Food/systems/StoreDetails/StoreEdit/storeEditProcess/${store.getStore_id()}">
+		action="storeEditProcess/${store.getStore_id()}">
 		<table>
 			<tr>
 				<td><form:label path="store_name">store name: </form:label></td>
@@ -55,15 +55,17 @@
 						onclick="editStore()">Confirm Edit</form:button></td>
 			</tr>
 		</table>
-		<table align="center">
-			<tr>
-				<td style="font-style: italic; color: red;">${status}</td>
-			</tr>
-		</table>
 
 	</form:form>
 
 	<script type="text/javascript">
+		var msg = "${status}";
+		if (msg == "OK") {
+			alert('Edit Successful!');
+		} else if (msg == "ERR") {
+			alert('Edit failed!');
+		}
+		
 		function validateStore() {
 			var store_name = document.getElementById('store_name').value;
 			var store_address = document.getElementById('store_address').value;

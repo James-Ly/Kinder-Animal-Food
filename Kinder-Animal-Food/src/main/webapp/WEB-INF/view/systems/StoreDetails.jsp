@@ -48,6 +48,11 @@ a:active {
 	color: black;
 	font-family: "Arial";
 }
+
+#Blue a {
+	color: blue;
+	font-family: "Arial";
+}
 </style>
 <title>StoreDetails</title>
 </head>
@@ -61,12 +66,6 @@ a:active {
 				<div id="HWHP">
 					<a href="/Kinder-Animal_food/systems/" style="font-size: 40px">Kinder
 						Animal Food</a>
-				</div>
-			</td>
-			<td>&nbsp;</td>
-			<td align="right">
-				<div id="Arial">
-					<a href="#" style="font-size: 25px">ABOUT THE SERVER</a>
 				</div>
 			</td>
 			<td>&nbsp;</td>
@@ -124,7 +123,9 @@ a:active {
 					<tr>
 						<td align="left" height="40">
 							<div id="Arial">
-								<a href="#" style="font-size: 15px">&nbsp;&nbsp;&nbsp;Publish</a>
+								<a href="/Kinder-Animal-Food/systems/UpdateDeleteAccreditation"
+									style="font-size: 15px">&nbsp;&nbsp;&nbsp;Update/ Delete
+									Accreditation</a>
 							</div>
 						</td>
 					</tr>
@@ -135,48 +136,47 @@ a:active {
 			</td>
 			<!--Control Panel Finish -->
 			<!--Store Details  -->
-			<td align="left" valign="top" width=100%><c:forEach
-					items="${requestScope.stores}" var="s">
-					<table bgcolor="#f5f5f5">
-						<tr>
-							<td width=100% colspan="2" align="left" valign="top">
-								<p>${s.getStore_name()}</p>
-								<p>${s.getStore_address()}</p>
-							</td>
-						</tr>
-						<tr>
-							<td align="left" valign="top">
-								<p>
-								<div id="Black">
-									<a href="${s.getStore_id()}">Summary</a>
-								</div>
-								</p>
-								<p>
-								<div id="Black">
-									<a href="../StoreBrand/${s.getStore_id()}">Brand</a>
-								</div>
-								</p>
-							</td>
+			<td align="left" valign="top" width=100%>
+				<table bgcolor="#f5f5f5">
+					<tr>
+						<td width=100% colspan="2" align="left" valign="top">
+							<p>${store.getStore_name()}</p>
+							<p>${store.getStore_address()}</p>
+						</td>
+					</tr>
+					<tr>
+						<td align="left" valign="top">
+							<p>
+							<div id="Black">
+								<a href="${store.getStore_id()}">Summary</a>
+							</div>
+							</p>
+							<p>
+							<div id="Black">
+								<a href="../StoreBrand/${store.getStore_id()}">Brand</a>
+							</div>
+							</p>
+						</td>
 
-							<td>
-								<table width=100% height=500>
-									<tr>
-										<td valign="top" align="center">Store name:</td>
-										<td valign="top">${s.getStore_name()}</td>
-									</tr>
-									<tr>
-										<td colspan="2" valign="top" align="center">${s.getBrands_num()}
-											brand(s) in this store.</td>
-									</tr>
-									<tr>
-										<div id="Black">
-											<a
-												href="javascript:void(window.open('StoreEdit/${s.getStore_id()}','','height=529, width=700, top=265,left=645, toolbar=no, menubar=no, scrollbars=yes, resizable=yes,location=no, status=no'))"
-												target="_self">Edit</a>
-										</div>
-									</tr>
-								</table>
-							</td>
-						</tr>
-					</table>
-				</c:forEach></td>
+						<td>
+							<table width=100% height=500>
+								<tr>
+									<td valign="top" align="center">Store name:</td>
+									<td valign="top">${store.getStore_name()}</td>
+								</tr>
+								<tr>
+									<td colspan="2" valign="top" align="center">${store.getBrands_num()}
+										brand(s) in this store.</td>
+								</tr>
+								<tr>
+									<div id="Blue">
+										<a
+											href="javascript:void(window.open('StoreEdit/${store.getStore_id()}','','height=529, width=700, top=265,left=645, toolbar=no, menubar=no, scrollbars=yes, resizable=yes,location=no, status=no'))"
+											target="_self">Edit</a>
+									</div>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</td>

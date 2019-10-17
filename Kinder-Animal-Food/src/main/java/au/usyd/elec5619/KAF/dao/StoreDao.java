@@ -6,9 +6,9 @@ import au.usyd.elec5619.KAF.model.Store;
 
 public interface StoreDao {
 		
-	List<Store> searchStoreByName(String store_name);
+	List<Store> searchStore(String store_name);
 	
-	Store searchStoreByID(Integer store_id);
+	Store searchStore(Integer store_id);
 	
 	List<Store> searchStore(Store store);
 	
@@ -19,8 +19,6 @@ public interface StoreDao {
 	boolean deleteStore(Integer store_id);
 	
 	boolean editStore(Store store);
-
 	
 	boolean setBrandsNum(Integer store_id, Integer brands_num);
-	
 }

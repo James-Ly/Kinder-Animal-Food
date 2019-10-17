@@ -12,7 +12,7 @@ public interface ProductService {
 	
 	List<Product> productList();
 	
-	List<Integer> searchBrandByStore(Integer product_id);
+	List<Integer> searchBrandByStore(Integer store_id);
 	
 	List<Integer> searchStoreByBrand(Integer brand_id);
 	

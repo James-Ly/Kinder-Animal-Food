@@ -6,9 +6,9 @@ import au.usyd.elec5619.KAF.model.Accreditation;
 
 public interface AccreditationDao {
 	
-	Accreditation searchAccreditationByID(Integer accreditation_id);
+	Accreditation searchAccreditation(Integer accreditation_id);
 	
-	Accreditation searchAccreditation(Accreditation accreditation);
+	Accreditation searchAccreditation(String accreditation_name);
 	
 	List<Accreditation> accreditationList();
 	

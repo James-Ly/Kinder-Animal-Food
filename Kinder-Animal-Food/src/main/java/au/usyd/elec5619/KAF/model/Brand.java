@@ -7,8 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.springframework.web.multipart.MultipartFile;
-
 @Entity
 @Table(name = "Brand")
 public class Brand {
@@ -23,9 +21,6 @@ public class Brand {
 	
 	@Column(name = "brand_category")
 	private String brand_category;
-	
-	@Column(name = "accreditation_id")
-	private Integer accreditation_id;
 	
 	@Column(name = "image")
 	private String image;
@@ -48,12 +43,6 @@ public class Brand {
 	public void setBrand_category(String brand_category) {
 		this.brand_category = brand_category;
 	}
-	public Integer getAccreditation_id() {
-		return accreditation_id;
-	}
-	public void setAccreditation_id(Integer accreditation_id) {
-		this.accreditation_id = accreditation_id;
-	}
 	public String getImage() {
 		return image;
 	}
@@ -63,6 +52,6 @@ public class Brand {
 	@Override
 	public String toString() {
 		return "Brand [brand_id=" + brand_id + ", brand_name=" + brand_name + ", brand_category=" + brand_category
-				+ ", accreditation_id=" + accreditation_id + ", image=" + image + "]";
+				+ ", image=" + image + "]";
 	}
 }

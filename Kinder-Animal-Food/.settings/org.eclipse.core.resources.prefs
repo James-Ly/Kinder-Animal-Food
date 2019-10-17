@@ -1,8 +1,12 @@
 eclipse.preferences.version=1
+encoding//src/main/webapp/WEB-INF/view/systems/AccreditationAdd.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/view/systems/BrandAccreditation.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/view/systems/BrandDetails.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/view/systems/StoreBrand.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/view/systems/StoreBrandAdd.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/view/systems/StoreDetails.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/view/systems/StoreEdit.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/view/systems/UpdateDeleteAccreditation.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/view/systems/UpdateDeleteBrand.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/view/systems/UpdateDeleteStore.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/view/systems/systems.jsp=UTF-8

@@ -66,12 +66,6 @@ a:active {
 			<td>&nbsp;</td>
 			<td align="right">
 				<div id="Arial">
-					<a href="#" style="font-size: 25px">ABOUT THE SERVER</a>
-				</div>
-			</td>
-			<td>&nbsp;</td>
-			<td align="right">
-				<div id="Arial">
 					<a href="#" style="font-size: 25px">LOGOUT&nbsp;&nbsp;</a>
 				</div>
 			</td>
@@ -124,7 +118,9 @@ a:active {
 					<tr>
 						<td align="left" height="40">
 							<div id="Arial">
-								<a href="#" style="font-size: 15px">&nbsp;&nbsp;&nbsp;Publish</a>
+								<a href="/Kinder-Animal-Food/systems/UpdateDeleteAccreditation"
+									style="font-size: 15px">&nbsp;&nbsp;&nbsp;Update/ Delete
+									Accreditation</a>
 							</div>
 						</td>
 					</tr>
@@ -135,99 +131,93 @@ a:active {
 			</td>
 			<!--Control Panel Finish -->
 			<!--Store Details  -->
-			<td align="left" valign="top" width=100%><c:forEach
-					items="${requestScope.stores}" var="s">
-					<table bgcolor="#f5f5f5">
-						<tr>
-							<td width=100% colspan="2" align="left" valign="top">
-								<p>${s.getStore_name()}</p>
-								<p>${s.getStore_address()}</p>
-							</td>
-						</tr>
-						<tr>
-							<td align="left" valign="top">
-								<p>
-								<div id="Black">
-									<a href="../StoreDetails/${s.getStore_id()}">Summary</a>
-								</div>
-								</p>
-								<p>
-								<div id="Black">
-									<a href="${s.getStore_id()}">Brand</a>
-								</div>
-								</p>
-							</td>
+			<td align="left" valign="top" width=100%>
+				<table bgcolor="#f5f5f5">
+					<tr>
+						<td width=100% colspan="2" align="left" valign="top">
+							<p>${store.getStore_name()}</p>
+							<p>${store.getStore_address()}</p>
+						</td>
+					</tr>
+					<tr>
+						<td align="left" valign="top">
+							<p>
+							<div id="Black">
+								<a href="../StoreDetails/${store.getStore_id()}">Summary</a>
+							</div>
+							</p>
+							<p>
+							<div id="Black">
+								<a href="${store.getStore_id()}">Brand</a>
+							</div>
+							</p>
+						</td>
 
-							<td>
-								<form method="get" action="StoreBrandDelete/${s.getStore_id()}">
-									<!--select all-->
-									<input name="" type="button" class="input_hide"
-										onClick="AllCheck (this.form);return false;"
-										value="select all">
-									<!--submit-->
-									<div id="Blue">
-										<a href="javascript:void(window.open('StoreBrandAdd/${s.getStore_id()}','','height=529, width=700, top=265,left=645, toolbar=no, menubar=no, scrollbars=yes, resizable=yes,location=no, status=no'))"
-												target="_self">Add Brand To Store</a >
-									</div>
-									<input type="submit" value="Delete Brand">
-									<hr>
-									<table border="0">
+						<td>
+							<form method="get"
+								action="StoreBrandDelete/${store.getStore_id()}">
+								<!--select all-->
+								<input name="" type="button" class="input_hide"
+									onClick="AllCheck (this.form);return false;" value="select all">
+								<!--submit-->
+								<div id="Blue">
+									<a
+										href="javascript:void(window.open('StoreBrandAdd/${store.getStore_id()}','','height=529, width=700, top=265,left=645, toolbar=no, menubar=no, scrollbars=yes, resizable=yes,location=no, status=no'))"
+										target="_self">Add Brand To Store</a>
+								</div>
+								<input type="submit" value="Delete Brand">
+								<hr>
+								<table border="0">
+									<tr>
+										<td width="500">Brand Name</td>
+										<td width="80">Category</td>
+										<td width="200">Delete Brand</td>
+									</tr>
+									<c:forEach items="${brands}" var="b">
 										<tr>
-											<td width="500">Brand Name</td>
-											<td width="80">Category</td>
-											<td width="200">Delete Brand</td>
+											<td>${b.getBrand_name()}</td>
+											<td>${b.getBrand_category()}</td>
+											<td><input type="checkbox" name="delete"
+												value="${b.getBrand_id()}"></td>
 										</tr>
-										<c:forEach items="${requestScope.brands}" var="b">
-											<tr>
-												<td>${b.getBrand_name()}</td>
-												<td>${b.getBrand_category()}</td>
-												<td><input type="checkbox" name="delete"
-													value="${b.getBrand_id()}"></td>
-											</tr>
-										</c:forEach>
-									</table>
-								</form>
-							</td>
-						</tr>
-					</table>
-				</c:forEach></td>
+									</c:forEach>
+								</table>
+							</form>
+						</td>
+					</tr>
+				</table>
+			</td>
 	</table>
-	</table>
-
-	<script type="text/javascript">
-		// 选择状态
-		var selectState = false;
-		// 全选或者全取消
-		function AllCheck(thisform) {
-			for (var i = 0; i < thisform.elements.length; i++) {
-				// 提取控件  
-				var checkbox = thisform.elements[i];
-				checkbox.checked = !selectState;
-			}
-			selectState = !selectState;
-		}
-
-		// 反选
-		function ChangeCheck(thisform) {
-			// 遍历 form  
-			for (var i = 0; i < thisform.elements.length; i++) {
-				// 提取控件  
-				var checkbox = thisform.elements[i];
-				// 检查是否是指定的控件  
-				if (checkbox.name === "groupCheckbox"
-						&& checkbox.type === "checkbox"
-						&& checkbox.checked === false) {
-					// 正选  
-					checkbox.checked = true;
-				} else if (checkbox.name === "groupCheckbox"
-						&& checkbox.type === "checkbox"
-						&& checkbox.checked === true) {
-					// 反选  
-					checkbox.checked = false;
-				}
-			}
-		}
-	</script>
 </body>
+
+<script type="text/javascript">
+	var selectState = false;
+	// select or cancel all
+	function AllCheck(thisform) {
+		for (var i = 0; i < thisform.elements.length; i++) {
+			var checkbox = thisform.elements[i];
+			checkbox.checked = !selectState;
+		}
+		selectState = !selectState;
+	}
+
+	// select others
+	function ChangeCheck(thisform) {
+		for (var i = 0; i < thisform.elements.length; i++) {
+			var checkbox = thisform.elements[i];
+			if (checkbox.name === "groupCheckbox"
+					&& checkbox.type === "checkbox"
+					&& checkbox.checked === false) {
+				// select   
+				checkbox.checked = true;
+			} else if (checkbox.name === "groupCheckbox"
+					&& checkbox.type === "checkbox"
+					&& checkbox.checked === true) {
+				// select others
+				checkbox.checked = false;
+			}
+		}
+	}
+</script>
 </html>
 

@@ -7,13 +7,11 @@ import au.usyd.elec5619.KAF.model.Brand;
 
 public interface BrandDao {
 	
-	List<Brand> searchBrandByName(String brand_name);
+	List<Brand> searchBrand(String brand_name);
 	
-	Brand searchBrandByID(Integer brand_id);
+	Brand searchBrand(Integer brand_id);
 	
-	List<Brand> searchBrandByNameCategory(String brand_name, String brand_category);
-	
-	List<Brand> searchBrand(Brand brand);
+	List<Brand> searchBrand(String brand_name, String brand_category);
 	
 	List<Brand> brandList();
 	
