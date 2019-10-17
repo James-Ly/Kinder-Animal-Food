@@ -17,16 +17,16 @@ public class AccreditationServiceImpl implements AccreditationService {
 
 	@Override
 	@Transactional
-	public Accreditation searchAccreditationByID(Integer accreditation_id) {
+	public Accreditation searchAccreditation(Integer accreditation_id) {
 
-		return accreditationDao.searchAccreditationByID(accreditation_id);
+		return accreditationDao.searchAccreditation(accreditation_id);
 	}
 	
 	@Override
 	@Transactional
-	public Accreditation searchAccreditation(Accreditation accreditation) {
+	public Accreditation searchAccreditation(String accreditation_name) {
 
-		return accreditationDao.searchAccreditation(accreditation);
+		return accreditationDao.searchAccreditation(accreditation_name);
 	}
 
 	@Override
@@ -39,18 +39,20 @@ public class AccreditationServiceImpl implements AccreditationService {
 	@Transactional
 	public boolean insertAccreditation(Accreditation accreditation) {
 
-		if (accreditationDao.insertAccreditation(accreditation)) {
+		if (this.searchAccreditation(accreditation.getAccreditation_name()) != null) {
+			return false;
+		} else {
+			accreditationDao.insertAccreditation(accreditation);
 			return true;
 		}
-		return false;
-		
 	}
 
 	@Override
 	@Transactional
 	public boolean deleteAccreditation(Integer accreditation_id) {
 
-		if (accreditationDao.deleteAccreditation(accreditation_id)) {
+		if (this.searchAccreditation(accreditation_id) != null) {
+			accreditationDao.deleteAccreditation(accreditation_id);
 			return true;
 		} else {
 			return false;
@@ -62,7 +64,7 @@ public class AccreditationServiceImpl implements AccreditationService {
 	@Transactional
 	public boolean editAccreditation(Accreditation accreditation) {
 
-		if (accreditationDao.searchAccreditation(accreditation) != null) {
+		if (this.searchAccreditation(accreditation.getAccreditation_id()) != null) {
 			accreditationDao.editAccreditation(accreditation);
 			return true;
 		} else {

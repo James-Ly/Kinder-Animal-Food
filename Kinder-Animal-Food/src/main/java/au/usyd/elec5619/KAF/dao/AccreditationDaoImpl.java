@@ -19,7 +19,7 @@ public class AccreditationDaoImpl implements AccreditationDao {
 
 	@Override
 	@Transactional
-	public Accreditation searchAccreditationByID(Integer accreditation_id) {
+	public Accreditation searchAccreditation(Integer accreditation_id) {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 
@@ -35,27 +35,26 @@ public class AccreditationDaoImpl implements AccreditationDao {
 
 		return accreditation;
 	}
-
+	
 	@Override
 	@Transactional
-	public Accreditation searchAccreditation(Accreditation accreditation) {
+	public Accreditation searchAccreditation(String accreditation_name) {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 
 		Query<Accreditation> theQuery = currentSession.createQuery(
-				"from Accreditation where accreditation_name=:aName AND rating=:aRating",
+				"from Accreditation where accreditation_name=:aName",
 				Accreditation.class);
-		theQuery.setParameter("aName", accreditation.getAccreditation_name());
-		theQuery.setParameter("aRating", accreditation.getRating());
+		theQuery.setParameter("aName", accreditation_name);
 
-		Accreditation accreditationTemp = null;
+		Accreditation accreditation = null;
 		try {
-			accreditationTemp = theQuery.getSingleResult();
+			accreditation = theQuery.getSingleResult();
 		} catch (Exception e) {
-			accreditationTemp = null;
+			accreditation = null;
 		}
 
-		return accreditationTemp;
+		return accreditation;
 	}
 	
 	@Override
@@ -116,7 +115,7 @@ public class AccreditationDaoImpl implements AccreditationDao {
 		Session currentSession = sessionFactory.getCurrentSession();
 				
 		Query theQuery = currentSession.createQuery(
-				"update Accreditation set accreditation_name=:aName AND rating=:aRating where accreditation_id=:aID");
+				"update Accreditation set accreditation_name=:aName, rating=:aRating where accreditation_id=:aID");
 		theQuery.setParameter("aName", accreditation.getAccreditation_name());
 		theQuery.setParameter("aRating", accreditation.getRating());
 		theQuery.setParameter("aID", accreditation.getAccreditation_id());
@@ -126,7 +125,6 @@ public class AccreditationDaoImpl implements AccreditationDao {
 		} catch (Exception e) {
 			return false;
 		}
-
 		return true;
 	}
 }

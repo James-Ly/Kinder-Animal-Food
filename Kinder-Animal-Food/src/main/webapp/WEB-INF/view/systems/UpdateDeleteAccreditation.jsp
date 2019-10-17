@@ -44,8 +44,13 @@ a:active {
 	color: black;
 	font-family: "Arial";
 }
+
+#Blue a {
+	color: blue;
+	font-family: "Arial";
+}
 </style>
-<title>Update/Delete Brand</title>
+<title>Update/Delete Accreditation</title>
 </head>
 <body>
 
@@ -59,6 +64,8 @@ a:active {
 						Animal Food</a>
 				</div>
 			</td>
+			<td>&nbsp;</td>
+			<td align="right">&nbsp;</td>
 			<td>&nbsp;</td>
 			<td align="right">
 				<div id="Arial">
@@ -127,10 +134,10 @@ a:active {
 			</td>
 			<!--Control Panel Finish -->
 
-			<!--Update/ Delete Brand -->
+			<!--Update/ Delete Accreditation -->
 			<td valign="top"><font face="Arial" color="Black" size="8px">Update/
-					Delete Brand</font>
-				<form method="get" action="UpdateDeleteBrandProcess">
+					Delete Accreditation</font>
+				<form method="get" action="UpdateDeleteAccreditationProcess">
 					<table width=100% height=100% bgcolor=white>
 						<tr>
 							<td height="50">
@@ -138,6 +145,11 @@ a:active {
 								class="input_hide" onClick="AllCheck (this.form);return false;"
 								value="select all"> <!--submit--> <input type="submit"
 								value="Delete">
+								<div id="Blue">
+									<a
+										href="javascript:void(window.open('AccreditationAdd','','height=529, width=700, top=265,left=645, toolbar=no, menubar=no, scrollbars=yes, resizable=yes,location=no, status=no'))"
+										target="_self">Add New Accreditation</a>
+								</div>
 							</td>
 						</tr>
 						<tr>
@@ -145,30 +157,29 @@ a:active {
 								<table border="1" height=100% width=100% cellspacing="0">
 									<tr height="30">
 										<td width="400"><strong><font face="Arial"
-												color="Black" size="4px">&nbsp;&nbsp;Brand Name</font></strong></td>
+												color="Black" size="4px">&nbsp;&nbsp;Accreditation
+													Name</font></strong></td>
 										<td width="500"><strong><font face="Arial"
-												color="Black" size="4px">&nbsp;&nbsp;Accreditation</font></strong></td>
-										<td width="200"><strong><font face="Arial"
-												color="Black" size="4px">&nbsp;&nbsp;Category</font></strong></td>
+												color="Black" size="4px">&nbsp;&nbsp;Rating</font></strong></td>
+										<td>&nbsp;</td>
 										<td><strong><font face="Arial" color="Black"
 												size="4px">&nbsp;&nbsp;Delete</font></strong></td>
+
 									</tr>
 
-									<c:forEach items="${brands}" var="b" varStatus="idx">
+									<c:forEach items="${accreditations}" var="Acc">
 										<tr height="40">
 											<td>
-												<div id="Black">
-													<a href="BrandDetails/${b.getBrand_id()}">${b.getBrand_name()}</a>
-												</div>
+												<div id="Black">${Acc.getAccreditation_name()}</div>
 											</td>
-
-											<td><c:forEach items="${accreditations.get(idx.index)}"
-													var="a">
-													<p>${a.getAccreditation_name()}--${a.getRating()}</p>
-												</c:forEach></td>
-											<td>${b.getBrand_category()}</td>
+											<td>${Acc.getRating()}</td>
+											<td><div id="Blue">
+													<a
+														href="javascript:void(window.open('AccreditationEdit/${Acc.getAccreditation_id()}','','height=529, width=700, top=265,left=645, toolbar=no, menubar=no, scrollbars=yes, resizable=yes,location=no, status=no'))"
+														target="_self">Edit</a>
+												</div></td>
 											<td><input type="checkbox" name="delete"
-												value="${b.getBrand_id()}"></td>
+												value="${Acc.getAccreditation_id()}"></td>
 										</tr>
 									</c:forEach>
 

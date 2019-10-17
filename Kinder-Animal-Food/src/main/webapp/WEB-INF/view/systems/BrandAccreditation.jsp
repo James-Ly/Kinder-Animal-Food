@@ -106,7 +106,7 @@ a:active {
 							<div id="Arial">
 								<a href="/Kinder-Animal-Food/systems/UpdateDeleteBrand"
 									style="font-size: 15px">&nbsp;&nbsp;&nbsp;Update/ Delete
-									Brand</a>
+									Brand </a>
 							</div>
 						</td>
 					</tr>
@@ -115,7 +115,7 @@ a:active {
 							<div id="Arial">
 								<a href="/Kinder-Animal-Food/systems/UpdateDeleteStore"
 									style="font-size: 15px">&nbsp;&nbsp;&nbsp;Update/ Delete
-									Store</a>
+									Store </a>
 							</div>
 						</td>
 					</tr>
@@ -146,42 +146,66 @@ a:active {
 						<td align="left" valign="top">
 							<p>
 							<div id="Black">
-								<a href="${brand.getBrand_id()}">Summary</a>
+								<a href="../BrandDetails/${brand.getBrand_id()}">Summary</a>
 							</div>
 							</p>
 							<p>
 							<div id="Black">
-								<a href="../BrandAccreditation/${brand.getBrand_id()}">Accreditation</a>
+								<a href="${brand.getBrand_id()}">Accreditation</a>
 							</div>
 							</p>
 						</td>
 
 						<td>
+							<form method="get"
+								action="../BrandDeleteAccreditation/${brand.getBrand_id()}">
 
-							<table width=100% height=500>
+								<!--select all-->
+
+								<input name="" type="button" class="input_hide"
+									onClick="AllCheck (this.form);return false;" value="select all">
+
+								<!--submit-->
+
+								<input type="submit" value="Delete">
+
+								<hr>
+								<table>
+									<tr>
+										<td>Accreditation</td>
+										<td>Rating</td>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+									</tr>
+									<c:forEach items="${accreditations_in}" var="in">
+										<tr>
+											<td>${in.getAccreditation_name()}</td>
+											<td>${in.getRating()}</td>
+											<td><input type="checkbox" name="delete"
+												value="${in.getAccreditation_id()}"></td>
+										</tr>
+									</c:forEach>
+								</table>
+							</form>
+							<hr>
+							<table>
 								<tr>
-									<td valign="top" align="center">Brand name:</td>
-									<td valign="top">${brand.getBrand_name()}</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
 								</tr>
-								<tr>
-									<td valign="top" align="center">Category:</td>
-									<td valign="top">${brand.getBrand_category()}</td>
-								</tr>
-								<tr>
-									<td colspan="2" valign="top" align="center">
-										<p>${accreditations.size()}accreditation(s) for this
-											brand.
-									</td>
-								</tr>
-								<tr>
-									<td colspan="2" valign="top" align="center">
-										<div id="Blue">
-											<a
-												href="javascript:void(window.open('../BrandEdit/${brand.getBrand_id()}','','height=529, width=700, top=265,left=645, toolbar=no, menubar=no, scrollbars=yes, resizable=yes,location=no, status=no'))"
-												target="_self">Edit Brand</a>
-										</div>
-									</td>
-								</tr>
+								<c:forEach items="${accreditations_ex}" var="ex">
+									<tr>
+										<td>${ex.getAccreditation_name()}</td>
+										<td>${ex.getRating()}</td>
+										<td>&nbsp;</td>
+										<td><div id="Blue">
+												<a
+													href="../BrandAddAccreditation/${brand.getBrand_id()}/${ex.getAccreditation_id()}">Add</a>
+											</div></td>
+									</tr>
+								</c:forEach>
 							</table>
 						</td>
 					</tr>
@@ -189,3 +213,36 @@ a:active {
 			</td>
 		</tr>
 	</table>
+</body>
+
+
+<script type="text/javascript">
+	var selectState = false;
+	// select or cancel all
+	function AllCheck(thisform) {
+		for (var i = 0; i < thisform.elements.length; i++) {
+			var checkbox = thisform.elements[i];
+			checkbox.checked = !selectState;
+		}
+		selectState = !selectState;
+	}
+
+	// select others
+	function ChangeCheck(thisform) {
+		for (var i = 0; i < thisform.elements.length; i++) {
+			var checkbox = thisform.elements[i];
+			if (checkbox.name === "groupCheckbox"
+					&& checkbox.type === "checkbox"
+					&& checkbox.checked === false) {
+				// select   
+				checkbox.checked = true;
+			} else if (checkbox.name === "groupCheckbox"
+					&& checkbox.type === "checkbox"
+					&& checkbox.checked === true) {
+				// select others
+				checkbox.checked = false;
+			}
+		}
+	}
+</script>
+</html>

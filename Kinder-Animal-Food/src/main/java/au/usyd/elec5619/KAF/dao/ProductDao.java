@@ -6,13 +6,13 @@ import au.usyd.elec5619.KAF.model.Product;
 
 public interface ProductDao {
 	
-	Product searchProductByID(Integer product_id);
+	Product searchProduct(Integer product_id);
 	
 	Product searchProduct(Integer store_id, Integer brand_id);
 	
 	List<Product> productList();
 	
-	List<Integer> searchBrandByStore(Integer product_id);
+	List<Integer> searchBrandByStore(Integer store_id);
 	
 	List<Integer> searchStoreByBrand(Integer brand_id);
 	

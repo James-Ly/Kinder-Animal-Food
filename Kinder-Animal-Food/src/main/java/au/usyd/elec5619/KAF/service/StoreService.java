@@ -6,9 +6,9 @@ import au.usyd.elec5619.KAF.model.Store;
 
 public interface StoreService {
 
-	List<Store> searchStoreByName(String store_name);
+	List<Store> searchStore(String store_name);
 	
-	Store searchStoreByID(Integer store_id);
+	Store searchStore(Integer store_id);
 	
 	List<Store> storeList();
 	

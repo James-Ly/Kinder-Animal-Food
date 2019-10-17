@@ -2,8 +2,6 @@ package au.usyd.elec5619.KAF.service;
 
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,8 +19,9 @@ public class ProductServiceImpl implements ProductService {
 	@Transactional
 	public Product searchProduct(Integer product_id) {
 
-		return productDao.searchProductByID(product_id);
+		return productDao.searchProduct(product_id);
 	}
+	
 	@Override
 	@Transactional
 	public Product searchProduct(Integer store_id, Integer brand_id) {
@@ -33,18 +32,21 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	@Transactional
 	public List<Product> productList() {
+		
 		return productDao.productList();
 	}
 	
 	@Override
 	@Transactional
 	public List<Integer> searchBrandByStore(Integer store_id){
+		
 		return productDao.searchBrandByStore(store_id);
 	}
 	
-	@Override
+	@Override	
 	@Transactional
 	public List<Integer> searchStoreByBrand(Integer brand_id){
+		
 		return productDao.searchStoreByBrand(brand_id);
 	}
 
@@ -64,7 +66,8 @@ public class ProductServiceImpl implements ProductService {
 	@Transactional
 	public boolean deleteProduct(Integer product_id) {
 
-		if (productDao.deleteProduct(product_id)) {
+		if (productDao.searchProduct(product_id) != null) {
+			productDao.deleteProduct(product_id);
 			return true;
 		} else {
 			return false;
@@ -76,11 +79,11 @@ public class ProductServiceImpl implements ProductService {
 	@Transactional
 	public boolean editProduct(Product product) {
 
-		if (productDao.searchProduct(product.getStore_id(), product.getBrand_id()) != null) {
-			return false;
-		} else {
+		if (productDao.searchProduct(product.getProduct_id()) != null) {
 			productDao.editProduct(product);
 			return true;
+		} else {
+			return false;
 		}
 
 	}
@@ -89,8 +92,6 @@ public class ProductServiceImpl implements ProductService {
 	@Transactional
 	public Integer countProduct() {
 
-		Integer conut = productDao.productList().size();
-
-		return conut;
+		return productDao.productList().size();
 	}
 }

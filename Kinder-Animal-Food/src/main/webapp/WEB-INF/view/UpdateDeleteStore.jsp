@@ -45,7 +45,7 @@ a:active {
 	font-family: "Arial";
 }
 </style>
-<title>Update/Delete Brand</title>
+<title>UpdateDeleteStore</title>
 </head>
 <body>
 
@@ -112,25 +112,16 @@ a:active {
 						</td>
 					</tr>
 					<tr>
-						<td align="left" height="40">
-							<div id="Arial">
-								<a href="/Kinder-Animal-Food/systems/UpdateDeleteAccreditation"
-									style="font-size: 15px">&nbsp;&nbsp;&nbsp;Update/ Delete
-									Accreditation</a>
-							</div>
-						</td>
-					</tr>
-					<tr>
 						<td align="left" height=500>&nbsp;</td>
 					</tr>
 				</table>
 			</td>
 			<!--Control Panel Finish -->
 
-			<!--Update/ Delete Brand -->
+			<!--Update/ Delete Store -->
 			<td valign="top"><font face="Arial" color="Black" size="8px">Update/
-					Delete Brand</font>
-				<form method="get" action="UpdateDeleteBrandProcess">
+					Delete Store</font>
+				<form method="get" action="UpdateDeleteStoreProcess">
 					<table width=100% height=100% bgcolor=white>
 						<tr>
 							<td height="50">
@@ -144,31 +135,28 @@ a:active {
 							<td>
 								<table border="1" height=100% width=100% cellspacing="0">
 									<tr height="30">
-										<td width="400"><strong><font face="Arial"
-												color="Black" size="4px">&nbsp;&nbsp;Brand Name</font></strong></td>
+										<td width="300"><strong><font face="Arial"
+												color="Black" size="4px">&nbsp;&nbsp;Store Name</font></strong></td>
 										<td width="500"><strong><font face="Arial"
-												color="Black" size="4px">&nbsp;&nbsp;Accreditation</font></strong></td>
+												color="Black" size="4px">&nbsp;&nbsp;Address</font></strong></td>
 										<td width="200"><strong><font face="Arial"
-												color="Black" size="4px">&nbsp;&nbsp;Category</font></strong></td>
+												color="Black" size="4px">&nbsp;&nbsp;Number of Brand</font></strong>
+										</td>
 										<td><strong><font face="Arial" color="Black"
 												size="4px">&nbsp;&nbsp;Delete</font></strong></td>
 									</tr>
 
-									<c:forEach items="${brands}" var="b" varStatus="idx">
+									<c:forEach items="${stores}" var="s">
 										<tr height="40">
 											<td>
 												<div id="Black">
-													<a href="BrandDetails/${b.getBrand_id()}">${b.getBrand_name()}</a>
-												</div>
+													<a href="StoreDetails/${s.getStore_id()}">${s.getStore_name()}</a>
 											</td>
-
-											<td><c:forEach items="${accreditations.get(idx.index)}"
-													var="a">
-													<p>${a.getAccreditation_name()}--${a.getRating()}</p>
-												</c:forEach></td>
-											<td>${b.getBrand_category()}</td>
+											</div>
+											<td>${s.getStore_address()}</td>
+											<td>${s.getBrands_num()}</td>
 											<td><input type="checkbox" name="delete"
-												value="${b.getBrand_id()}"></td>
+												value="${s.getStore_id()}"></td>
 										</tr>
 									</c:forEach>
 
@@ -211,4 +199,3 @@ a:active {
 	}
 </script>
 </html>
-
