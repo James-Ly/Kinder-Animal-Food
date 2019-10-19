@@ -37,7 +37,7 @@
 		</p>
 	
 	</security:authorize>
-	<a href="${pageContext.request.contextPath}/locate">Locate page</a>
+	<a href="${pageContext.request.contextPath}/client/locate">Locate page</a>
 	
 	<hr>
 	

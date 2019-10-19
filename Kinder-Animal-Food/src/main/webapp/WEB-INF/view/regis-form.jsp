@@ -76,7 +76,7 @@
 					            </div>
 					        </div>
 					    </div>
-					    <div clas="error-container">
+					    <div class="error-container">
 					    	<form:errors path="userName" class="error" />
 					    	<form:errors path="password" class="error" />
 					    	<form:errors path="matchingPassword" class="error" />
@@ -121,6 +121,7 @@
 						<div style="margin-top: 10px" class="form-group">						
 							<div class="col-sm-6 controls">
 								<button type="submit" class="btn btn-primary">Register</button>
+								<button type="reset" class="btn btn-secondary">Reset</button>
 							</div>
 						</div>
 						

@@ -57,7 +57,7 @@ public class RegistrationController {
 //		 form validation
 		 if (theBindingResult.hasErrors()){
 			 return "regis-form";
-		}
+		 }
 
 		// check the database if user already exists
         User existing = userService.findByUserName(userName);

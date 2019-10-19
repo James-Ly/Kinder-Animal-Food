@@ -21,4 +21,6 @@ public interface StoreService {
 	Integer countStore();
 	
 	boolean setBrandsNum(Integer store_id, Integer brands_num);
+
+	List<Store> searchStoreByDistance(String[] userCoordinates, List<Integer> storeId);
 }

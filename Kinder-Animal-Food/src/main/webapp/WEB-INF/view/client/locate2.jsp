@@ -14,26 +14,29 @@
   </head>
   <body>
   <div class="left-panel" >
-  	<form action="${pageContext.request.contextPath}/client/locate">
+  	<form:form action="${pageContext.request.contextPath}/client/locate-brand" modelAttribute="crmLocate">
   		<div class="error-container">
-			<div id="error"></div>
+			<form:errors path="brandName" class="error" />
+			<form:errors path="location" class="error" />
 		</div>
+		
+		
 		<!-- Brand name -->
 		<div style="margin-bottom: 25px" class="input-group">
-			<span class="input-group-text" >Brand</span> 
-			<input placeholder="Enter a brand name" class="form-control" id ="input-brand-name" />
+			<span class="input-group-text">Brand</span> 
+			<form:input path="brandName" placeholder="Enter a brand name" class="form-control" />
 		</div>
 		<div style="margin-bottom: 25px" class="input-group">
-			<span class="input-group-text" >Location</span> 
-			<input placeholder="Enter a location" class="form-control" id="store_address"/>
+			<span class="input-group-text">Location</span> 
+			<form:input path="location" placeholder="Enter a location" class="form-control" id="store_address" />
 		</div>
 		
 		<div style="margin-top: 10px" class="form-group">						
 			<div class="col-sm-6 controls">
-					<button id = "submitButton" class="btn btn-primary">Submit</button>
+					<button type="submit" class="btn btn-primary">Submit</button>
 			</div>
 		</div>
-  	</form>
+  	</form:form>
   </div>
   
   <div style="width: 640px; height: 480px" id="mapContainer"></div>
@@ -42,28 +45,10 @@
   
   <script>
   	//alert("${location}");
-  	
-  	$("#submitButton").click(function(event){
-  		var brandName = $("#input-brand-name").val();
-  		var location = $("#store_address")[0].value;
-  		var search = {
-  				"brandName":brandName,
-  				"location":location
-  		};
-  		console.log(search);
-  		$.ajax({
-  		  type: "GET",
-  		  url: "http://localhost:8080/Kinder-Animal-Food/api/locate",
-  		  data: search,
-  		  cache: false,
-  		  success: function(data){
-  		    console.log(data);
-  		  	addInfoBubble(map,data);
-  		  }
-  		});
-  		event.preventDefault();
-  	})
-  	
+  	console.log("${addressList}");
+  	console.log("${addressName}");
+  	console.log("${addressLat}");
+  	console.log("${addressLng}");
   	
     // Initialize the platform object:
     var platform = new H.service.Platform({
@@ -88,7 +73,7 @@
     var mapEvents = new H.mapevents.MapEvents(map);
 
     // Add info Bubble for markers
-	function addInfoBubble(map,data) {
+	function addInfoBubble(map) {
 		  var group = new H.map.Group();
 
 		  map.addObject(group);
@@ -104,16 +89,10 @@
 			  // show info bubble
 			  ui.addBubble(bubble);
 		  }, false);
-		  for(i = 0;i < data.length ; i++){
-			  addMarkerToGroup(group, {lat: data[i].store_latitude,lng:data[i].store_longitude},
-					    '<div>'+data[i].store_name +
-					    '</div><div >'+data[i].store_address+'</div>');
-		  }
-		  map.setCenter({lat: data[data.length-1].store_latitude,lng:data[data.length-1].store_longitude});
-		  map.setZoom(14);
-		  /**addMarkerToGroup(group, {lat: -33.9121888,lng:151.1157381},
+
+		  addMarkerToGroup(group, {lat: -33.9121888,lng:151.1157381},
 		    '<div><a href=\'http://www.mcfc.co.uk\' >Manchester City</a>' +
-		    '</div><div >City of Manchester Stadium<br>Capacity: 48,000</div>'); **/
+		    '</div><div >City of Manchester Stadium<br>Capacity: 48,000</div>');
 	}
 	
 	function addMarkerToGroup(group, coordinate, html) {
@@ -124,6 +103,7 @@
 		group.addObject(marker);
 	}
 	
+	addInfoBubble(map);
 	
 	/*******************************
 		AUTO ADDRESS SEARCH
