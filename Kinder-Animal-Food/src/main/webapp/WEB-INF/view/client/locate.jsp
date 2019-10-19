@@ -4,49 +4,85 @@
 <!doctype html>
 <html>
   <head>
-	  <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	  <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
 	  <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
 	  <script src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js" type="text/javascript" charset="utf-8"></script>
 	  <script src="https://js.api.here.com/v3/3.1/mapsjs-ui.js" type="text/javascript" charset="utf-8"></script>
 	  <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
 	  <script src="http://code.jquery.com/jquery-1.10.1.min.js" type="text/javascript" charset="utf-8"></script>
+	  <!-- Bootstrap core CSS -->
+	  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css">
+	  <!-- CSS for this page -->
+	  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/locate.css" rel="stylesheet">
+	  
   </head>
   <body>
-  <div class="left-panel" >
-  	<form action="${pageContext.request.contextPath}/client/locate">
-  		<div class="error-container">
-			<div id="error"></div>
-		</div>
-		<!-- Brand name -->
-		<div style="margin-bottom: 25px" class="input-group">
-			<span class="input-group-text" >Brand</span> 
-			<input placeholder="Enter a brand name" class="form-control" id ="input-brand-name" />
-		</div>
-		<div style="margin-bottom: 25px" class="input-group">
-			<span class="input-group-text" >Location</span> 
-			<input placeholder="Enter a location" class="form-control" id="store_address"/>
-		</div>
-		
-		<div style="margin-bottom: 25px" class="input-group">
-			<span class="input-group-text">Search radius</span> 
-			<select class = "from-control" id = "search_radius">
-				<option value = "2500">2.5KM</option>
-				<option value = "5000">5KM</option>
-				<option value = "7500">7.5KM</option>
-			</select>
-		</div>
-		
-		<div style="margin-top: 10px" class="form-group">						
-			<div class="col-sm-6 controls">
-					<button id = "submitButton" class="btn btn-primary">Submit</button>
-			</div>
-		</div>
-  	</form>
-  </div>
-  
-  <div style="width: 640px; height: 480px" id="mapContainer"></div>
-  
+	  <!-- Navigation -->
+	  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav" style = "position:relative">
+	    <div class="container">
+	      <a class="navbar-brand js-scroll-trigger" href="#page-top">Kinder-Animal-Food</a>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="navbar-toggler-icon"></span>
+	      </button>
+	      <div class="collapse navbar-collapse" id="navbarResponsive">
+	        <ul class="navbar-nav ml-auto">
+	          <li class="nav-item">
+	            <a class="nav-link js-scroll-trigger" href="${pageContext.request.contextPath}">Browse</a>
+	          </li>
+	          <li class="nav-item">
+	            <a class="nav-link js-scroll-trigger" href="${pageContext.request.contextPath}/client/locate">Locate</a>
+	          </li>
+	          <li class="nav-item">
+	            <a class="nav-link js-scroll-trigger" href="/" id = "logout-button">Logout</a>
+	          </li>
+	          <form:form action="${pageContext.request.contextPath}/logout" class="hidden" method="POST" id="logout-form">
+		          	<input type = "submit"  id="logout-button" value = "Logout">
+			  </form:form>
+	        </ul>
+	      </div>
+	    </div>
+	  </nav>
+	  <div class="body-main">
+		  <div class = "body-main-left-panel">
+		  	<form action="${pageContext.request.contextPath}/client/locate">
+		  		<div class="error-container">
+					<div id="error"></div>
+				</div>
+				<!-- Brand name -->
+				<div style="margin-bottom: 25px" class="input-group">
+					<span class="input-group-text" >Brand</span> 
+					<input placeholder="Enter a brand name" class="form-control" id ="input-brand-name" />
+				</div>
+				<div style="margin-bottom: 25px" class="input-group">
+					<span class="input-group-text" >Location</span> 
+					<input placeholder="Enter a location" class="form-control" id="store_address"/>
+				</div>
+				
+				<div style="margin-bottom: 25px" class="input-group">
+					<span class="input-group-text">Search radius</span> 
+					<select class = "from-control" id = "search_radius">
+						<option value = "2500">2.5KM</option>
+						<option value = "5000">5KM</option>
+						<option value = "7500">7.5KM</option>
+					</select>
+				</div>
+				
+				<div style="margin-top: 10px" class="form-group">						
+					<div class="col-sm-6 controls">
+							<button id = "submitButton" class="btn btn-primary">Submit</button>
+					</div>
+				</div>
+		  	</form>
+		  </div>
+		  <div class = "body-main-middle-panel">
+		  	<div style="width: 100%; height: 100%; display:block-inline" id="mapContainer"></div>
+		  </div>
+		  <div class = "body-main-right-panel" id = "body-main-right-panel">
+		  	
+		  </div>
+	  </div>
   
   
   <script>
@@ -92,6 +128,7 @@
   		  success: function(data){
   		    console.log(data);
   		  	addInfoBubble(map,data,group);
+  		  	addDataToRightPanel(data.storeList);
   		  },
   		  error: function(xhr, error){
   			  group.removeAll();
@@ -142,6 +179,14 @@
 	}
 	
 	/******************************
+		LOG OUT BUTTON
+	******************************/
+	$("#logout-button").click(function(event){
+		event.preventDefault();
+		$("#logout-form").submit();
+	})
+	
+	/******************************
 		MAP EVENT CONTROLLER
 	******************************/
 	
@@ -154,6 +199,118 @@
 	});
     
 	var behavior = new H.mapevents.Behavior(mapEvents);
+	
+	/*******************************************
+		APPEND DIV ELEMENT TO THE RIGHT PANEL
+	*******************************************/
+	
+	function addDataToRightPanel(storeList){
+		$("#body-main-right-panel").empty();
+		var numberInList = 8;
+		var currentPage = 1;
+		var numberOfPage = Math.floor(storeList.length/numberInList);
+		for(i = 0 ; i < storeList.length && i < numberInList ; i++){
+			$("#body-main-right-panel").append($('<div class = "store-display">' +
+			  		'<div class = "store-display-storeName">'+storeList[i].store_name+'</div>' +
+			  		'<div class = "store-display-storeAddress">'+storeList[i].store_address+'</div></div>'));
+		}
+		if(storeList.length >= numberInList){
+			$("#body-main-right-panel").append('<div class = "store-display-pagination">'+
+			  		'<div class = "align-vertical disabled" id = "pagination-allleft"> << </div>' +
+					'<div class = "align-vertical disabled" id = "pagination-left"> < </div>' +
+					'<div class = "align-vertical active" id = "pagination-right">  > </div>'+
+					'<div class = "align-vertical active" id = "pagination-allright"> >> </div></div>');	
+		}
+		document.getElementById("pagination-right").addEventListener("click",movingRight);
+		document.getElementById("pagination-left").addEventListener("click",movingLeft);
+		document.getElementById("pagination-allright").addEventListener("click",movingAllRight);
+		document.getElementById("pagination-allleft").addEventListener("click",movingAllLeft);
+		function movingRight(){
+			var direction = "right";
+			currentPage = movingPagination(direction,storeList,currentPage,numberInList);
+		}
+		function movingLeft(){
+			var direction = "left";
+			currentPage = movingPagination(direction,storeList,currentPage,numberInList);
+		}
+		function movingAllRight(){
+			var direction = "allright";
+			currentPage = movingPagination(direction,storeList,currentPage,numberInList);
+		}
+		function movingAllLeft(){
+			var direction = "allleft";
+			currentPage = movingPagination(direction,storeList,currentPage,numberInList);
+		}
+		
+	}
+	
+	function movingPagination(direction,storeList,oldCurrentPage,numberInList){
+		$("#body-main-right-panel").empty();
+		var currentPage = oldCurrentPage;
+		if(direction === "right"){
+			currentPage = currentPage + 1;	
+		}
+		if(direction === "left"){
+			currentPage = currentPage - 1;
+		}
+		if(direction === "allright"){
+			currentPage = Math.floor(storeList.length/numberInList);
+		}
+		if(direction === "allleft"){
+			currentPage = 1;
+		}
+		for(i = (currentPage-1)*numberInList ; i < storeList.length && i < currentPage*numberInList ; i++){
+			$("#body-main-right-panel").append($('<div class = "store-display">' +
+				  	'<div class = "store-display-storeName">'+storeList[i].store_name+'</div>' +
+				  	'<div class = "store-display-storeAddress">'+storeList[i].store_address+'</div></div>'));
+		}
+		if(currentPage == 1){
+			$("#body-main-right-panel").append('<div class = "store-display-pagination">'+
+			  		'<div class = "align-vertical disabled" id = "pagination-allleft"> << </div>' +
+					'<div class = "align-vertical disabled" id = "pagination-left"> < </div>' +
+					'<div class = "align-vertical active" id = "pagination-right">  > </div>'+
+					'<div class = "align-vertical active" id = "pagination-allright"> >> </div></div>');
+			document.getElementById("pagination-right").addEventListener("click",movingRight);
+			document.getElementById("pagination-allright").addEventListener("click",movingAllRight);
+		} else if (currentPage == Math.floor(storeList.length/numberInList)){
+			$("#body-main-right-panel").append('<div class = "store-display-pagination">'+
+			  		'<div class = "align-vertical active" id = "pagination-allleft"> << </div>' +
+					'<div class = "align-vertical active" id = "pagination-left"> < </div>' +
+					'<div class = "align-vertical disabled" id = "pagination-right">  > </div>'+
+					'<div class = "align-vertical disabled" id = "pagination-allright"> >> </div></div>');
+			document.getElementById("pagination-left").addEventListener("click",movingLeft);
+			document.getElementById("pagination-allleft").addEventListener("click",movingAllLeft);
+		} else {
+			$("#body-main-right-panel").append('<div class = "store-display-pagination">'+
+			  		'<div class = "align-vertical active" id = "pagination-allleft"> << </div>' +
+					'<div class = "align-vertical active" id = "pagination-left"> < </div>' +
+					'<div class = "align-vertical active" id = "pagination-right">  > </div>'+
+					'<div class = "align-vertical active" id = "pagination-allright"> >> </div></div>');
+			document.getElementById("pagination-right").addEventListener("click",movingRight);
+			document.getElementById("pagination-left").addEventListener("click",movingLeft);
+			document.getElementById("pagination-allright").addEventListener("click",movingAllRight);
+			document.getElementById("pagination-allleft").addEventListener("click",movingAllLeft);
+		}
+		
+		function movingRight(){
+			var direction = "right";
+			currentPage = movingPagination(direction,storeList,currentPage,numberInList);
+		}
+		function movingLeft(){
+			var direction = "left";
+			currentPage = movingPagination(direction,storeList,currentPage,numberInList);
+		}
+		function movingAllRight(){
+			var direction = "allright";
+			currentPage = movingPagination(direction,storeList,currentPage,numberInList);
+		}
+		function movingAllLeft(){
+			var direction = "allleft";
+			currentPage = movingPagination(direction,storeList,currentPage,numberInList);
+		}
+		return currentPage;
+	}
+	
 	
 	
 	/*******************************

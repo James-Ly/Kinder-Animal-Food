@@ -38,16 +38,11 @@
 	
 	</security:authorize>
 	<a href="${pageContext.request.contextPath}/client/locate">Locate page</a>
-	
 	<hr>
-	
-	
 	<!-- Add a logout button -->
 	<form:form action="${pageContext.request.contextPath}/logout" 
 			   method="POST">
-	
 		<input type="submit" value="Logout" />
-	
 	</form:form>
 	
 </body>
