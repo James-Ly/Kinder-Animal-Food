@@ -3,6 +3,7 @@ package au.usyd.elec5619.KAF.service;
 import java.util.List;
 
 import au.usyd.elec5619.KAF.model.Store;
+import au.usyd.elec5619.KAF.user.CrmStoreLocation;
 
 public interface StoreService {
 
@@ -22,5 +23,5 @@ public interface StoreService {
 	
 	boolean setBrandsNum(Integer store_id, Integer brands_num);
 
-	List<Store> searchStoreByDistance(String[] userCoordinates, List<Integer> storeId);
+	List<Store> searchStoreByDistance(String[] userCoordinates, List<Integer> storeId,int searchRadius);
 }

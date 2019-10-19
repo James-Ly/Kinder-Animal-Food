@@ -1,6 +1,5 @@
 package au.usyd.elec5619.KAF.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +7,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,10 +16,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import au.usyd.elec5619.KAF.model.Brand;
-import au.usyd.elec5619.KAF.model.Store;
 import au.usyd.elec5619.KAF.service.BrandService;
 import au.usyd.elec5619.KAF.service.ProductService;
 import au.usyd.elec5619.KAF.service.StoreService;
+import au.usyd.elec5619.KAF.user.CrmStoreLocation;
 
 
 @RestController
@@ -38,17 +36,22 @@ public class RESTController {
 	StoreService storeService;
 	
 	@GetMapping("/locate")
-	public @ResponseBody List<Store> showBrandLocation(@RequestParam("brandName") String brandName, @RequestParam("location") String location) {
+	public @ResponseBody CrmStoreLocation showBrandLocation(@RequestParam("brandName") String brandName, 
+			@RequestParam("location") String location,@RequestParam("searchRadius") int searchRadius) {
 		List<Brand> theBrand = brandService.searchBrand(brandName);
 		List<Integer> storeId = null;
-		List<Store> storeList = new ArrayList<Store>();
+		CrmStoreLocation result = new CrmStoreLocation();
 		String[] userCoordinates = addressGetCoordinate(location);
+		
 		if(theBrand != null) {
 			storeId = productService.searchStoreByBrand(theBrand.get(0).getBrand_id());
-			storeList = storeService.searchStoreByDistance(userCoordinates,storeId);
+			result.setStoreList(storeService.searchStoreByDistance(userCoordinates,storeId,searchRadius));
 		}
+		result.setLat(userCoordinates[0]);
+		result.setLng(userCoordinates[1]);
+		result.setRadius(searchRadius);
 		
-		return storeList;
+		return result;
 	}
 	
 	@GetMapping("/testing")

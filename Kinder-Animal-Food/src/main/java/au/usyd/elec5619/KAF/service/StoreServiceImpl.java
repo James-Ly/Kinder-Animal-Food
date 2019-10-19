@@ -96,24 +96,24 @@ public class StoreServiceImpl implements StoreService {
 
 	@Override
 	@Transactional
-	public List<Store> searchStoreByDistance(String[] userCoordinates, List<Integer> storeId) {
+	public List<Store> searchStoreByDistance(String[] userCoordinates, List<Integer> storeId,int searchRadius) {
 		List<Store> result = new ArrayList<Store>();
 		for(int i = 0; i < storeId.size();i++) {
 			Store validStore = storeDao.searchStore(storeId.get(i));
-			if(validDistance(userCoordinates,validStore)) {
+			if(validDistance(userCoordinates,validStore,searchRadius)) {
 				result.add(validStore);
 			}
 		}
 		return result;
 	}
 
-	private boolean validDistance(String[] userCoordinates, Store validStore) {
+	private boolean validDistance(String[] userCoordinates, Store validStore,int searchRadius) {
 		double lat1 = Double.parseDouble(userCoordinates[0]);
 		double lat2 = Double.parseDouble(validStore.getStore_latitude());;
 		double lng1 = Double.parseDouble(userCoordinates[1]);;
 		double lng2 = Double.parseDouble(validStore.getStore_longitude());;
 		double distance = distance(lat1,lat2,lng1,lng2,0.0,0.0);
-		return distance <= 25000;
+		return distance <= searchRadius;
 	}
 	
 	private double distance(double lat1, double lat2, double lon1,

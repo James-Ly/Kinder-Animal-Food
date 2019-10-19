@@ -28,6 +28,15 @@
 			<input placeholder="Enter a location" class="form-control" id="store_address"/>
 		</div>
 		
+		<div style="margin-bottom: 25px" class="input-group">
+			<span class="input-group-text">Search radius</span> 
+			<select class = "from-control" id = "search_radius">
+				<option value = "2500">2.5KM</option>
+				<option value = "5000">5KM</option>
+				<option value = "7500">7.5KM</option>
+			</select>
+		</div>
+		
 		<div style="margin-top: 10px" class="form-group">						
 			<div class="col-sm-6 controls">
 					<button id = "submitButton" class="btn btn-primary">Submit</button>
@@ -42,28 +51,6 @@
   
   <script>
   	//alert("${location}");
-  	
-  	$("#submitButton").click(function(event){
-  		var brandName = $("#input-brand-name").val();
-  		var location = $("#store_address")[0].value;
-  		var search = {
-  				"brandName":brandName,
-  				"location":location
-  		};
-  		console.log(search);
-  		$.ajax({
-  		  type: "GET",
-  		  url: "http://localhost:8080/Kinder-Animal-Food/api/locate",
-  		  data: search,
-  		  cache: false,
-  		  success: function(data){
-  		    console.log(data);
-  		  	addInfoBubble(map,data);
-  		  }
-  		});
-  		event.preventDefault();
-  	})
-  	
   	
     // Initialize the platform object:
     var platform = new H.service.Platform({
@@ -85,14 +72,40 @@
     // Create the default UI:
     var ui = H.ui.UI.createDefault(map, defaultLayers);
     
-    var mapEvents = new H.mapevents.MapEvents(map);
+    var group = new H.map.Group();
+    
+    $("#submitButton").click(function(event){
+  		var brandName = $("#input-brand-name").val();
+  		var location = $("#store_address")[0].value;
+  		var searchRadius = $("#search_radius").val();
+  		var search = {
+  				"brandName":brandName,
+  				"location":location,
+  				"searchRadius":searchRadius
+  		};
+  		console.log(search);
+  		$.ajax({
+  		  type: "GET",
+  		  url: "http://localhost:8080/Kinder-Animal-Food/api/locate",
+  		  data: search,
+  		  cache: false,
+  		  success: function(data){
+  		    console.log(data);
+  		  	addInfoBubble(map,data,group);
+  		  },
+  		  error: function(xhr, error){
+  			  group.removeAll();
+  		  }
+  		});
+  		event.preventDefault();
+  	})
 
     // Add info Bubble for markers
-	function addInfoBubble(map,data) {
-		  var group = new H.map.Group();
-
+	function addInfoBubble(map,data,group) {
+		  group.removeAll();
+		  
 		  map.addObject(group);
-
+	
 		  // add 'tap' event listener, that opens info bubble, to the group
 		  group.addEventListener('tap', function (evt) {
 			  // event target is the marker itself, group is a parent event target
@@ -104,12 +117,16 @@
 			  // show info bubble
 			  ui.addBubble(bubble);
 		  }, false);
-		  for(i = 0;i < data.length ; i++){
-			  addMarkerToGroup(group, {lat: data[i].store_latitude,lng:data[i].store_longitude},
-					    '<div>'+data[i].store_name +
-					    '</div><div >'+data[i].store_address+'</div>');
+		  var storeList = data.storeList;
+		  for(i = 0;i < storeList.length ; i++){
+			  addMarkerToGroup(group, {lat: storeList[i].store_latitude,lng:storeList[i].store_longitude},
+					    '<div>'+storeList[i].store_name +
+					    '</div><div >'+storeList[i].store_address+'</div>');
 		  }
-		  map.setCenter({lat: data[data.length-1].store_latitude,lng:data[data.length-1].store_longitude});
+		  var circle = new H.map.Circle({lat: data.lat,lng:data.lng}, data.radius);
+		  group.addObject(circle);
+		  
+		  map.setCenter({lat: data.lat,lng:data.lng});
 		  map.setZoom(14);
 		  /**addMarkerToGroup(group, {lat: -33.9121888,lng:151.1157381},
 		    '<div><a href=\'http://www.mcfc.co.uk\' >Manchester City</a>' +
@@ -123,6 +140,20 @@
 		marker.setData(html);
 		group.addObject(marker);
 	}
+	
+	/******************************
+		MAP EVENT CONTROLLER
+	******************************/
+	
+	var mapEvents = new H.mapevents.MapEvents(map);
+
+	// Add event listener:
+	map.addEventListener('tap', function(evt) {
+	   // Log 'tap' and 'mouse' events:
+	   console.log(evt.type, evt.currentPointer.type); 
+	});
+    
+	var behavior = new H.mapevents.Behavior(mapEvents);
 	
 	
 	/*******************************
