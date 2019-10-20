@@ -4,15 +4,16 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page session="false"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
+
+
 <html>
 <head>
 <title>Insert Data</title>
 <meta http-equiv="content-language" content="en">
 <meta charset="UTF-8">
-<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"
-	type="text/javascript"></script>
 </head>
 <body>
+<jsp:include page="Navigator.jsp" flush="true"/>
 	<form:form id="storeInsertForm" modelAttribute="store"
 		action="storeInsertProcess" method="post">
 		<table align="center">
