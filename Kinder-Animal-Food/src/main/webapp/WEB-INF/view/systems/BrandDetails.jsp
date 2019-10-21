@@ -36,9 +36,6 @@ a:active {
 	color: white;
 }
 
-#HWHP a {
-	font-family: "华文琥珀";
-}
 
 #Arial a {
 	font-family: "Arial";
@@ -53,139 +50,93 @@ a:active {
 	color: blue;
 	font-family: "Arial";
 }
+
+#Summary a {
+	color: black;
+	font-family: "Britannic";
+	font-size:20pt;
+}
 </style>
+
+<link
+	href="${pageContext.request.contextPath}/resources/system/css/system.css"
+	rel="stylesheet">
+<link
+	href="${pageContext.request.contextPath}/resources/system/css/bootstrap.css"
+	rel="stylesheet">
+<link
+	href="${pageContext.request.contextPath}/resources/system/fontawesome/css/all.css"
+	rel="stylesheet">
+<script
+	src="${pageContext.request.contextPath}/resources/system/js/jquery-3.4.1.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/system/js/bootstrap.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/system/js/SelectAll.js"></script>
+	
 <title>StoreDetails</title>
 </head>
 <body>
 
-	<!--Navigation Bar-->
+	<jsp:include page="Navigator.jsp" flush="true" />
 
-	<table width=100% height="100" border="0" bgcolor="#4a4a48">
-		<tr>
-			<td align="center">
-				<div id="HWHP">
-					<a href=" " style="font-size: 40px">Kinder Animal Food</a>
-				</div>
-			</td>
-			<td>&nbsp;</td>
-			<td align="right">
-				<div id="Arial">
-					<a href="#" style="font-size: 25px">LOGOUT&nbsp;&nbsp;</a>
-				</div>
-			</td>
-		</tr>
-	</table>
+	<!--Brand Details  -->
+	<td align="left" valign="top" width=100%>
+		<table bgcolor="#f5f5f5" width=100% >
+			<tr>
+				<td width=100% colspan="2" align="left" valign="top">
+					<font face="Braggadocio" size="30" color="black">${brand.getBrand_name()}</font>
+					<hr>
+				</td>
+			</tr>
+			<tr>
+				<td align="left" valign="top" width="50">
+					<p>
+					<div id="Summary">
+						<a href="${brand.getBrand_id()}">Summary</a>
 
-	<!--Control Panel Start -->
+					</div>
+					</p>
+					<p>
+					<div id="Summary">
+						<a href="../BrandAccreditation/${brand.getBrand_id()}">Accreditation</a>
+					</div>
+					</p>
+				</td>
 
-	<table width=100% height=100% bgcolor=white>
-		<tr>
-			<td valign="top" width="250">
-				<table width="250" height="1000" border="0" bgcolor="#4a4a48">
-					<tr>
-						<td align="center" height="100"><strong><font
-								face="Arial" color="white" size="5">CONTROL PANEL</font></strong></td>
-					</tr>
-					<tr>
-						<td align="left" height="40">
-							<div id="Arial">
-								<a href="#" style="font-size: 15px">&nbsp;&nbsp;&nbsp;Report</a>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td align="left" height="40">
-							<div id="Arial">
-								<a href="/Kinder-Animal-Food/systems/Insert"
-									style="font-size: 15px">&nbsp;&nbsp;&nbsp;Import Data</a>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td align="left" height="40">
-							<div id="Arial">
-								<a href="/Kinder-Animal-Food/systems/UpdateDeleteBrand"
-									style="font-size: 15px">&nbsp;&nbsp;&nbsp;Update/ Delete
-									Brand</a>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td align="left" height="40">
-							<div id="Arial">
-								<a href="/Kinder-Animal-Food/systems/UpdateDeleteStore"
-									style="font-size: 15px">&nbsp;&nbsp;&nbsp;Update/ Delete
-									Store</a>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td align="left" height="40">
-							<div id="Arial">
-								<a href="/Kinder-Animal-Food/systems/UpdateDeleteAccreditation"
-									style="font-size: 15px">&nbsp;&nbsp;&nbsp;Update/ Delete
-									Accreditation</a>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td align="left" height=500>&nbsp;</td>
-					</tr>
-				</table>
-			</td>
-			<!--Control Panel Finish -->
-			<!--Brand Details  -->
-			<td align="left" valign="top" width=100%>
-				<table bgcolor="#f5f5f5">
-					<tr>
-						<td width=100% colspan="2" align="left" valign="top">
-							<p>${brand.getBrand_name()}</p>
-						</td>
-					</tr>
-					<tr>
-						<td align="left" valign="top">
-							<p>
-							<div id="Black">
-								<a href="${brand.getBrand_id()}">Summary</a>
-							</div>
-							</p>
-							<p>
-							<div id="Black">
-								<a href="../BrandAccreditation/${brand.getBrand_id()}">Accreditation</a>
-							</div>
-							</p>
-						</td>
+				<td align="center" width=80%>
 
-						<td>
+					<table width=100% height=500 >
+						<tr>
+							<td colspan="2" align="center"><img height="200" src="${brand.getImage()}" alt="${brand.getBrand_name()}"/></td>
+						</tr>
+						<tr>
+							<td valign="top" width =100% align="center" width="500">Brand name:&nbsp;&nbsp;&nbsp;${brand.getBrand_name()}</td>
+						
+						</tr>
+						<tr>
+							<td valign="top" align="center">Category:&nbsp;&nbsp;&nbsp;${brand.getBrand_category()}</td>
+						</tr>
+						<tr>
 
-							<table width=100% height=500>
-								<tr>
-									<td valign="top" align="center">Brand name:</td>
-									<td valign="top">${brand.getBrand_name()}</td>
-								</tr>
-								<tr>
-									<td valign="top" align="center">Category:</td>
-									<td valign="top">${brand.getBrand_category()}</td>
-								</tr>
-								<tr>
-									<td colspan="2" valign="top" align="center">
-										<p>${accreditations.size()}accreditation(s) for this
-											brand.
-									</td>
-								</tr>
-								<tr>
-									<td colspan="2" valign="top" align="center">
-										<div id="Blue">
-											<a
-												href="javascript:void(window.open('../BrandEdit/${brand.getBrand_id()}','','height=529, width=700, top=265,left=645, toolbar=no, menubar=no, scrollbars=yes, resizable=yes,location=no, status=no'))"
-												target="_self">Edit Brand</a>
-										</div>
-									</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-				</table>
-			</td>
-		</tr>
+							<td  valign="top" align="center" >
+								${accreditations.size()} &nbsp;accreditation(s) for this brand.
+							</td>
+						</tr>
+						<tr>
+	
+							<td  valign="top" align="center">
+								<div id="Blue">
+									<a
+										href="javascript:void(window.open('../BrandEdit/${brand.getBrand_id()}','','height=529, width=700, top=265,left=645, toolbar=no, menubar=no, scrollbars=yes, resizable=yes,location=no, status=no'))"
+										target="_self">Edit Brand</a>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</td>
+	</tr>
 	</table>

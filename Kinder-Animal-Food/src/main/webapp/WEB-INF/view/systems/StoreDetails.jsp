@@ -53,130 +53,84 @@ a:active {
 	color: blue;
 	font-family: "Arial";
 }
+#Summary a {
+	color: black;
+	font-family: "Britannic";
+	font-size:20pt;
+}
 </style>
+
+<link
+	href="${pageContext.request.contextPath}/resources/system/css/system.css"
+	rel="stylesheet">
+<link
+	href="${pageContext.request.contextPath}/resources/system/css/bootstrap.css"
+	rel="stylesheet">
+<link
+	href="${pageContext.request.contextPath}/resources/system/fontawesome/css/all.css"
+	rel="stylesheet">
+<script
+	src="${pageContext.request.contextPath}/resources/system/js/jquery-3.4.1.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/system/js/bootstrap.js"></script>
+
 <title>StoreDetails</title>
 </head>
 <body>
+	<jsp:include page="Navigator.jsp" flush="true" />
 
-	<!--Navigation Bar-->
+	<!--Store Details  -->
+	<td align="left" valign="top" width=100%>
+		<table bgcolor="#f5f5f5" width=100%>
+			<tr>
+				<td width=100% colspan="2" align="left" valign="top">
+					<font face="Braggadocio" size="30" color="black">${store.getStore_name()}</font>
+					<hr>
+				</td>
+			</tr>
+			<tr>
+				<td align="left" valign="top">
+					<p>
+					<div id="Summary">
+						<a href="${store.getStore_id()}">Summary</a>
+					</div>
+					</p>
+					<p>
+					<div id="Summary">
+						<a href="../StoreBrand/${store.getStore_id()}">Brand</a>
+					</div>
+					</p>
+				</td>
 
-	<table width=100% height="100" border="0" bgcolor="#4a4a48">
-		<tr>
-			<td align="center">
-				<div id="HWHP">
-					<a href="/Kinder-Animal_food/systems/" style="font-size: 40px">Kinder
-						Animal Food</a>
-				</div>
-			</td>
-			<td>&nbsp;</td>
-			<td align="right">
-				<div id="Arial">
-					<a href="#" style="font-size: 25px">LOGOUT&nbsp;&nbsp;</a>
-				</div>
-			</td>
-		</tr>
-	</table>
-
-	<!--Control Panel Start -->
-
-	<table width=100% height=100% bgcolor=white>
-		<tr>
-			<td valign="top" width="250">
-				<table width="250" height="1000" border="0" bgcolor="#4a4a48">
-					<tr>
-						<td align="center" height="100"><strong><font
-								face="Arial" color="white" size="5">CONTROL PANEL</font></strong></td>
-					</tr>
-					<tr>
-						<td align="left" height="40">
-							<div id="Arial">
-								<a href="#" style="font-size: 15px">&nbsp;&nbsp;&nbsp;Report</a>
+				<td align="center" width=80%>
+					<table width=100% height=500>
+						<tr>
+							<td valign="top" align="center"><font size=3>Store name:&nbsp;&nbsp;&nbsp;${store.getStore_name()}</font></td>
+						</tr>
+						<tr>
+							<td valign="top" align="center"><font size=3>Address:&nbsp;&nbsp;&nbsp;${store.getStore_address()}</font></td>
+						</tr>
+						<tr>
+							<td valign="top" align="center"><font size=3>State:&nbsp;&nbsp;&nbsp;${store.getStore_state()}</font></td>
+						</tr>
+						<tr>
+							<td valign="top" align="center"><font size=3>Post Code:&nbsp;&nbsp;&nbsp;${store.getStore_postcode()}</font></td>
+						</tr>
+						<tr>
+							<td valign="top" align="center"><font size=3>${store.getBrands_num()} 
+								brand(s) in this store.</font></td>
+						</tr>
+						
+						<tr>
+							<td valign="top" align="center">
+							<div id="Blue">
+									<a href="javascript:void(window.open('StoreEdit/${store.getStore_id()}','','height=529, width=700, top=265,left=645, toolbar=no, menubar=no, scrollbars=yes, resizable=yes,location=no, status=no'))"
+									target="_self">Edit</a>
 							</div>
-						</td>
-					</tr>
-					<tr>
-						<td align="left" height="40">
-							<div id="Arial">
-								<a href="/Kinder-Animal-Food/systems/Insert"
-									style="font-size: 15px">&nbsp;&nbsp;&nbsp;Import Data</a>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td align="left" height="40">
-							<div id="Arial">
-								<a href="/Kinder-Animal-Food/systems/UpdateDeleteBrand"
-									style="font-size: 15px">&nbsp;&nbsp;&nbsp;Update/ Delete
-									Brand</a>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td align="left" height="40">
-							<div id="Arial">
-								<a href="/Kinder-Animal-Food/systems/UpdateDeleteStore"
-									style="font-size: 15px">&nbsp;&nbsp;&nbsp;Update/ Delete
-									Store</a>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td align="left" height="40">
-							<div id="Arial">
-								<a href="/Kinder-Animal-Food/systems/UpdateDeleteAccreditation"
-									style="font-size: 15px">&nbsp;&nbsp;&nbsp;Update/ Delete
-									Accreditation</a>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td align="left" height=500>&nbsp;</td>
-					</tr>
-				</table>
-			</td>
-			<!--Control Panel Finish -->
-			<!--Store Details  -->
-			<td align="left" valign="top" width=100%>
-				<table bgcolor="#f5f5f5">
-					<tr>
-						<td width=100% colspan="2" align="left" valign="top">
-							<p>${store.getStore_name()}</p>
-							<p>${store.getStore_address()}</p>
-						</td>
-					</tr>
-					<tr>
-						<td align="left" valign="top">
-							<p>
-							<div id="Black">
-								<a href="${store.getStore_id()}">Summary</a>
-							</div>
-							</p>
-							<p>
-							<div id="Black">
-								<a href="../StoreBrand/${store.getStore_id()}">Brand</a>
-							</div>
-							</p>
-						</td>
-
-						<td>
-							<table width=100% height=500>
-								<tr>
-									<td valign="top" align="center">Store name:</td>
-									<td valign="top">${store.getStore_name()}</td>
-								</tr>
-								<tr>
-									<td colspan="2" valign="top" align="center">${store.getBrands_num()}
-										brand(s) in this store.</td>
-								</tr>
-								<tr>
-									<div id="Blue">
-										<a
-											href="javascript:void(window.open('StoreEdit/${store.getStore_id()}','','height=529, width=700, top=265,left=645, toolbar=no, menubar=no, scrollbars=yes, resizable=yes,location=no, status=no'))"
-											target="_self">Edit</a>
-									</div>
-								</tr>
-							</table>
-						</td>
-					</tr>
-				</table>
-			</td>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</td>
