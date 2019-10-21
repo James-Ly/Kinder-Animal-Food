@@ -68,11 +68,24 @@ public class SystemsController {
 //	
 //	
 	@RequestMapping(value = "/UpdateDeleteAccreditation")
-	public ModelAndView UpdateDeleteAccreditation(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView UpdateDeleteAccreditation(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value = "accreditationName", defaultValue = "") String name) {
 
 		ModelAndView mav = new ModelAndView("systems/UpdateDeleteAccreditation");
 
 		List<Accreditation> accreditations = accreditationService.accreditationList();
+
+		if (!name.equals("")) {
+			List<Accreditation> results = new ArrayList<Accreditation>();
+			for (int i = 0; i < accreditations.size(); i++) {
+				if (accreditations.get(i).getAccreditation_name().toUpperCase().contains(name.toUpperCase())) {
+					results.add(accreditations.get(i));
+				}
+			}
+			accreditations.clear();
+			accreditations.addAll(results);
+		}
+
 		mav.addObject("accreditations", accreditations);
 
 		return mav;
@@ -159,10 +172,24 @@ public class SystemsController {
 //	Store delete functoin
 //
 	@RequestMapping(value = "/UpdateDeleteStore")
-	public ModelAndView showStore(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView showStore(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value = "storeName", defaultValue = "") String name) {
+
 		ModelAndView mav = new ModelAndView("systems/UpdateDeleteStore");
 
 		List<Store> stores = storeService.storeList();
+
+		if (!name.equals("")) {
+			List<Store> results = new ArrayList<Store>();
+			for (int i = 0; i < stores.size(); i++) {
+				if (stores.get(i).getStore_name().toUpperCase().contains(name.toUpperCase())) {
+					results.add(stores.get(i));
+				}
+			}
+			stores.clear();
+			stores.addAll(results);
+		}
+
 		mav.addObject("stores", stores);
 
 		return mav;
@@ -213,16 +240,6 @@ public class SystemsController {
 		String message = "";
 		// state uppercase
 		store.setStore_state(store.getStore_state().toUpperCase());
-//		if (store.getStore_state() == null) {
-//			return mav.addObject("message", "Null Input.");
-//		} else if (store.getStore_state().length() > 3) {
-//			return mav.addObject("message", "State incorrect.");
-//		}
-//		if (store.getStore_postcode() == null) {
-//			return mav.addObject("message", "Null Input.");
-//		} else if (store.getStore_postcode().length() > 4) {
-//			return mav.addObject("message", "Postcode incorrect.");
-//		}
 		// get longitude and latitude by address
 		String[] coordinates = addressGetCoordinate(store.getStore_address());
 		// if get longitude and latitude failed
@@ -252,7 +269,8 @@ public class SystemsController {
 //  Show store's brands
 	@RequestMapping("/StoreBrand/{id}")
 	public ModelAndView showStoreBrand(HttpServletRequest request, HttpServletResponse response,
-			@PathVariable("id") Integer store_id) {
+			@PathVariable("id") Integer store_id, @RequestParam(value = "brandName", defaultValue = "") String name) {
+
 		ModelAndView mav = new ModelAndView("systems/StoreBrand");
 
 		List<Brand> brands = new ArrayList<Brand>();
@@ -260,6 +278,17 @@ public class SystemsController {
 
 		for (int i = 0; i < brand_ids.size(); i++) {
 			brands.add(brandService.searchBrand(brand_ids.get(i)));
+		}
+
+		if (!name.equals("")) {
+			List<Brand> results = new ArrayList<Brand>();
+			for (int i = 0; i < brands.size(); i++) {
+				if (brands.get(i).getBrand_name().toUpperCase().contains(name.toUpperCase())) {
+					results.add(brands.get(i));
+				}
+			}
+			brands.clear();
+			brands.addAll(results);
 		}
 
 		mav.addObject("brands", brands);
@@ -273,12 +302,14 @@ public class SystemsController {
 	public String StoreBrandDelete(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(value = "delete", defaultValue = "") List<Integer> delete,
 			@PathVariable("id") Integer store_id) {
+
 		if (!delete.equals("")) {
 			for (int i = 0; i < delete.size(); i++) {
 				Product product = productService.searchProduct(store_id, delete.get(i));
 				productService.deleteProduct(product.getProduct_id());
 			}
 		}
+
 		// update store's brand number
 		Integer brands_num = productService.searchBrandByStore(store_id).size();
 		storeService.setBrandsNum(store_id, brands_num);
@@ -289,7 +320,7 @@ public class SystemsController {
 //  Add store's brands
 	@RequestMapping("/StoreBrand/StoreBrandAdd/{id}")
 	public ModelAndView StoreBrandAdd(HttpServletRequest request, HttpServletResponse response,
-			@PathVariable("id") Integer store_id) {
+			@PathVariable("id") Integer store_id, @RequestParam(value = "brandName", defaultValue = "") String name) {
 		ModelAndView mav = new ModelAndView("systems/StoreBrandAdd");
 
 		List<Integer> brand_ids = productService.searchBrandByStore(store_id);
@@ -301,19 +332,30 @@ public class SystemsController {
 			if (!brand_ids.contains(brands.get(i).getBrand_id())) {
 				// add brands which are not contained in brands to brand_ex
 				brands_ex.add(brandService.searchBrand(brands.get(i).getBrand_id()));
-
-				// create a list of accreditation
-				List<Integer> accreditation_ids = brandAccreditationService
-						.searchAccreditationByBrand(brands.get(i).getBrand_id());
-
-				ArrayList<Accreditation> rows = new ArrayList<Accreditation>();
-				for (int j = 0; j < accreditation_ids.size(); j++) {
-
-					rows.add(accreditationService.searchAccreditation(accreditation_ids.get(j)));
-
-				}
-				accreditations.add(rows);
 			}
+		}
+
+		if (!name.equals("")) {
+			List<Brand> results = new ArrayList<Brand>();
+			for (int i = 0; i < brands_ex.size(); i++) {
+				if (brands_ex.get(i).getBrand_name().toUpperCase().contains(name.toUpperCase())) {
+					results.add(brands_ex.get(i));
+				}
+			}
+			brands_ex.clear();
+			brands_ex.addAll(results);
+		}
+
+		// create a list of accreditation
+		for (int i = 0; i < brands_ex.size(); i++) {
+			List<Integer> accreditation_ids = brandAccreditationService
+					.searchAccreditationByBrand(brands.get(i).getBrand_id());
+
+			ArrayList<Accreditation> rows = new ArrayList<Accreditation>();
+			for (int j = 0; j < accreditation_ids.size(); j++) {
+				rows.add(accreditationService.searchAccreditation(accreditation_ids.get(j)));
+			}
+			accreditations.add(rows);
 		}
 
 		mav.addObject("store", storeService.searchStore(store_id));
@@ -327,7 +369,7 @@ public class SystemsController {
 	public String StoreBrandAddProcess(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable("id") Integer store_id,
 			@RequestParam(value = "select", defaultValue = "") List<Integer> select) {
-		
+
 		if (!select.equals("")) {
 			for (int i = 0; i < select.size(); i++) {
 				Product product = new Product();
@@ -336,19 +378,33 @@ public class SystemsController {
 				productService.insertProduct(product);
 			}
 		}
-		
+
 		Integer brands_num = productService.searchBrandByStore(store_id).size();
 		storeService.setBrandsNum(store_id, brands_num);
-		
+
 		return "redirect:../" + store_id.toString();
 	}
 
 //  Brand Update Delete Functions 
 	@RequestMapping(value = "/UpdateDeleteBrand")
-	public ModelAndView showBrand(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView showBrand(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value = "brandName", defaultValue = "") String name) {
+
 		ModelAndView mav = new ModelAndView("systems/UpdateDeleteBrand");
 
 		List<Brand> brands = brandService.brandList();
+
+		if (!name.equals("")) {
+			List<Brand> results = new ArrayList<Brand>();
+			for (int i = 0; i < brands.size(); i++) {
+				if (brands.get(i).getBrand_name().toUpperCase().contains(name.toUpperCase())) {
+					results.add(brands.get(i));
+				}
+			}
+			brands.clear();
+			brands.addAll(results);
+		}
+
 		List<ArrayList<Accreditation>> accreditations = new ArrayList<ArrayList<Accreditation>>();
 
 		for (int i = 0; i < brands.size(); i++) {
@@ -447,7 +503,9 @@ public class SystemsController {
 
 	@RequestMapping("/BrandAccreditation/{id}")
 	public ModelAndView editBrandAccreditation(HttpServletRequest request, HttpServletResponse response,
-			@PathVariable("id") Integer brand_id) {
+			@PathVariable("id") Integer brand_id,
+			@RequestParam(value = "accreditationNameEx", defaultValue = "") String name_ex,
+			@RequestParam(value = "accreditationNameIn", defaultValue = "") String name_in) {
 		ModelAndView mav = new ModelAndView("systems/BrandAccreditation");
 
 		Brand brand = brandService.searchBrand(brand_id);
@@ -463,8 +521,6 @@ public class SystemsController {
 			allAccreditation_ids.add(allAccreditations.get(i).getAccreditation_id());
 		}
 
-		System.out.print(allAccreditation_ids.toString());
-		System.out.print(accreditation_ids.toString());
 		for (int i = 0; i < allAccreditation_ids.size(); i++) {
 			if (!accreditation_ids.contains(allAccreditation_ids.get(i))) {
 				accreditations_ex.add(accreditationService.searchAccreditation(allAccreditation_ids.get(i)));
@@ -473,7 +529,28 @@ public class SystemsController {
 			}
 		}
 
-		System.out.print(accreditations_ex.toString());
+		if (!name_ex.equals("")) {
+			List<Accreditation> results = new ArrayList<Accreditation>();
+			for (int i = 0; i < accreditations_ex.size(); i++) {
+				if (accreditations_ex.get(i).getAccreditation_name().toUpperCase().contains(name_ex.toUpperCase())) {
+					results.add(accreditations_ex.get(i));
+				}
+			}
+			accreditations_ex.clear();
+			accreditations_ex.addAll(results);
+		}
+
+		if (!name_in.equals("")) {
+			List<Accreditation> results = new ArrayList<Accreditation>();
+			for (int i = 0; i < accreditations.size(); i++) {
+				if (accreditations.get(i).getAccreditation_name().toUpperCase().contains(name_in.toUpperCase())) {
+					results.add(accreditations.get(i));
+				}
+			}
+			accreditations.clear();
+			accreditations.addAll(results);
+		}
+
 		mav.addObject("brand", brand);
 		mav.addObject("accreditations_in", accreditations);
 		mav.addObject("accreditations_ex", accreditations_ex);

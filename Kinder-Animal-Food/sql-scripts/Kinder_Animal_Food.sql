@@ -98,8 +98,8 @@ CREATE TABLE `Brand` (
   PRIMARY KEY (`brand_id`)
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
-INSERT INTO `Brand` VALUES (1, 'A egg', 'egg', 'c://image1');
-INSERT INTO `Brand` VALUES (2, 'B egg', 'egg', 'c://image2');
+INSERT INTO `Brand` VALUES (1, 'A egg', 'egg', 'https://cdn.vox-cdn.com/thumbor/VD8JI2zquKWDCQuPxlc6Rnhw-1I=/0x0:876x584/1200x800/filters:focal(368x222:508x362)/cdn.vox-cdn.com/uploads/chorus_image/image/62841097/instagram_egg.0.jpg');
+INSERT INTO `Brand` VALUES (2, 'B egg', 'egg', 'https://d3ivyz8uwhxhbe.cloudfront.net/administrator/uploads/article_images/Raw%20eggs%20blamed%20for%201550716913-300x222.jpg');
 
 
 --

@@ -11,20 +11,57 @@
 <meta name="Author" content="">
 <meta name="Keywords" content="">
 <meta name="Description" content="">
+
+<link
+	href="${pageContext.request.contextPath}/resources/system/css/system.css"
+	rel="stylesheet">
+<link
+	href="${pageContext.request.contextPath}/resources/system/css/bootstrap.css"
+	rel="stylesheet">
+<link
+	href="${pageContext.request.contextPath}/resources/system/fontawesome/css/all.css"
+	rel="stylesheet">
+<script
+	src="${pageContext.request.contextPath}/resources/system/js/jquery-3.4.1.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/system/js/bootstrap.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/system/js/SelectAll.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/system/js/SelectAll.js"></script>
+
 <title>AddBrandToStore</title>
 </head>
 <body>
 	<h1>Add brand(s) to the store</h1>
 	<hr>
+	<form method="get" action="${store.getStore_id()}">
+		<table width=100% height=100% bgcolor=white>
+			<tr>
+				<td width=30%>
+					<div class="form-group">
+						<input type="text" class="form-control" name="brandName"
+							placeholder="Brand Search">
+					</div> 
+				</td>
+				<td valign="top" width=30%>
+					<input type="submit" class="btn btn-default" value="Search">
+				</td>
+				
+			</tr>
+		</table>
+	</form>
 	<form id="brandAddForm" method="get" modelAttribute="brand"
 		action="StoreBrandAddProcess/${store.getStore_id()}">
 		<table width=100% height=100% bgcolor=white>
 			<tr>
 				<td height="50">
-					<!--select all--> <input name="" type="button" class="input_hide"
+					<!--select all--> <input name="" type="button"
+					class="btn btn-default"
 					onClick="AllCheck (this.form);return false;" value="select all">
 
-					<!--submit--> <input type="submit" value="Add">
+					<!--submit--> <input type="submit" class="btn btn-default"
+					value="Add">
 				</td>
 			</tr>
 			<tr>
@@ -57,34 +94,4 @@
 			</tr>
 		</table>
 	</form>
-
-
-	<script type="text/javascript">
-		var selectState = false;
-		// select or cancel all
-		function AllCheck(thisform) {
-			for (var i = 0; i < thisform.elements.length; i++) {
-				var checkbox = thisform.elements[i];
-				checkbox.checked = !selectState;
-			}
-			selectState = !selectState;
-		}
-
-		// select others
-		function ChangeCheck(thisform) {
-			for (var i = 0; i < thisform.elements.length; i++) {
-				var checkbox = thisform.elements[i];
-				if (checkbox.name === "groupCheckbox"
-						&& checkbox.type === "checkbox"
-						&& checkbox.checked === false) {
-					// select   
-					checkbox.checked = true;
-				} else if (checkbox.name === "groupCheckbox"
-						&& checkbox.type === "checkbox"
-						&& checkbox.checked === true) {
-					// select others
-					checkbox.checked = false;
-				}
-			}
-		}
-	</script>
+</body>
