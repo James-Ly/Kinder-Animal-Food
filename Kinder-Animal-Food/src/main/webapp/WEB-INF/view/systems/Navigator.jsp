@@ -39,35 +39,39 @@
 					Animal Product<br>Admin Server
 				</a>
 			</div>
+			<form:form action="${pageContext.request.contextPath}/logout"
+				method="POST" id="logout"></form:form>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="defaultNavbar1">
-				<form class="navbar-form navbar-rightBeforeButton" role="search">
-					<div class="form-group">
-						<input type="text" class="form-control" placeholder="Brand Search">
-					</div>
-					<button type="submit" class="btn btn-default">Submit</button>
-				</form>
+
 				<ul class="nav navbar-nav navbar-right">
+					<li class="nav-item"><a href="#"><i
+							class="fab fa-readme fa-fw"></i> Documentation</a></li>
+
 					<li class="dropdown"><a class="dropdown-toggle"
 						data-toggle="dropdown" href="#"> <i class="fa fa-user fa-fw"></i>
 							<i class="fa fa-caret-down"></i>
 					</a>
 						<ul class="dropdown-menu dropdown-user">
-							<li><a href="#"><i class="fab fa-readme fa-fw"></i>
-									Documentation</a></li>
+							<li><a href="/Kinder-Animal-Food/"><i
+									class="fas fa-home fa-fw"></i> Home Page</a></li>
 							<li class="divider"></li>
-							<li><a href="#"><i class="fa fa-sign-out-alt fa-fw"></i>
-									Logout</a></li>
-						</ul> <!-- /.dropdown-user -->
+							<li><a href="#"
+								onclick="javascript:document.getElementById('logout').submit();"><i
+									class="fa fa-sign-out-alt fa-fw"></i>Logout</a></li>
+						</ul></li>
+					<!-- /.dropdown-user -->
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
-			<div class="navbar-default navbar-static-side" role="navigation" style="
-    background-color: #454545;">
+			<div class="navbar-default navbar-static-side" role="navigation"
+				style="background-color: #454545;">
 				<div class="sidebar-collapse">
 					<ul class="nav" id="side-menu">
-						<li><a href="CheckReport"> Check Report</a></li>
-						<li><a href="Insert"> Insert Data</a></li>
+						<li><a href="/Kinder-Animal-Food/systems/CheckReport">
+								Check Report</a></li>
+						<li><a href="/Kinder-Animal-Food/systems/Insert"> Insert
+								Data</a></li>
 						<li><a href="/Kinder-Animal-Food/systems/UpdateDeleteBrand">
 								Update / Delete Brand</a></li>
 						<li><a href="/Kinder-Animal-Food/systems/UpdateDeleteStore">

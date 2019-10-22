@@ -32,6 +32,12 @@ public class StoreServiceImpl implements StoreService {
 
 	@Override
 	@Transactional
+	public Store searchStore(Store store) {
+		return storeDao.searchStore(store).get(0);
+	}
+	
+	@Override
+	@Transactional
 	public List<Store> storeList() {
 		
 		return storeDao.storeList();
