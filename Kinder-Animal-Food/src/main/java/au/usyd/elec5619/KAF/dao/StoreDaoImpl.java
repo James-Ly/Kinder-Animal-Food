@@ -1,104 +1,180 @@
 package au.usyd.elec5619.KAF.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
-import javax.sql.DataSource;
-
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import au.usyd.elec5619.domain.Store;
+import au.usyd.elec5619.KAF.model.Store;
 
-@Service
+@Repository
 public class StoreDaoImpl implements StoreDao {
 
 	@Autowired
-	DataSource datasource;
-
-	@Autowired
-	JdbcTemplate jdbcTemplate;
+	private SessionFactory sessionFactory;
 
 	@Override
-	public List<Store> searchStoreByName(String store_name) {
+	@Transactional
+	public List<Store> searchStore(String store_name) {
 
-		String sql = "select * from Store where store_name='" + store_name + "'";
+		Session currentSession = sessionFactory.getCurrentSession();
 
-		List<Store> stores = jdbcTemplate.query(sql, new StoreMapper());
+		Query<Store> theQuery = currentSession.createQuery("from Store where store_name=:sName", Store.class);
+		theQuery.setParameter("sName", store_name);
 
-		return stores.size() > 0 ? stores : null;
+		List<Store> stores = null;
+		try {
+			stores = theQuery.getResultList();
+		} catch (Exception e) {
+			stores = null;
+		}
+
+		return stores;
 	}
 
 	@Override
-	public List<Store> searchStore(Store store) {
+	@Transactional
+	public Store searchStore(Integer store_id) {
 
-		String sql = "SELECT * FROM Store WHERE store_name = '" + store.getStore_name() + "'" + " AND store_address = '"
-				+ store.getStore_address() + "'" + " AND store_state = '" + store.getStore_state() + "'"
-				+ " AND store_longitude = '" + store.getStore_longitude() + "'" + " AND store_latitude = '"
-				+ store.getStore_latitude() + "'" + " AND brands_num = '" + store.getBrands_num() + "'";
+		Session currentSession = sessionFactory.getCurrentSession();
 
-		List<Store> stores = jdbcTemplate.query(sql, new StoreMapper());
+		Query<Store> theQuery = currentSession.createQuery("from Store where store_id=:sID", Store.class);
+		theQuery.setParameter("sID", store_id);
 
-		return stores.size() > 0 ? stores : null;
+		Store store = null;
+		try {
+			store = theQuery.getSingleResult();
+		} catch (Exception e) {
+			store = null;
+		}
+
+		return store;
 	}
 	
 	@Override
-	public List<Store> storeList(){
-		String sql = "SELECT * FROM Store";
-		List<Store> stores = jdbcTemplate.query(sql, new StoreMapper());
-		return stores.size() > 0 ? stores : null;
+	@Transactional
+	public List<Store> searchStore(Store store) {
+
+		Session currentSession = sessionFactory.getCurrentSession();
+
+		Query<Store> theQuery = currentSession.createQuery(
+				"from Store where store_address=:sAddress AND store_state=:sState AND store_postcode=:sPostcode AND store_longitude=:sLongitude AND store_latitude=:sLatitude",
+				Store.class);
+		theQuery.setParameter("sAddress", store.getStore_address());
+		theQuery.setParameter("sState", store.getStore_state());
+		theQuery.setParameter("sPostcode", store.getStore_postcode());
+		theQuery.setParameter("sLongitude", store.getStore_longitude());
+		theQuery.setParameter("sLatitude", store.getStore_latitude());
+
+		List<Store> stores = null;
+		try {
+			stores = theQuery.getResultList();
+		} catch (Exception e) {
+			stores = null;
+		}
+
+		return stores;
 	}
 
 	@Override
-	public void insertStore(Store store) {
+	@Transactional
+	public List<Store> storeList() {
 
-		jdbcTemplate.update("INSERT INTO Store VALUES (Null, ?, ?, ?, ?, ?, 0);", store.getStore_name(),
-				store.getStore_address(), store.getStore_state(), store.getStore_longitude(),
-				store.getStore_latitude());
+		Session currentSession = sessionFactory.getCurrentSession();
+
+		Query<Store> theQuery = currentSession.createQuery("from Store", Store.class);
+
+		List<Store> stores = null;
+		try {
+			stores = theQuery.getResultList();
+		} catch (Exception e) {
+			stores = null;
+		}
+
+		return stores;
 	}
 
 	@Override
-	public void deleteStore(Store store) {
+	@Transactional
+	public boolean insertStore(Store store) {
 
-		jdbcTemplate.update("delete from Store where Store_id=? ", store.getStore_id());
+		Session currentSession = sessionFactory.getCurrentSession();
+
+		try {
+			currentSession.save(store);
+		} catch (Exception e) {
+			return false;
+		}
+
+		return true;
 	}
 
 	@Override
-	public void editStore(Store store) {
+	@Transactional
+	public boolean deleteStore(Integer store_id) {
 
-		jdbcTemplate.update(
-				"UPDATE Store SET store_name = ?, store_address = ?, store_state = ?, store_state = ?, store_longitude = ?, store_latitude = ? WHERE store_id = ?;",
-				store.getStore_name(), store.getStore_address(), store.getStore_state(), store.getStore_longitude(),
-				store.getStore_latitude(), store.getStore_id());
+		Session currentSession = sessionFactory.getCurrentSession();
+
+		Query theQuery = currentSession.createQuery("delete Store where store_id = :sID");
+		theQuery.setParameter("sID", store_id);
+
+		try {
+			theQuery.executeUpdate();
+		} catch (Exception e) {
+			return false;
+		}
+
+		return true;
 	}
 
 	@Override
-	public Integer countStore() {
+	@Transactional
+	public boolean editStore(Store store) {
 
-		String sql = "select count(*) from Store";
-		int count = jdbcTemplate.queryForObject(sql, Integer.class);
+		Session currentSession = sessionFactory.getCurrentSession();
 
-		return count;
+		Query theQuery = currentSession.createQuery(
+
+				"update Store set store_name=:sName, store_address=:sAddress, store_state=:sState, store_postcode=:sPostcode, store_longitude=:sLongitude, store_latitude=:sLatitude where store_id=:sID");
+
+		theQuery.setParameter("sName", store.getStore_name());
+		theQuery.setParameter("sAddress", store.getStore_address());
+		theQuery.setParameter("sState", store.getStore_state());
+		theQuery.setParameter("sPostcode", store.getStore_postcode());
+		theQuery.setParameter("sLongitude", store.getStore_longitude());
+		theQuery.setParameter("sLatitude", store.getStore_latitude());
+		theQuery.setParameter("sID", store.getStore_id());
+		
+		try {
+			theQuery.executeUpdate();
+		} catch (Exception e) {
+			return false;
+		}
+
+		return true;
 	}
 
-}
+	
+	@Override
+	@Transactional
+	public boolean setBrandsNum(Integer store_id, Integer brands_num) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
 
-class StoreMapper implements RowMapper<Store> {
+		Query theQuery = currentSession.createQuery("update Store set brands_num=:sBrandsNum where store_id=:sID");
+		theQuery.setParameter("sBrandsNum", brands_num);
+		theQuery.setParameter("sID", store_id);
+		
+		try {
+			theQuery.executeUpdate();
+		} catch (Exception e) {
+			return false;
+		}
 
-	public Store mapRow(ResultSet rs, int arg1) throws SQLException {
-		Store store = new Store();
-
-		store.setStore_id(rs.getInt("store_id"));
-		store.setStore_name(rs.getString("store_name"));
-		store.setStore_address(rs.getString("store_address"));
-		store.setStore_state(rs.getString("store_state"));
-		store.setStore_longitude(rs.getString("store_longitude"));
-		store.setStore_latitude(rs.getString("store_latitude"));
-		store.setBrands_num(rs.getInt("brands_num"));
-
-		return store;
+		return true;
 	}
 }

@@ -1,15 +1,41 @@
 package au.usyd.elec5619.KAF.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "Store")
 public class Store {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "store_id")
 	private Integer store_id;
+	
+	@Column(name = "store_name")
 	private String store_name;
+	
+	@Column(name = "store_address")
 	private String store_address;
+	
+	@Column(name = "store_state")
 	private String store_state;
+	
+	@Column(name = "store_postcode")
+	private String store_postcode;
+	
+	@Column(name = "store_longitude")
 	private String store_longitude;
+	
+	@Column(name = "store_latitude")
 	private String store_latitude;
-	private Integer brands_num;
+	
+	@Column(name = "brands_num")
+	private Integer brands_num = 0;
 	
 	public Integer getStore_id() {
 		return store_id;
@@ -34,6 +60,12 @@ public class Store {
 	}
 	public void setStore_state(String store_state) {
 		this.store_state = store_state;
+	}
+	public String getStore_postcode() {
+		return store_postcode;
+	}
+	public void setStore_postcode(String store_postcode) {
+		this.store_postcode = store_postcode;
 	}
 	public String getStore_longitude() {
 		return store_longitude;

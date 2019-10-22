@@ -5,10 +5,11 @@
 
 <head>
 	<title>KINDER ANIMAL FOOD Home Page</title>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/test.css">
 </head>
 
 <body>
-	<h2>KINDER ANIMAL FOOD Home Page</h2>
+	<h2 class="test">KINDER ANIMAL FOOD Home Page</h2>
 	<hr>
 	
 	<p>
@@ -32,20 +33,16 @@
 		<!-- Add a link to point to /systems ... this is for the admins -->
 		
 		<p>
-			<a href="${pageContext.request.contextPath}/systems">Admin page</a>
+			<a href="${pageContext.request.contextPath}/systems/">Admin page</a>
 		</p>
 	
 	</security:authorize>
-	
+	<a href="${pageContext.request.contextPath}/client/locate">Locate page</a>
 	<hr>
-	
-	
 	<!-- Add a logout button -->
 	<form:form action="${pageContext.request.contextPath}/logout" 
 			   method="POST">
-	
 		<input type="submit" value="Logout" />
-	
 	</form:form>
 	
 </body>

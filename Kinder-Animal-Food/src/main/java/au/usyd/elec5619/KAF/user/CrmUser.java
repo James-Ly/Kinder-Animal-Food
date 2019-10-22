@@ -1,17 +1,17 @@
 package au.usyd.elec5619.KAF.user;
 
-import java.util.Date;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import au.usyd.elec5619.KAF.validation.FieldMatch;
+import au.usyd.elec5619.KAF.validation.ValidEmail;
 
 @FieldMatch.List({
     @FieldMatch(first = "password", second = "matchingPassword", message = "The password fields must match")
 })
 public class CrmUser {
 
+	@ValidEmail
 	@NotNull(message = "is required")
 	@Size(min = 1, message = "is required")
 	private String userName;

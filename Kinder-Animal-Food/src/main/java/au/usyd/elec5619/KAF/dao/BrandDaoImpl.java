@@ -1,89 +1,152 @@
 package au.usyd.elec5619.KAF.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
-import javax.sql.DataSource;
-
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import au.usyd.elec5619.domain.Brand;
+import au.usyd.elec5619.KAF.model.Brand;
 
-@Service
+@Repository
 public class BrandDaoImpl implements BrandDao {
 
 	@Autowired
-	DataSource datasource;
-
-	@Autowired
-	JdbcTemplate jdbcTemplate;
+	private SessionFactory sessionFactory;
 
 	@Override
-	public List<Brand> searchBrandByName(String brand_name) {
+	@Transactional
+	public List<Brand> searchBrand(String brand_name) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
 
-		String sql = "select * from Brand where brand_name='" + brand_name + "'";
+		Query<Brand> theQuery = currentSession.createQuery("from Brand where brand_name LIKE:bName", Brand.class);
+		theQuery.setParameter("bName","%"+brand_name+"%" );
 
-		List<Brand> brands = jdbcTemplate.query(sql, new BrandMapper());
+		List<Brand> brands = null;
+		try {
+			brands = theQuery.getResultList();
+		} catch (Exception e) {
+			brands = null;
+		}
 
-		return brands.size() > 0 ? brands : null;
+		return brands;
 	}
-
+	
 	@Override
-	public List<Brand> searchBrand(Brand brand) {
+	@Transactional
+	public Brand searchBrand(Integer brand_id) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
 
-		String sql = "SELECT * FROM Brand WHERE brand_name = '" + brand.getBrand_name() + "'"
-				+ " AND brand_category = '" + brand.getBrand_category() + "'" + " AND image = '" + brand.getImage()
-				+ "'";
+		Query<Brand> theQuery = currentSession.createQuery("from Brand where brand_id=:bID", Brand.class);
+		theQuery.setParameter("bID", brand_id);
 
-		List<Brand> brands = jdbcTemplate.query(sql, new BrandMapper());
-
-		return brands.size() > 0 ? brands : null;
-	}
-
-	@Override
-	public void insertBrand(Brand brand) {
-
-		jdbcTemplate.update("INSERT INTO Brand VALUES (Null, ?, ?, ?);", brand.getBrand_name(),
-				brand.getBrand_category(), brand.getImage());
-	}
-
-	@Override
-	public void deleteBrand(Brand brand) {
-
-		jdbcTemplate.update("delete from Brand where Brand_id=? ", brand.getBrand_id());
-	}
-
-	@Override
-	public void editBrand(Brand brand) {
-
-		jdbcTemplate.update("UPDATE Brand SET brand_name = ?, brand_category = ?, image = ? WHERE brand_id = ?;",
-				brand.getBrand_name(), brand.getBrand_category(), brand.getImage(), brand.getBrand_id());
-	}
-
-	public Integer countBrand() {
-
-		String sql = "select count(*) from Brand";
-		int count = jdbcTemplate.queryForObject(sql, Integer.class);
-
-		return count;
-	}
-
-}
-
-class BrandMapper implements RowMapper<Brand> {
-
-	public Brand mapRow(ResultSet rs, int arg1) throws SQLException {
-		Brand brand = new Brand();
-
-		brand.setBrand_id(rs.getInt("brand_id"));
-		brand.setBrand_name(rs.getString("brand_name"));
-		brand.setBrand_category(rs.getString("brand_category"));
-		brand.setImage(rs.getString("image"));
+		Brand brand = null;
+		try {
+			brand = theQuery.getSingleResult();
+		} catch (Exception e) {
+			brand = null;
+		}
 
 		return brand;
 	}
+	
+	@Override
+	@Transactional
+	public List<Brand> searchBrand(String brand_name, String brand_category) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+
+		Query<Brand> theQuery = currentSession.createQuery("from Brand where brand_name=:bName AND brand_category=:bCategory", Brand.class);
+		theQuery.setParameter("bName", brand_name);
+		theQuery.setParameter("bCategory", brand_category);
+
+		List<Brand> brands = null;
+		try {
+			brands = theQuery.getResultList();
+		} catch (Exception e) {
+			brands = null;
+		}
+
+		return brands;
+	}
+	
+	@Override
+	@Transactional
+	public List<Brand> brandList() {
+
+		Session currentSession = sessionFactory.getCurrentSession();
+
+		Query<Brand> theQuery = currentSession.createQuery("from Brand", Brand.class);
+
+		List<Brand> brands = null;
+		try {
+			brands = theQuery.getResultList();
+		} catch (Exception e) {
+			brands = null;
+		}
+
+		return brands;
+	}
+	
+	@Override
+	@Transactional
+	public boolean insertBrand(Brand brand) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+
+		try {
+			currentSession.save(brand);
+		} catch (Exception e) {
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	@Transactional
+	public boolean deleteBrand(Integer brand_id) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+
+		Query theQuery = currentSession.createQuery("delete Brand where brand_id = :bID");
+		theQuery.setParameter("bID", brand_id);
+
+		try {
+			theQuery.executeUpdate();
+		} catch (Exception e) {
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	@Transactional
+	public boolean editBrand(Brand brand) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+				
+		Query theQuery = currentSession.createQuery(
+				"update Brand set brand_name=:bName, brand_category=:bAddress, image=:bImage where brand_id=:bID");
+		theQuery.setParameter("bName", brand.getBrand_name());
+		theQuery.setParameter("bAddress", brand.getBrand_category());
+		theQuery.setParameter("bImage", brand.getImage());
+		theQuery.setParameter("bID", brand.getBrand_id());
+		
+		
+		try {
+			theQuery.executeUpdate();
+		} catch (Exception e) {
+			return false;
+		}
+
+		return true;
+	}
+	
 }

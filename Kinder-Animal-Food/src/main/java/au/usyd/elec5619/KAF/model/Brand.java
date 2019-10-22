@@ -1,10 +1,28 @@
 package au.usyd.elec5619.KAF.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Brand")
 public class Brand {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "brand_id")
 	private Integer brand_id;
+	
+	@Column(name = "brand_name")
 	private String brand_name;
+	
+	@Column(name = "brand_category")
 	private String brand_category;
-	private String accreditation_id;
+	
+	@Column(name = "image")
 	private String image;
 	
 	public Integer getBrand_id() {
@@ -25,12 +43,6 @@ public class Brand {
 	public void setBrand_category(String brand_category) {
 		this.brand_category = brand_category;
 	}
-	public String getAccreditation_id() {
-		return accreditation_id;
-	}
-	public void setAccreditation_id(String accreditation_id) {
-		this.accreditation_id = accreditation_id;
-	}
 	public String getImage() {
 		return image;
 	}
@@ -40,8 +52,6 @@ public class Brand {
 	@Override
 	public String toString() {
 		return "Brand [brand_id=" + brand_id + ", brand_name=" + brand_name + ", brand_category=" + brand_category
-				+ ", accreditation_id=" + accreditation_id + ", image=" + image + "]";
+				+ ", image=" + image + "]";
 	}
-
-
 }

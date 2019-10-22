@@ -2,27 +2,23 @@ package au.usyd.elec5619.KAF.dao;
 
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
+import au.usyd.elec5619.KAF.model.Store;
 
-import au.usyd.elec5619.domain.Store;
-
-
-@Repository
 public interface StoreDao {
+		
+	List<Store> searchStore(String store_name);
 	
-//	List<Store> validateStore(String store_name);
-	
-	List<Store> searchStoreByName(String store_name);
+	Store searchStore(Integer store_id);
 	
 	List<Store> searchStore(Store store);
 	
 	List<Store> storeList();
 	
-	void insertStore(Store store);
+	boolean insertStore(Store store);
 	
-	void deleteStore(Store store);
+	boolean deleteStore(Integer store_id);
 	
-	void editStore(Store store);
-	 
-	Integer countStore();
+	boolean editStore(Store store);
+	
+	boolean setBrandsNum(Integer store_id, Integer brands_num);
 }

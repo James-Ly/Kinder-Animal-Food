@@ -2,26 +2,23 @@ package au.usyd.elec5619.KAF.dao;
 
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
-
-import au.usyd.elec5619.domain.Brand;
-import au.usyd.elec5619.domain.Brand;
+import au.usyd.elec5619.KAF.model.Brand;
 
 
-@Repository
 public interface BrandDao {
 	
-//	List<Brand> ListBrand(String brand_name);
+	List<Brand> searchBrand(String brand_name);
 	
-	List<Brand> searchBrandByName(String brand_name);
+	Brand searchBrand(Integer brand_id);
 	
-	List<Brand> searchBrand(Brand brand);
+	List<Brand> searchBrand(String brand_name, String brand_category);
 	
-	void insertBrand(Brand brand);
+	List<Brand> brandList();
 	
-	void deleteBrand(Brand brand);
+	boolean insertBrand(Brand brand);
 	
-	void editBrand(Brand brand);
+	boolean deleteBrand(Integer brand_id);
+	
+	boolean editBrand(Brand brand);
 	 
-	Integer countBrand();
 }

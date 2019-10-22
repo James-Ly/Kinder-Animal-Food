@@ -2,19 +2,21 @@ package au.usyd.elec5619.KAF.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
+import au.usyd.elec5619.KAF.model.Brand;
 
-import au.usyd.elec5619.domain.Brand;
-
-
-@Repository
 public interface BrandService {
 
-	List<Brand> validateBrand(String brand_name);
+	List<Brand> searchBrand(String brand_name);
+	
+	List<Brand> searchBrand(String brand_name, String brand_category);
+	
+	Brand searchBrand(Integer brand_id);
+	
+	List<Brand> brandList();
 	
 	boolean insertBrand(Brand brand);
 	
-	boolean deleteBrand(Brand brand);
+	boolean deleteBrand(Integer brand_id);
 	
 	boolean editBrand(Brand brand);
 	

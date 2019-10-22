@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import au.usyd.elec5619.domain.Brand;
+import au.usyd.elec5619.KAF.dao.BrandDao;
+import au.usyd.elec5619.KAF.model.Brand;
 
 @Service
 public class BrandServiceImpl implements BrandService {
@@ -14,15 +16,36 @@ public class BrandServiceImpl implements BrandService {
 	BrandDao brandDao;
 
 	@Override
-	public List<Brand> validateBrand(String brand_name) {
+	@Transactional
+	public List<Brand> searchBrand(String brand_name) {
 
-		return brandDao.searchBrandByName(brand_name);
+		return brandDao.searchBrand(brand_name);
 	}
 
 	@Override
+	@Transactional
+	public Brand searchBrand(Integer brand_id) {
+
+		return brandDao.searchBrand(brand_id);
+	}
+
+	@Override
+	@Transactional
+	public List<Brand> brandList() {
+		return brandDao.brandList();
+	}
+
+	@Override
+	@Transactional
+	public List<Brand> searchBrand(String brand_name, String brand_category) {
+		return brandDao.searchBrand(brand_name, brand_category);
+	}
+
+	@Override
+	@Transactional
 	public boolean insertBrand(Brand brand) {
 
-		if (brandDao.searchBrand(brand) != null) {
+		if (brandDao.searchBrand(brand.getBrand_name(), brand.getBrand_category()).size() != 0) {
 			return false;
 		} else {
 			brandDao.insertBrand(brand);
@@ -31,34 +54,35 @@ public class BrandServiceImpl implements BrandService {
 	}
 
 	@Override
-	public boolean deleteBrand(Brand brand) {
+	@Transactional
+	public boolean deleteBrand(Integer brand_id) {
 
-		if (brandDao.searchBrand(brand) != null) {
-			brandDao.deleteBrand(brand);
+		if (brandDao.deleteBrand(brand_id)) {
 			return true;
 		} else {
 			return false;
 		}
-
 	}
 
 	@Override
+	@Transactional
 	public boolean editBrand(Brand brand) {
 
-		if (brandDao.searchBrand(brand) != null) {
+		if (brandDao.searchBrand(brand.getBrand_id()) != null) {
 			brandDao.editBrand(brand);
 			return true;
+
 		} else {
 			return false;
 		}
-
 	}
-	
+
+	@Override
+	@Transactional
 	public Integer countBrand() {
-		
-		Integer conut = brandDao.countBrand();
-		
+
+		Integer conut = brandDao.brandList().size();
+
 		return conut;
 	}
-
 }
