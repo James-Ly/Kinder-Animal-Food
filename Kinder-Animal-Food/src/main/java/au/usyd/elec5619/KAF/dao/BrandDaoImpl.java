@@ -23,8 +23,8 @@ public class BrandDaoImpl implements BrandDao {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 
-		Query<Brand> theQuery = currentSession.createQuery("from Brand where brand_name=:bName", Brand.class);
-		theQuery.setParameter("bName", brand_name);
+		Query<Brand> theQuery = currentSession.createQuery("from Brand where brand_name LIKE:bName", Brand.class);
+		theQuery.setParameter("bName","%"+brand_name+"%" );
 
 		List<Brand> brands = null;
 		try {
@@ -139,6 +139,7 @@ public class BrandDaoImpl implements BrandDao {
 		theQuery.setParameter("bImage", brand.getImage());
 		theQuery.setParameter("bID", brand.getBrand_id());
 		
+		
 		try {
 			theQuery.executeUpdate();
 		} catch (Exception e) {
@@ -147,4 +148,5 @@ public class BrandDaoImpl implements BrandDao {
 
 		return true;
 	}
+	
 }
