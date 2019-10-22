@@ -17,7 +17,7 @@
 	href="${pageContext.request.contextPath}/resources/system/fontawesome/css/all.css"
 	rel="stylesheet">
 <script
-	src="${pageContext.request.contextPath}/resources/system/js/jquery-3.4.1.min.js"></script>
+	src="${pageContext.request.contextPath}/resources/system/js/jquery-3.4.1.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/system/js/bootstrap.js"></script>
 
@@ -62,7 +62,8 @@
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
-			<div class="navbar-default navbar-static-side" role="navigation">
+			<div class="navbar-default navbar-static-side" role="navigation" style="
+    background-color: #454545;">
 				<div class="sidebar-collapse">
 					<ul class="nav" id="side-menu">
 						<li><a href="CheckReport"> Check Report</a></li>

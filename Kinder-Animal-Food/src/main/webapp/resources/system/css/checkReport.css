@@ -1,0 +1,174 @@
+@charset "UTF-8";
+/* CSS Document */
+.addReport {
+	background: none;
+	border: none;
+	margin: 0;
+	padding: 0;
+	cursor: pointer;
+	border-bottom: 1px solid #453886;
+	color: #453886;
+	text-decoration: none;
+}
+
+.addReport:hover {
+	background-image:
+		url("data:image/svg+xml;charset=utf8,%3Csvg id='squiggle-link' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml-events' viewBox='0 0 20 4'%3E%3Cstyle type='text/css'%3E.squiggle{animation:shift .3s linear infinite;}@keyframes shift {from {transform:translateX(0);}to {transform:translateX(-20px);}}%3C/style%3E%3Cpath fill='none' stroke='%23453886' stroke-width='2' class='squiggle' d='M0,3.5 c 5,0,5,-3,10,-3 s 5,3,10,3 c 5,0,5,-3,10,-3 s 5,3,10,3'/%3E%3C/svg%3E");
+	background-position: bottom;
+	background-repeat: repeat-x;
+	background-size: 20%;
+	border-bottom: 0;
+	padding-bottom: .1em;
+	text-decoration: none;
+}
+#dialogExit{
+	cursor: pointer;
+	color: #fff;
+}
+.reportDelete {
+	left: 20px;
+	position: relative;
+}
+
+.black_overlay {
+	display: none;
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	width: 100%;
+	min-height : 100%;
+	height: 100%;
+	background-color: black;
+	z-index: 1001;
+	-moz-opacity: 0.8;
+	opacity: .80;
+	filter: alpha(opacity = 88);
+}
+
+.white_content {
+	display: none;
+	position: absolute;
+	top: 15%;
+	left: 25%;
+	width: 55%;
+	height: 70%;
+	border: 2px solid #453886;
+	background-color: white;
+	z-index: 1002;
+	overflow: auto;
+}
+
+#deleteButton {
+	left: 200px;
+	top: 25px;
+	position: relative;
+	z-index: 2;
+}
+
+.button::-moz-focus-inner {
+	border: 0;
+	padding: 0;
+}
+
+.button {
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	padding: 6px 20px;
+	margin: 0;
+	cursor: pointer;
+	border: 1px solid #bbb;
+	overflow: visible;
+	font: bold 13px arial, helvetica, sans-serif;
+	text-decoration: none;
+	white-space: nowrap;
+	color: #555;
+	background-color: #ddd;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255,
+		1)), to(rgba(255, 255, 255, 0)));
+	background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 1),
+		rgba(255, 255, 255, 0));
+	background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 1),
+		rgba(255, 255, 255, 0));
+	background-image: -ms-linear-gradient(top, rgba(255, 255, 255, 1),
+		rgba(255, 255, 255, 0));
+	background-image: -o-linear-gradient(top, rgba(255, 255, 255, 1),
+		rgba(255, 255, 255, 0));
+	background-image: linear-gradient(top, rgba(255, 255, 255, 1),
+		rgba(255, 255, 255, 0));
+	-webkit-transition: background-color .2s ease-out;
+	-moz-transition: background-color .2s ease-out;
+	-ms-transition: background-color .2s ease-out;
+	-o-transition: background-color .2s ease-out;
+	transition: background-color .2s ease-out;
+	background-clip: padding-box; /* Fix bleeding */
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px
+		rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px
+		rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5),
+		0 1px 0 rgba(255, 255, 255, .3) inset;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, .9);
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.button:hover {
+	background-color: #eee;
+	color: #555;
+}
+
+.button:active {
+	background: #e9e9e9;
+	position: relative;
+	top: 1px;
+	text-shadow: none;
+	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
+}
+
+.box{
+	font-size: 18px;
+}
+
+.tableContents{
+	padding: 20px;
+}
+#storeName {
+	text-align: left;
+}
+
+#storeAddress {
+	text-align: left;
+}
+
+#storePostcode {
+	text-align: left;
+}
+
+#storeState {
+	text-align: left;
+}
+#addressTable{
+	width: 100%; !important;
+}
+#navbar-2{
+	min-height: 50px;
+	height : 50px;
+    margin-bottom: 0px;
+    background-color: #453886;
+    border: 0px;
+    border-radius: 0px;
+}
+#navbar-brand{
+	margin-left: -15px;
+    padding: 15px 20px;
+}

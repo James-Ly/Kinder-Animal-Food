@@ -135,7 +135,7 @@ public class ReportDaoImpl implements ReportDao {
 
 		Session currentSession = sessionFactory.getCurrentSession();
 
-		Query<Report> theQuery = currentSession.createQuery("delete Report where report_id=:rID", Report.class);
+		Query theQuery = currentSession.createQuery("delete Report where report_id=:rID");
 		theQuery.setParameter("rID", report_id);
 
 		try {
@@ -153,8 +153,8 @@ public class ReportDaoImpl implements ReportDao {
 
 		Session currentSession = sessionFactory.getCurrentSession();
 
-		Query<Report> theQuery = currentSession.createQuery(
-				"update Report set status=:rstatus where report_id=:rID", Report.class);
+		Query theQuery = currentSession.createQuery(
+				"update Report set status=:rstatus where report_id=:rID");
 		theQuery.setParameter("rstatus", report.getStatus());
 		theQuery.setParameter("rID", report.getReport_id());
 
