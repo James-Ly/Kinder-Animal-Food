@@ -174,7 +174,7 @@
 
 	$(document).ready(function() {
 		var message = "${requestScope.message}";
-		if (message!=""){
+		if (message != "") {
 			alert(message);
 			window.location.href = "/Kinder-Animal-Food/systems/CheckReport";
 		}

@@ -11,132 +11,177 @@
 <title>Insert Data</title>
 <meta http-equiv="content-language" content="en">
 <meta charset="UTF-8">
+<link
+	href="${pageContext.request.contextPath}/resources/system/css/insert.css"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/system/css/prettydropdowns.css">
 </head>
 <body>
-<jsp:include page="Navigator.jsp" flush="true"/>
-	<form:form id="storeInsertForm" modelAttribute="store"
-		action="storeInsertProcess" method="post">
-		<table align="center">
-			<tr>
-				<td><form:label path="store_name">Store Name</form:label></td>
-				<td><form:input placeholder="Please enter the store name"
-						size="40" path="store_name" name="store_name" id="store_name" /><span
-					style="margin-left: 10px; display: none; color: red"
-					id="storeNameNull">Please enter the store name！</span></td>
-			</tr>
-			<tr>
-				<td><form:label path="store_address">Store Address</form:label></td>
-				<td><form:input placeholder="Please enter the store address"
-						size="40" path="store_address" name="store_address"
-						id="store_address" /><span
-					style="margin-left: 10px; display: none; color: red"
-					id="storeAddressNull">Please enter the store address！</span></td>
-			</tr>
-			<tr>
-				<td><form:label path="store_state">Store State</form:label></td>
-				<td><form:input placeholder="Please enter the store state"
-						size="40" path="store_state" name="store_state" id="store_state" /><span
-					style="margin-left: 10px; display: none; color: red"
-					id="storeStateNull">Please enter the store state！</span></td>
-			</tr>
-			<tr>
-				<td><form:label path="store_postcode">Postcode</form:label></td>
-				<td><form:input placeholder="Please enter the store postcode"
-						size="40" path="store_postcode" name="store_postcode"
-						id="store_postcode" /><span
-					style="margin-left: 10px; display: none; color: red"
-					id="storePostcodeNull">Please enter the store postcode！</span></td>
-			</tr>
-			<tr>
-				<td align="center"><form:button type="button" id="storeInsert"
-						name="storeInsert" onclick="submitStore()">Store Insert</form:button></td>
-			</tr>
-		</table>
-	</form:form>
-	<table align="center">
-		<tr>
-			<td style="font-style: italic; color: red;">${message}</td>
-			<br>
-		</tr>
-	</table>
-	<hr>
-	<form:form id="brandInsertForm" modelAttribute="brand"
-		action="brandInsertProcess" method="post">
-		<table align="center">
-			<tr>
-				<td><form:label path="brand_name">Brand Name</form:label></td>
-				<td><form:input placeholder="Please enter the brand name"
-						size="40" path="brand_name" name="brand_name" id="brand_name" />
-					<span style="margin-left: 10px; display: none; color: red"
-					id="brandNameNull">Please enter the brand name！</span></td>
-			</tr>
-			<tr>
-				<td><form:label path="brand_category">Brand Category</form:label></td>
-				<td><form:input placeholder="Please enter the category"
-						size="40" path="brand_category" name="brand_category"
-						id="brand_category" /><span
-					style="margin-left: 10px; display: none; color: red"
-					id="brandCategoryNull">Please enter the category！</span></td>
-			</tr>
-			<tr>
-				<td><form:label path="image">Image</form:label></td>
-				<td><input type="file" id="imageSelect"
-					accept="image/*" /><span
+	<jsp:include page="Navigator.jsp" flush="true" />
+	<div>
+		<h1>
+			Insert Data <select id="insertSelect"
+				onchange="insertSelectedChange(value)">
+				<option value="brandSelect">Brand</option>
+				<option value="storeSelect">Store</option>
+			</select>
+		</h1>
+	</div>
+	<div id="storeContainer">
+		<h3>Insert New Store</h3>
+		<form:form id="storeInsertForm" modelAttribute="store"
+			action="storeInsertProcess" method="post">
+			<div>
+				<form:label path="store_name">Store Name</form:label>
+				<br>
+				<form:input placeholder="Please enter the store name" size="40"
+					path="store_name" name="store_name" id="store_name" />
+				<br> <span style="display: none; color: red" id="storeNameNull">Please
+					enter the store name！</span>
+			</div>
+			<div>
+				<form:label path="store_address">Store Address</form:label>
+				<br>
+
+				<form:input placeholder="Please enter the store address" size="70"
+					path="store_address" name="store_address" id="store_address" />
+				<br> <span style="display: none; color: red"
+					id="storeAddressNull">Please enter the store address！</span>
+			</div>
+			<div>
+				<form:label path="store_state">Store State</form:label>
+				<span class="rightLabel"><form:label path="store_postcode">Postcode</form:label></span>
+				<br>
+				<form:input placeholder="Please enter the store state" size="30"
+					path="store_state" name="store_state" id="store_state" />
+
+				<span class="rightLabel"> <form:input
+						placeholder="Please enter the store postcode" size="30"
+						path="store_postcode" name="store_postcode" id="store_postcode" />
+					<br> <span style="display: none; color: red"
+					id="storePostcodeNull">Please enter the store postcode！</span>
+				</span> <br> <span style="display: none; color: red"
+					id="storeStateNull">Please enter the store state！</span>
+			</div>
+			<div>
+				<button type="button" id="storeReset" class="button"
+					onclick="storeResetFunction()">Reset</button>
+				<span class="rightLabel"> <form:button type="button"
+						id="storeInsert" name="storeInsert" onclick="submitStore()"
+						class="button">Store Insert</form:button></span>
+			</div>
+		</form:form>
+	</div>
+	<div id="brandContainer">
+		<h3>Insert New Brand</h3>
+		<form:form id="brandInsertForm" modelAttribute="brand"
+			action="brandInsertProcess" method="post">
+			<div>
+				<form:label path="brand_name">Brand Name</form:label>
+				<span class="rightLabelBrand"> <form:label path="image">Brand Image</form:label>
+					<br> <input type="file" id="imageSelect" accept="image/*" /><span
 					style="display: none"><form:input path="image" name="image"
-							id="image" /></span>
-					<div
-						style="border: 1px solid #F00; width: 200px; height: 200px; overflow: hidden">
-						<img src="" id="img" style="max-width: 200px; max-height: 200px">
-					</div></td>
-				<tr>
-				<td><form:form id="AccreditationInsertForm"
-						modelAttribute="accreditation" action="brandInsertProcess"
-						method="post">
-						<table align="center">
-							<tr>
-								<td><form:label path="accreditation_name">Accreditation</form:label></td>
-								<td><form:input
-										placeholder="Please enter the accreditation" size="40"
-										path="accreditation_name" name="accreditation_name"
-										id="accreditation_name" /><span
-									style="margin-left: 10px; display: none; color: red"
-									id="accreditationNameNull">Please enter the
-										accreditation！</span></td>
-							</tr>
-							<tr>
-								<td><form:label path="rating">Rating</form:label></td>
-								<td><form:select path="rating" name="rating" id="rating">
-										<option value="best">Best</option>
-										<option value="good">Good</option>
-										<option value="avoid">Avoid</option>
-									</form:select></td>
-							</tr>
-							<!--tr>
-						<td align="center"><form:button id="accreditationInsert"
-								name="accreditationInsert">accreditation Insert</form:button></td>
-					</tr-->
-						</table>
-					</form:form></td>
-			</tr>
-			<tr>
-				<td align="center"><button type="button" id="brandInsert"
-						name="brandInsert" onclick="submitBrand()">Brand Insert</button></td>
-			</tr>
-		</table>
+							id="image" /></span></span> <br>
+				<form:input placeholder="Please enter the brand name" size="40"
+					path="brand_name" name="brand_name" id="brand_name" />
+				<br> <span style="display: none; color: red" id="brandNameNull">Please
+					enter the brand name！</span>
+			</div>
+			<div id="imageBorder">
+				<img
+					src="${pageContext.request.contextPath}/resources/system/default-image.jpg"
+					id="img" style="max-width: 200px; max-height: 200px">
+			</div>
+			<div>
+				<form:label path="brand_category">Brand Category</form:label>
+				<br>
+				<form:input placeholder="Please enter the category" size="40"
+					path="brand_category" name="brand_category" id="brand_category" />
+				<br> <span style="display: none; color: red"
+					id="brandCategoryNull">Please enter the category！</span>
+			</div>
+			<form:form id="AccreditationInsertForm"
+				modelAttribute="accreditation" action="brandInsertProcess"
+				method="post">
+				<div>
+					<form:label path="accreditation_name">Accreditation</form:label>
 
-	</form:form>
+					<br>
+					<form:input placeholder="Please enter the accreditation" size="40"
+						path="accreditation_name" name="accreditation_name"
+						id="accreditation_name" />
+					<br> <span style="display: none; color: red"
+						id="accreditationNameNull">Please enter the accreditation！</span>
+				</div>
+				<div>
+					<form:label path="rating">Rating</form:label>
+					<br>
+					<form:select path="rating" name="rating" id="rating"
+						class="pretty-classic">
+						<option value="best">Best</option>
+						<option value="good">Good</option>
+						<option value="avoid">Avoid</option>
+					</form:select>
+				</div>
 
-	<table align="center">
-		<tr>
-			<td style="font-style: italic; color: red;">${message}</td>
-			<br>
-			<td><a href="/Kinder-Animal-Food/systems/">Back</a></td>
-		</tr>
-	</table>
+			</form:form>
+			<div>
+				<button type="button" id="brandReset" class="button"
+					onclick="brandResetFunction()">Reset</button>
+				<span class="rightLabelBrand"><button type="button"
+						id="brandInsert" name="brandInsert" onclick="submitBrand()"
+						class="button">Brand Insert</button></span>
+			</div>
+
+		</form:form>
+	</div>
+
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/system/js/jquery.prettydropdowns.js"></script>
 </body>
 </html>
 
 <script type="text/JavaScript">
+	function insertSelectedChange(value) {
+		console.log(value);
+		if (value == "brandSelect") {
+			$("#storeContainer").hide();
+			$("#brandContainer").show();
+			storeResetFunction();
+		} else if (value == "storeSelect") {
+			$("#brandContainer").hide();
+			$("#storeContainer").show();
+			brandResetFunction();
+		}
+	}
+
+	function storeResetFunction() {
+		$("#store_name").val("");
+		$("#store_address").val("");
+		$("#store_state").val("");
+		$("#store_postcode").val("");
+		$("#storeNameNull").hide();
+		$("#storeAddressNull").hide();
+		$("#storeStateNull").hide();
+		$("#storePostcodeNull").hide();
+	}
+
+	function brandResetFunction() {
+		$("#brand_name").val("");
+		$("#brand_category").val("");
+		$("#img")
+				.attr("src",
+						"${pageContext.request.contextPath}/resources/system/default-image.jpg");
+		$("#image").val("");
+		$("#imageSelect").val("");
+		$("#accreditation_name").val("");
+		$("#rating").val("best");
+		$("#brandNameNull").hide();
+		$("#brandCategoryNull").hide();
+		$("#accreditationNameNull").hide();
+	}
+
 	function createstyle(css) {
 		var mystyle = $('#mystyle');
 		if (!mystyle.length > 0) {
@@ -310,7 +355,19 @@
 
 	function imageConvert() {
 		var inputBox = document.getElementById("imageSelect");
+
+		$('#imageSelect')
+				.on(
+						'click touchstart',
+						function() {
+							$("#img")
+									.attr("src",
+											"${pageContext.request.contextPath}/resources/system/default-image.jpg");
+							$("#image").val("");
+						});
+
 		inputBox.addEventListener("change", function() {
+			console.log(inputBox);
 			//alert(document.getElementById("imageSelect").value);
 			var reader = new FileReader();
 			reader.readAsDataURL(inputBox.files[0]);
@@ -374,7 +431,16 @@
 	}(jQuery));
 
 	$(document).ready(function() {
-		
+		var message = "${requestScope.message}";
+		if (message != "") {
+			alert(message);
+			//window.location.href = "/Kinder-Animal-Food/systems/Insert";
+		}
+		$('#insertSelect').prettyDropdown({
+			classic : true,
+			selectedMarker : "",
+		//hoverIntent : -1,
+		});
 		var accreditations = getAccreditations();
 		autoShow(accreditations, '#accreditation_name', '#rating');
 		imageConvert();
