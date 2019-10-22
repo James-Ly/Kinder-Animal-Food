@@ -1,6 +1,7 @@
 package au.usyd.elec5619.KAF.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -584,16 +587,38 @@ public class SystemsController {
 	}
 
 	// report check
-	@RequestMapping(value = "/CheckReport")
+	@RequestMapping(value = "/CheckReport", method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView checkReport(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView("systems/CheckReport");
-
-		List<Report> reports = reportService.getReportList();
+		List<Brand> brands = new ArrayList<>();
+		List<Report> reports = reportService.getPendingReportList();
+		for (Report report : reports) {
+			brands.add(brandService.searchBrand(report.getBrand_id()));
+		}
+		//System.out.print(brands);
+		mav.addObject("brands", brands);
 		mav.addObject("reports", reports);
-
 		return mav;
 	}
 
+	
+	@RequestMapping(value = "/checkReportDelete", method=RequestMethod.POST)
+	public String checkReportDelete(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "reportDelete") String[] delete) {
+		Report report;
+		//System.out.println(Arrays.toString(delete));
+		for (String reportIDString : delete) {
+			report = new Report();
+			try {
+				report.setReport_id(Integer.parseInt(reportIDString));
+				// D for delete
+				report.setStatus("D");
+				reportService.editReportStatus(report);
+			}catch (Exception e) {
+		        e.printStackTrace();
+		    }
+		}
+		return "redirect:CheckReport";
+	}
 	/**
 	 * Store and Brand Insert.
 	 * 
@@ -602,7 +627,6 @@ public class SystemsController {
 	 * @param map      ModelMap
 	 * @return ModelAndView
 	 */
-
 	@RequestMapping(value = "/Insert")
 	public ModelAndView storeInsert(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView("systems/Insert");
@@ -629,7 +653,6 @@ public class SystemsController {
 	 * @return ModelAndView
 	 */
 	@RequestMapping(value = "/storeInsertProcess")
-
 	public ModelAndView storeInsertProcess(HttpServletRequest request, HttpServletResponse response, Store store,
 			Brand brand, Accreditation accreditation) {
 

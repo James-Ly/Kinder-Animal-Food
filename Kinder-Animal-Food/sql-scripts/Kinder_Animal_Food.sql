@@ -209,4 +209,17 @@ CREATE TABLE `Report`(
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 INSERT INTO `Report` (`user_id`, `report_time`, `brand_id`, `store_name_by_user`, `store_address_by_user`, `status`) VALUES ('1', '2019-10-13 16:59:59', '1','Coles', '650 George St, Sydney', 'P');
-INSERT INTO `Report` VALUES ('2', '1', '2','2019-10-14 16:59:59', 'Coles', '650 George St, Sydney', 'NSW', '2000', 'P');
+INSERT INTO `Report` VALUES ('2', '1', '2','2019-10-12 16:59:59', 'Coles', '650 George St, Sydney, NSW, 2000', 'NSW', '2000', 'P');
+INSERT INTO `Report` VALUES ('3', '1', '2','2019-10-14 16:59:59', 'Coles', '650 George St, Sydney', 'NSW', '2000', 'P');
+INSERT INTO `Report` VALUES ('4', '1', '2','2019-10-18 16:59:59', 'Coles', '61-79 Quay St, Haymarket', 'NSW', '2000', 'P');
+INSERT INTO `Report` VALUES ('5', '1', '2','2019-10-17 13:59:59', 'Coles', '650 George St, Sydney', 'NSW', '2000', 'P');
+INSERT INTO `Report` VALUES ('6', '1', '2','2019-10-17 16:59:59', 'Coles', '655 George St, Sydney', 'NSW', '2000', 'P');
+INSERT INTO `Report` VALUES ('7', '1', '2','2019-10-21 16:59:59', 'Coles', '650 George St, Sydney', 'NSW', '2000', 'P');
+INSERT INTO `Report` VALUES ('8', '1', '2','2019-10-20 16:59:59', 'Coles', '650 George St, Sydney', 'NSW', '2000', 'P');
+INSERT INTO `Report` VALUES ('9', '1', '2','2019-10-05 16:59:59', 'Coles', '650 George St, Sydney', 'NSW', '2000', 'P');
+INSERT INTO `Report` VALUES ('10', '1', '2','2019-10-06 16:59:59', 'Coles', '650 George St, Sydney', 'NSW', '2000', 'P');
+INSERT INTO `Report` VALUES ('11', '1', '2','2019-10-11 16:59:59', 'Coles', '150 George St, Sydney', 'NSW', '2000', 'P');
+INSERT INTO `Report` VALUES ('12', '1', '2','2019-10-11 10:59:59', 'Coles', '650 George St, Sydney', 'NSW', '2000', 'P');
+INSERT INTO `Report` VALUES ('13', '1', '2','2019-10-11 12:59:59', 'Coles', '650 George St, Sydney', 'NSW', '2000', 'P');
+INSERT INTO `Report` VALUES ('14', '1', '2','2019-10-11 08:59:59', 'Coles', '650 George St, Sydney', 'NSW', '2000', 'P');
+INSERT INTO `Report` VALUES ('15', '1', '2','2019-10-23 16:59:59', 'Coles', '650 George St, Sydney', 'NSW', '2000', 'P');

@@ -7,7 +7,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="0;url=CheckReport.html">
+<meta http-equiv="refresh" content="0;url=CheckReport">
 <title>Kinder Animal Food</title>
 </head>
 <body>
