@@ -81,6 +81,20 @@
 			</tbody>
 		</table>
 	</form>
+	<form:form id="reportUpdateForm" method="POST"
+		action="checkReportUpdate?${_csrf.parameterName}=${_csrf.token}"
+		modelAttribute="report">
+		<form:input path="report_id" name="report_id" id="report_id" />
+		<form:input path="brand_id" name="brand_id" id="brand_id" />
+		<form:input path="store_name_by_user" name="store_name_by_user"
+			id="store_name_by_user" />
+		<form:input path="store_address_by_user" name="store_address_by_user"
+			id="store_address_by_user" />
+		<form:input path="store_state_by_user" name="store_state_by_user"
+			id="store_state_by_user" />
+		<form:input path="store_postcode_by_user"
+			name="store_postcode_by_user" id="store_postcode_by_user" />
+	</form:form>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/system/js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript"
@@ -159,6 +173,11 @@
 	}
 
 	$(document).ready(function() {
+		var message = "${requestScope.message}";
+		if (message!=""){
+			alert(message);
+			window.location.href = "/Kinder-Animal-Food/systems/CheckReport";
+		}
 		reports = getReports();
 		// sort by reportTime
 		//reports.sort((a, b) => (a.reportTime > b.reportTime) ? 1 : -1)
@@ -170,11 +189,15 @@
 	function openDialog(objButton) {
 		console.log(objButton.value);
 		report_id = objButton.value;
+		$("#report_id").val(report_id);
+
 		var report = reports.filter(function(element) {
 			return element.reportID == report_id;
 		});
 		$(fade).height($(reportDeleteForm).height() + 200);
 		console.log(report[0]);
+		$("#brand_id").val(report[0].brandID);
+		$("#store_name_by_user").val(report[0].storeName);
 		var address = report[0].storeAddress;
 		var postcode = report[0].storePostcode;
 		var state = report[0].storeState;
@@ -214,7 +237,6 @@
 							$("#addressTable").dataTable().fnDestroy()
 							$('#addressTBody').empty();
 							for (i in data) {
-								console.log(data[i]);
 								$('#addressTable tbody')
 										.append(
 												'<tr><td>'
@@ -248,7 +270,16 @@
 	}
 
 	function addReport(objButton) {
-		console.log(objButton.value);
+		var address = objButton.value
+		console.log(address);
+		$("#store_address_by_user").val(address);
+		var addressArray = address.split(' ');
+		var postcode = addressArray.pop();
+		$("#store_postcode_by_user").val(postcode);
+		var state = addressArray.pop();
+		$("#store_state_by_user").val(state);
+		var reportUpdateForm = document.getElementById("reportUpdateForm");
+		reportUpdateForm.submit();
 	}
 
 	$("#deleteButton").click(

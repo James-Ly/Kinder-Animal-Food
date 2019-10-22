@@ -158,7 +158,7 @@
 	text-align: left;
 }
 #addressTable{
-	width: 100%; !important;
+	width: 100% !important;
 }
 #navbar-2{
 	min-height: 50px;
@@ -171,4 +171,7 @@
 #navbar-brand{
 	margin-left: -15px;
     padding: 15px 20px;
+}
+#reportUpdateForm{
+	display:none;
 }

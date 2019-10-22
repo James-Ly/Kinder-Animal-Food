@@ -11,6 +11,8 @@ public interface StoreService {
 	
 	Store searchStore(Integer store_id);
 	
+	Store searchStore(Store store);
+	
 	List<Store> storeList();
 	
 	boolean insertStore(Store store);

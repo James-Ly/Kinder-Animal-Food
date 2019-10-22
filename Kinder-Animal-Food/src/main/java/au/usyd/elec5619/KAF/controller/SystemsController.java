@@ -587,7 +587,7 @@ public class SystemsController {
 	}
 
 	// report check
-	@RequestMapping(value = "/CheckReport", method={RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value = "/CheckReport", method = { RequestMethod.GET })
 	public ModelAndView checkReport(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView("systems/CheckReport");
 		List<Brand> brands = new ArrayList<>();
@@ -595,17 +595,19 @@ public class SystemsController {
 		for (Report report : reports) {
 			brands.add(brandService.searchBrand(report.getBrand_id()));
 		}
-		//System.out.print(brands);
+		// System.out.print(brands);
 		mav.addObject("brands", brands);
 		mav.addObject("reports", reports);
+		mav.addObject("report", new Report());
+		mav.addObject("message", "");
 		return mav;
 	}
 
-	
-	@RequestMapping(value = "/checkReportDelete", method=RequestMethod.POST)
-	public String checkReportDelete(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "reportDelete") String[] delete) {
+	@RequestMapping(value = "/checkReportDelete", method = RequestMethod.POST)
+	public String checkReportDelete(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value = "reportDelete") String[] delete) {
 		Report report;
-		//System.out.println(Arrays.toString(delete));
+		// System.out.println(Arrays.toString(delete));
 		for (String reportIDString : delete) {
 			report = new Report();
 			try {
@@ -613,12 +615,78 @@ public class SystemsController {
 				// D for delete
 				report.setStatus("D");
 				reportService.editReportStatus(report);
-			}catch (Exception e) {
-		        e.printStackTrace();
-		    }
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return "redirect:CheckReport";
 	}
+
+	@RequestMapping(value = "/checkReportUpdate", method = RequestMethod.POST)
+	public ModelAndView checkReportUpdate(HttpServletRequest request, HttpServletResponse response, Report report) {
+		System.out.println(report);
+		ModelAndView mav = new ModelAndView("systems/CheckReport");
+		String message = "";
+
+		String[] coordinates = addressGetCoordinate(report.getStore_address_by_user());
+		if (report.getStore_state_by_user() == null) {
+			return mav.addObject("message", "Error! Null Input.");
+		} else if (report.getStore_state_by_user().length() > 3) {
+			return mav.addObject("message", "Error! State incorrect.");
+		}
+		if (report.getStore_postcode_by_user() == null) {
+			return mav.addObject("message", "Null Input.");
+		} else if (report.getStore_postcode_by_user().length() > 4) {
+			return mav.addObject("message", "Postcode incorrect.");
+		}
+		Store store = new Store();
+		// if get longitude and latitude failed
+		if (coordinates[0] == null || coordinates[1] == null) {
+			return mav.addObject("message", "Error! Address gets coordinates failed).");
+		} else {
+			// set latitude into store
+			store.setStore_latitude(coordinates[0]);
+			// set longitude into store
+			store.setStore_longitude(coordinates[1]);
+			// set name into store
+			store.setStore_name(report.getStore_name_by_user());
+			// set address into store
+			store.setStore_address(report.getStore_address_by_user());
+			// set state into store
+			store.setStore_state(report.getStore_state_by_user());
+			// set postcode into store
+			store.setStore_postcode(report.getStore_postcode_by_user());
+			if (storeService.insertStore(store)) {
+				message += " Store insert success.";
+			}
+			// store duplicated
+			else {
+				message += " Store already exists.";
+			}
+		}
+		store = storeService.searchStore(store);
+		Product product = new Product();
+		product.setStore_id(store.getStore_id());
+		product.setBrand_id(report.getBrand_id());
+		if (productService.insertProduct(product)) {
+			message += " Product insert success.";
+			storeService.setBrandsNum(store.getStore_id(), store.getBrands_num() + 1);
+			message += " Brands number in store is added.";
+		}
+		// product duplicated
+		else {
+			message += " Product already exists.";
+		}
+
+		// C for confirmed
+		report.setStatus("C");
+		reportService.editReportStatus(report);
+		message += " Report confirmed.";
+
+		mav.addObject("message", message);
+		return mav;
+	}
+
 	/**
 	 * Store and Brand Insert.
 	 * 
