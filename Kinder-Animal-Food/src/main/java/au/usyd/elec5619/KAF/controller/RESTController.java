@@ -54,9 +54,9 @@ public class RESTController {
 		return result;
 	}
 	
-	@GetMapping("/testing")
-	public String testingController() {
-		return "testing String";
+	@GetMapping("/brandName")
+	public @ResponseBody List<Brand> showBrandName(@RequestParam("query") String query) {
+		return brandService.searchBrand(query);
 	}
 	
 	/**
