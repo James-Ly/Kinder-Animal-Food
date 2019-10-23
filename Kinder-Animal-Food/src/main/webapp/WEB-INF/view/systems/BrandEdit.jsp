@@ -32,6 +32,17 @@
 						id="brand_category" value="${brand.getBrand_category()}" /></td>
 			</tr>
 			<tr>
+				<td><form:label path="image">Image</form:label></td>
+				<td><input type="file" id="imageSelect"
+					accept="image/*" /><span
+					style="display: none"><form:input path="image" name="image"
+							id="image" /></span>
+					<div
+						style="border: 1px solid #F00; width: 200px; height: 200px; overflow: hidden">
+						<img src="" id="img" style="max-width: 200px; max-height: 200px">
+					</div></td>
+			</tr>
+			<tr>
 				<td align="center"><form:button id="brandEdit" name="brandEdit">Confirm Edit</form:button></td>
 			</tr>
 		</table>
@@ -41,5 +52,24 @@
 			</tr>
 		</table>
 	</form:form>
+	
+<script type="text/JavaScript">
+	imageConvert();
+	function imageConvert() {
+		var inputBox = document.getElementById("imageSelect");
+		inputBox.addEventListener("change", function() {
+			//alert(document.getElementById("imageSelect").value);
+			var reader = new FileReader();
+			reader.readAsDataURL(inputBox.files[0]);
+			// Initiate an asynchronous request
+			reader.onload = function() {
+				// After the reading is completed, the data is saved in the result attribute of the object.
+				console.log(this.result)
+				document.getElementById("img").src = this.result;
+				document.getElementById("image").value = this.result;
+			}
+		})
+	}
+	</script>
 </body>
 </html>

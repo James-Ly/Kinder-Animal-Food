@@ -21,6 +21,13 @@
 <link
 	href="${pageContext.request.contextPath}/resources/system/fontawesome/css/all.css"
 	rel="stylesheet">
+	
+<link
+	href="${pageContext.request.contextPath}/resources/system/css/checkReport.css"
+	rel="stylesheet">
+<link
+	href="${pageContext.request.contextPath}/resources/system/css/dataTables.bootstrap.min.css"
+	rel="stylesheet">
 <script
 	src="${pageContext.request.contextPath}/resources/system/js/jquery-3.4.1.min.js"></script>
 <script
@@ -30,6 +37,18 @@
 <script
 	src="${pageContext.request.contextPath}/resources/system/js/SelectAll.js"></script>
 
+<style>
+#bolangxian a:hover{
+	background-image:
+		url("data:image/svg+xml;charset=utf8,%3Csvg id='squiggle-link' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml-events' viewBox='0 0 20 4'%3E%3Cstyle type='text/css'%3E.squiggle{animation:shift .3s linear infinite;}@keyframes shift {from {transform:translateX(0);}to {transform:translateX(-20px);}}%3C/style%3E%3Cpath fill='none' stroke='%23453886' stroke-width='2' class='squiggle' d='M0,3.5 c 5,0,5,-3,10,-3 s 5,3,10,3 c 5,0,5,-3,10,-3 s 5,3,10,3'/%3E%3C/svg%3E");
+	background-position: bottom;
+	background-repeat: repeat-x;
+	background-size: 40%;
+	border-bottom: 0;
+	padding-bottom: .1em;
+	text-decoration: none;
+}
+</style>
 <title>Update/Delete Accreditation</title>
 </head>
 <body>
@@ -84,7 +103,7 @@
 						</tr>
 						<tr>
 							<td>
-								<table border="1" height=100% width=100% cellspacing="0">
+								<table  height=100% width=100% cellspacing="0" class="table table-striped table-border">
 									<tr height="30">
 										<th width="400"><strong><font face="Arial"
 												color="Black" size="4px">&nbsp;&nbsp;Accreditation
@@ -103,7 +122,7 @@
 												<div id="Black">${Acc.getAccreditation_name()}</div>
 											</td>
 											<td>${Acc.getRating()}</td>
-											<td><div id="Blue">
+											<td><div id="bolangxian">
 													<a
 														href="javascript:void(window.open('AccreditationEdit/${Acc.getAccreditation_id()}','','height=529, width=700, top=265,left=645, toolbar=no, menubar=no, scrollbars=yes, resizable=yes,location=no, status=no'))"
 														target="_self">Edit</a>
@@ -118,8 +137,8 @@
 						</tr>
 										<tr>
 				<td align="right">
-								<span id="spanFirst">First Page&nbsp;&nbsp;&nbsp;</span> <span id="spanPre">Pre Page&nbsp;&nbsp;&nbsp;</span> <span id="spanNext">Next Page&nbsp;&nbsp;&nbsp;</span> <span id="spanLast">Last page&nbsp;&nbsp;&nbsp;</span> The&nbsp;<span id="spanPageNum"></span>&nbsp;page&nbsp;/&nbsp;Total&nbsp;<span id="spanTotalPage"></span>&nbsp;Page
-				</td>
+					<span id="spanFirst">|&lt;&nbsp;&nbsp;&nbsp;</span> <span id="spanPre">&lt;&lt;&nbsp;&nbsp;&nbsp;</span> <span id="spanNext">&gt;&gt;&nbsp;&nbsp;&nbsp;</span> <span id="spanLast">&gt;|&nbsp;&nbsp;&nbsp;</span> &nbsp;<span id="spanPageNum"></span>&nbsp;&nbsp;/&nbsp;&nbsp;<span id="spanTotalPage"></span>&nbsp;
+					</td>
 				</tr>
 					</table>
 				</form></td>
@@ -242,20 +261,20 @@
 
 
      
-     function preLink() { spanPre.innerHTML = "<a href=' '>Pre Page</a >&nbsp;&nbsp;&nbsp;"; }
-     function preText() { spanPre.innerHTML = "Pre Page &nbsp;&nbsp;&nbsp;"; }
+     function preLink() { spanPre.innerHTML = "<a href=' '><<</a >&nbsp;&nbsp;&nbsp;"; }
+     function preText() { spanPre.innerHTML = "<< &nbsp;&nbsp;&nbsp;"; }
 
 
-     function nextLink() { spanNext.innerHTML = "<a href='javascript:next();'>Next Page</a >&nbsp;&nbsp;&nbsp;"; }
-     function nextText() { spanNext.innerHTML = "Next Page &nbsp;&nbsp;&nbsp;"; }
+     function nextLink() { spanNext.innerHTML = "<a href='javascript:next();'>>></a >&nbsp;&nbsp;&nbsp;"; }
+     function nextText() { spanNext.innerHTML = ">> &nbsp;&nbsp;&nbsp;"; }
 
 
-     function firstLink() { spanFirst.innerHTML = "<a href='javascript:first();'>First Page</a >&nbsp;&nbsp;&nbsp;"; }
-     function firstText() { spanFirst.innerHTML = "First Page &nbsp;&nbsp;&nbsp;"; }
+     function firstLink() { spanFirst.innerHTML = "<a href='javascript:first();'>|<</a >&nbsp;&nbsp;&nbsp;"; }
+     function firstText() { spanFirst.innerHTML = "|< &nbsp;&nbsp;&nbsp;"; }
 
 
-     function lastLink() { spanLast.innerHTML = "<a href='javascript:last();'>Last Page</a >&nbsp;&nbsp;&nbsp;"; }
-     function lastText() { spanLast.innerHTML = "Last Page &nbsp;&nbsp;&nbsp;"; }
+     function lastLink() { spanLast.innerHTML = "<a href='javascript:last();'>>|</a >&nbsp;&nbsp;&nbsp;"; }
+     function lastText() { spanLast.innerHTML = ">| &nbsp;&nbsp;&nbsp;"; }
 
 
      function hide() {
@@ -267,7 +286,7 @@
          totalPage.innerHTML = pageCount();
          pageNum.innerHTML = '1';
 
-		if(pageCount()>1){
+ 		if(pageCount()>1){
 	         nextLink();
 	         lastLink();
 		}
