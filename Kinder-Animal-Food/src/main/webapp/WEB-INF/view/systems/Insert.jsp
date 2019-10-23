@@ -439,7 +439,7 @@
 		$('#insertSelect').prettyDropdown({
 			classic : true,
 			selectedMarker : "",
-		//hoverIntent : -1,
+		hoverIntent : -1,
 		});
 		var accreditations = getAccreditations();
 		autoShow(accreditations, '#accreditation_name', '#rating');
