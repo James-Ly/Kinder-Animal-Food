@@ -25,8 +25,27 @@
 	src="${pageContext.request.contextPath}/resources/system/js/jquery-3.4.1.min.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/system/js/bootstrap.js"></script>
-<script
+<script 
 	src="${pageContext.request.contextPath}/resources/system/js/SelectAll.js"></script>
+
+<link
+	href="${pageContext.request.contextPath}/resources/system/css/checkReport.css"
+	rel="stylesheet">
+<link
+	href="${pageContext.request.contextPath}/resources/system/css/dataTables.bootstrap.min.css"
+	rel="stylesheet">
+<style>
+#bolangxian a:hover{
+	background-image:
+		url("data:image/svg+xml;charset=utf8,%3Csvg id='squiggle-link' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml-events' viewBox='0 0 20 4'%3E%3Cstyle type='text/css'%3E.squiggle{animation:shift .3s linear infinite;}@keyframes shift {from {transform:translateX(0);}to {transform:translateX(-20px);}}%3C/style%3E%3Cpath fill='none' stroke='%23453886' stroke-width='2' class='squiggle' d='M0,3.5 c 5,0,5,-3,10,-3 s 5,3,10,3 c 5,0,5,-3,10,-3 s 5,3,10,3'/%3E%3C/svg%3E");
+	background-position: bottom;
+	background-repeat: repeat-x;
+	background-size: 50%;
+	border-bottom: 0;
+	padding-bottom: .1em;
+	text-decoration: none;
+}
+</style>
 
 <title>UpdateDeleteStore</title>
 </head>
@@ -68,35 +87,36 @@
 						</tr>
 						<tr>
 							<td>
-								<table border="1" height=100% width=100% cellspacing="0">
+								<table  height=100% width=100% cellspacing="0" class="table table-striped table-border">
 									<tr height="30">
 										<th width=10%><strong><font face="Arial"
-												color="Black" size="4px">&nbsp;Store Name</font></strong></th>
+												color="Black" size="4px">Store Name</font></strong></th>
 										<th width=40%><strong><font face="Arial"
-												color="Black" size="4px">&nbsp;Address</font></strong></th>
+												color="Black" size="4px">Address</font></strong></th>
 										<th width=10%><strong><font face="Arial"
-												color="Black" size="4px">&nbsp;State</font></strong></th>
+												color="Black" size="4px">State</font></strong></th>
 										<th width=10%><strong><font face="Arial"
-												color="Black" size="4px">&nbsp;Post Code</font></strong></th>
+												color="Black" size="4px">Post Code</font></strong></th>
 										<th width=15%><strong><font face="Arial"
-												color="Black" size="4px">&nbsp;Number of Brand</font></strong>
+												color="Black" size="4px">Number of Brand</font></strong>
 										</th>
 										<th width=5%><strong><font face="Arial" color="Black"
-												size="4px">&nbsp;&nbsp;Delete</font></strong></th>
+												size="4px">Delete</font></strong></th>
 									</tr>
 									<tbody id="storetable">
 									<c:forEach items="${stores}" var="s">
 										<tr height="40">
 											<td>
-												<div id="Black">
-													<a href="StoreDetails/${s.getStore_id()}">&nbsp;&nbsp;${s.getStore_name()}</a>
-											</td>
+												<div id="bolangxian">
+													<a href="StoreDetails/${s.getStore_id()}">${s.getStore_name()}</a>
 											</div>
-											<td>&nbsp;&nbsp;${s.getStore_address()}</td>
-											<td>&nbsp;&nbsp;${s.getStore_state()}</td>
-											<td>&nbsp;&nbsp;${s.getStore_postcode()}</td>
-											<td>&nbsp;&nbsp;${s.getBrands_num()}</td>
-											<td>&nbsp;&nbsp;<input type="checkbox" name="delete"
+											</td>
+										
+											<td>${s.getStore_address()}</td>
+											<td>${s.getStore_state()}</td>
+											<td>${s.getStore_postcode()}</td>
+											<td>${s.getBrands_num()}</td>
+											<td align="center"><input type="checkbox" name="delete"
 												value="${s.getStore_id()}"></td>
 										</tr>
 									</c:forEach>
@@ -106,7 +126,7 @@
 						</tr>
 						<tr>
 				<td align="right">
-								<span id="spanFirst">First Page&nbsp;&nbsp;&nbsp;</span> <span id="spanPre">Pre Page&nbsp;&nbsp;&nbsp;</span> <span id="spanNext">Next Page&nbsp;&nbsp;&nbsp;</span> <span id="spanLast">Last page&nbsp;&nbsp;&nbsp;</span> The&nbsp;<span id="spanPageNum"></span>&nbsp;page&nbsp;/&nbsp;Total&nbsp;<span id="spanTotalPage"></span>&nbsp;Page
+								<span id="spanFirst">|&lt;&nbsp;&nbsp;&nbsp;</span> <span id="spanPre">&lt;&lt;&nbsp;&nbsp;&nbsp;</span> <span id="spanNext">&gt;&gt;&nbsp;&nbsp;&nbsp;</span> <span id="spanLast">&gt;|&nbsp;&nbsp;&nbsp;</span> &nbsp;<span id="spanPageNum"></span>&nbsp;&nbsp;/&nbsp;&nbsp;<span id="spanTotalPage"></span>&nbsp;
 				</td>
 				</tr>
 					</table>
@@ -231,20 +251,20 @@
 
 
      
-     function preLink() { spanPre.innerHTML = "<a href=' '>Pre Page</a >&nbsp;&nbsp;&nbsp;"; }
-     function preText() { spanPre.innerHTML = "Pre Page &nbsp;&nbsp;&nbsp;"; }
+     function preLink() { spanPre.innerHTML = "<a href=' '><<</a >&nbsp;&nbsp;&nbsp;"; }
+     function preText() { spanPre.innerHTML = "<< &nbsp;&nbsp;&nbsp;"; }
 
 
-     function nextLink() { spanNext.innerHTML = "<a href='javascript:next();'>Next Page</a >&nbsp;&nbsp;&nbsp;"; }
-     function nextText() { spanNext.innerHTML = "Next Page &nbsp;&nbsp;&nbsp;"; }
+     function nextLink() { spanNext.innerHTML = "<a href='javascript:next();'>>></a >&nbsp;&nbsp;&nbsp;"; }
+     function nextText() { spanNext.innerHTML = ">> &nbsp;&nbsp;&nbsp;"; }
 
 
-     function firstLink() { spanFirst.innerHTML = "<a href='javascript:first();'>First Page</a >&nbsp;&nbsp;&nbsp;"; }
-     function firstText() { spanFirst.innerHTML = "First Page &nbsp;&nbsp;&nbsp;"; }
+     function firstLink() { spanFirst.innerHTML = "<a href='javascript:first();'>|<</a >&nbsp;&nbsp;&nbsp;"; }
+     function firstText() { spanFirst.innerHTML = "|< &nbsp;&nbsp;&nbsp;"; }
 
 
-     function lastLink() { spanLast.innerHTML = "<a href='javascript:last();'>Last Page</a >&nbsp;&nbsp;&nbsp;"; }
-     function lastText() { spanLast.innerHTML = "Last Page &nbsp;&nbsp;&nbsp;"; }
+     function lastLink() { spanLast.innerHTML = "<a href='javascript:last();'>>|</a >&nbsp;&nbsp;&nbsp;"; }
+     function lastText() { spanLast.innerHTML = ">| &nbsp;&nbsp;&nbsp;"; }
 
 
      function hide() {

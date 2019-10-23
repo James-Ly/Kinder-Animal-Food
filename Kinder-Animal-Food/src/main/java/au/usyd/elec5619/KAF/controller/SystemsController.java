@@ -485,10 +485,13 @@ public class SystemsController {
 			@PathVariable("id") Integer brand_id, Brand brand) {
 
 		ModelAndView mav = new ModelAndView("systems/BrandEdit");
-
-		brand.setBrand_id(brand_id);
-
 		String message = "";
+		brand.setBrand_id(brand_id);
+		if(brand.getImage().length()<1)
+		{
+			System.out.println(123);
+			brand.setImage(brandService.searchBrand(brand_id).getImage());
+		}
 
 		if (brandService.editBrand(brand)) {
 			message += "Brand edit success.";
@@ -498,6 +501,7 @@ public class SystemsController {
 
 		mav.addObject("status", message);
 		mav.addObject("brand", brand);
+
 		mav.addObject("nBrand", new Brand());
 
 //		return "redirect:../BrandEdit/" + brand_id.toString();
