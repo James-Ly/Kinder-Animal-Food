@@ -10,9 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import au.usyd.elec5619.KAF.model.Accreditation;
 import au.usyd.elec5619.KAF.model.Brand;
 import au.usyd.elec5619.KAF.model.BrandAccreditation;
+import au.usyd.elec5619.KAF.service.AccreditationService;
 import au.usyd.elec5619.KAF.service.BrandAccreditationService;
+import au.usyd.elec5619.KAF.user.CrmBrandWithRating;
 
 @Repository
 public class BrandDaoImpl implements BrandDao {
@@ -21,7 +24,10 @@ public class BrandDaoImpl implements BrandDao {
 	private SessionFactory sessionFactory;
 	
 	@Autowired
-	private BrandAccreditationService brandAccreditaionService;
+	private BrandAccreditationService brandAccreditationService;
+	
+	@Autowired
+	private AccreditationService accreditationService;
 
 	@Override
 	@Transactional
@@ -44,19 +50,20 @@ public class BrandDaoImpl implements BrandDao {
 	
 	@Override
 	@Transactional
-	public List<Brand> searchBrandByNameCategoryRating(String brand_name, String brand_category, String brand_rating) {
+	public List<CrmBrandWithRating> searchBrandByNameCategoryRating(String brand_name, String brand_category, String brand_rating) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		
 		/***************************
 		 * Handle the Brand query
 		 ***************************/
+		List<Accreditation> accList = accreditationService.searchAccreditationByRating(brand_rating);
+		List<BrandAccreditation> baList = brandAccreditationService.searchBrandAccreditationByRating(brand_rating);
 		
-		List<BrandAccreditation> baList = brandAccreditaionService.searchBrandAccreditationByRating(brand_rating);
-		System.out.println("BrandDaoImpl================================");
-		for(int i = 0 ; i<baList.size();i++) {
-			System.out.println(baList.get(i));
+		if(brand_rating == null) {
+			accList = accreditationService.accreditationList();
+			baList = brandAccreditationService.brandAccreditationList();
 		}
-		System.out.println("BrandDaoImpl================================");
+		
 		
 		List<Integer> baIdList = new ArrayList<Integer>();
 		for(int i = 0 ; i < baList.size(); i++) {
@@ -66,7 +73,10 @@ public class BrandDaoImpl implements BrandDao {
 		boolean nullName = brand_name == null;
 		boolean nullCategory = brand_category == null;
 		boolean nullRating = baIdList.size() == 0;
-		System.out.println("nullRating "+nullRating);
+		if(brand_rating == null || brand_rating == "All") {
+			nullRating = true;
+		}
+		
 		String queryString = "";
 		if(nullName && nullCategory && nullRating) {
 			queryString += "from Brand ";
@@ -99,7 +109,6 @@ public class BrandDaoImpl implements BrandDao {
 		if (!nullRating) {
 			theQuery.setParameterList("ids", baIdList);
 		}
-		System.out.println("Query String is "+queryString);
 
 		List<Brand> brands = null;
 		try {
@@ -107,8 +116,37 @@ public class BrandDaoImpl implements BrandDao {
 		} catch (Exception e) {
 			brands = null;
 		}
-
-		return brands;
+		
+		List<CrmBrandWithRating> crmBrandWithRating = new ArrayList<CrmBrandWithRating>();
+		for(int i = 0 ; i <  brands.size(); i++) {
+			int bestRating = 0;
+			int goodRating = 0;
+			int avoidRating = 0;
+			CrmBrandWithRating newCrmBrandWithRating = new CrmBrandWithRating();
+			newCrmBrandWithRating.setBrand(brands.get(i));
+			for(int j = 0 ; j < baList.size() ; j++) {
+				for(int k = 0 ; k < accList.size();k++) {
+					if(baList.get(j).getBrand_id() == brands.get(i).getBrand_id() && baList.get(j).getAccreditation_id() == accList.get(k).getAccreditation_id()) {
+						if(accList.get(k).getRating().equalsIgnoreCase("Best")) {
+							bestRating += 1;
+						}
+						if(accList.get(k).getRating().equalsIgnoreCase("Good")) {
+							goodRating += 1;
+						}
+						if(accList.get(k).getRating().equalsIgnoreCase("Avoid")) {
+							avoidRating += 1;
+						}
+					}
+		
+				}
+			}
+			newCrmBrandWithRating.setAvoidRating(avoidRating);
+			newCrmBrandWithRating.setGoodRating(goodRating);
+			newCrmBrandWithRating.setBestRating(bestRating);
+			System.out.println(newCrmBrandWithRating);
+			crmBrandWithRating.add(newCrmBrandWithRating);
+		}
+		return crmBrandWithRating;
 	}
 
 
@@ -170,6 +208,22 @@ public class BrandDaoImpl implements BrandDao {
 		return brands;
 	}
 	
+	@Override
+	@Transactional
+	public List<String> searchDistinctCategory() {
+		Session currentSession = sessionFactory.getCurrentSession();
+
+		Query<String> theQuery = currentSession.createQuery("select distinct brand_category from Brand", String.class);
+
+		List<String> result = null;
+		try {
+			result = theQuery.getResultList();
+		} catch (Exception e) {
+			result = null;
+		}
+		return result;
+	}
+
 	@Override
 	@Transactional
 	public boolean insertBrand(Brand brand) {

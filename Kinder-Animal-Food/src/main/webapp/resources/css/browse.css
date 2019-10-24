@@ -93,6 +93,23 @@ html,body{
 	text-align:center;
 }
 
+.brand-rating{
+	margin-top:2.5%;
+	position:relative;
+	display:inline-block;
+	width: 100%;
+	height:5%;
+}
+
+.brand-rating div{
+	font-size:0.6em;
+	display:inline-block;
+	width:32%;
+	height:100%;
+	vertical-align:top;
+	text-align:center;
+}
+
 /* STYLE FOR THE SEARCH BOX DROP DOWN LIST */
 
 

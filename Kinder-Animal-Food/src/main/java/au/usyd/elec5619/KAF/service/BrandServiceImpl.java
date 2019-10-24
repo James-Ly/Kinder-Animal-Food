@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import au.usyd.elec5619.KAF.dao.BrandDao;
 import au.usyd.elec5619.KAF.model.Brand;
+import au.usyd.elec5619.KAF.user.CrmBrandWithRating;
 
 @Service
 public class BrandServiceImpl implements BrandService {
@@ -31,7 +32,7 @@ public class BrandServiceImpl implements BrandService {
 	
 	@Override
 	@Transactional
-	public List<Brand> searchBrandByNameCategoryRating(String brand_name,String brand_category,String brand_rating){
+	public List<CrmBrandWithRating> searchBrandByNameCategoryRating(String brand_name,String brand_category,String brand_rating){
 		return brandDao.searchBrandByNameCategoryRating(brand_name, brand_category,brand_rating);
 	}
 
@@ -45,6 +46,12 @@ public class BrandServiceImpl implements BrandService {
 	@Transactional
 	public List<Brand> searchBrand(String brand_name, String brand_category) {
 		return brandDao.searchBrand(brand_name, brand_category);
+	}
+	
+	@Override
+	@Transactional
+	public List<String> searchDistinctCategory() {
+		return brandDao.searchDistinctCategory();
 	}
 
 	@Override

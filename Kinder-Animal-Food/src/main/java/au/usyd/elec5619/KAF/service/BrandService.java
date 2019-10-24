@@ -3,6 +3,7 @@ package au.usyd.elec5619.KAF.service;
 import java.util.List;
 
 import au.usyd.elec5619.KAF.model.Brand;
+import au.usyd.elec5619.KAF.user.CrmBrandWithRating;
 
 public interface BrandService {
 
@@ -12,9 +13,11 @@ public interface BrandService {
 	
 	Brand searchBrand(Integer brand_id);
 	
-	public List<Brand> searchBrandByNameCategoryRating(String brand_name,String brand_category,String brand_rating);
+	public List<CrmBrandWithRating> searchBrandByNameCategoryRating(String brand_name,String brand_category,String brand_rating);
 	
 	List<Brand> brandList();
+	
+	List<String> searchDistinctCategory();
 	
 	boolean insertBrand(Brand brand);
 	

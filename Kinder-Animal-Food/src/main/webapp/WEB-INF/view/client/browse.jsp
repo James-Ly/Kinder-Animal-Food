@@ -59,12 +59,18 @@
 				</div>
 				<div style="margin-bottom: 25px" class="input-group">
 					<span class="input-group-text" >Category</span> 
-					<input placeholder="Enter Category" name="category" class="form-control"/>
+					<select class = "from-control" id = "brandCategory" name="category">
+						<option value = "All">All</option>
+						<c:forEach var = "temp" items = "${categoryList}">
+						<option value = "${temp}">${temp}</option>
+						</c:forEach>
+					</select>
 				</div>
 				
 				<div style="margin-bottom: 25px" class="input-group">
 					<span class="input-group-text">Rating</span> 
 					<select class = "from-control" id = "brandRating" name="rating">
+						<option value = "All">All</option>
 						<option value = "Best">Best</option>
 						<option value = "Good">Good</option>
 						<option value = "Avoid">Avoid</option>
@@ -82,12 +88,103 @@
 		  	<%! int i = 0; %>
 		  	<c:forEach var = "temp" items = "${brand}">
 				<div class="brand-card">
-					<div class = "brand-name">${temp.brand_name}</div>
-					<div class = "brand-category">${temp.brand_category}</div>
-					<img class = "brand-image" src="${temp.image}" alt="${temp.brand_name}" style="width:100%">
+					<div class = "brand-name">${temp.brand.brand_name}</div>
+					<div class = "brand-category">Category: ${temp.brand.brand_category}</div>
+					<img class = "brand-image" src="${temp.brand.image}" alt="${temp.brand.brand_name}" style="width:100%">
+					<div class="brand-rating">
+						<div>Best Rating: ${temp.bestRating}</div>
+						<div>Good Rating: ${temp.goodRating}</div>
+						<div>Avoid Rating: ${temp.avoidRating}</div>
+					</div>
 				</div>
 			</c:forEach>
 		  </div>
 	  </div>
+	<script>
+	/**********************************
+  	DROP DOWN LIST FOR THE BRAND NAME 
+  	***********************************/
+  	function autocomplete(inp){
+		var currentFocus;
+		inp.addEventListener("input",function(e){
+			var a,b,i,val = this.value;
+			closeAllLists();
+			if(!val){
+				return false;
+			}
+			currentFocus = -1;
+			var parameters = {"query" : val};
+			var jqxhr = $.get("http://localhost:8080/Kinder-Animal-Food/api/brandName",parameters)
+			jqxhr.done(function(result){
+				closeAllLists();
+				var myBrand = result;
+				a = document.getElementById("input-brand-name_autocomplete-list");
+				a.style.position = "absolute";
+				a.style.width = '100%';
+				a.style.boxShadow = '0px 8px 16px 0px rgba(0,0,0,0.2)';
+				for(var i =0; i < myBrand.length ;i++){
+					b=document.createElement("A");
+					b.setAttribute('title',myBrand[i].brand_name);
+					b.innerHTML += myBrand[i].brand_name;	
+
+					b.className = "myInput__autocomplete-item";
+					b.style.display='block';
+					b.style.background = 'white';
+					b.style.cursor = 'pointer';
+					b.style.padding = '2.5% .5%';
+					b.addEventListener("mouseover",function(e){
+						this.style.background = 'rgb(245,245,250)';
+					})
+					b.addEventListener("mouseout",function(e){
+						this.style.background = 'white';
+					})
+
+					b.addEventListener("click",function(e){
+						$("#input-brand-name").val(this.innerHTML);
+					});
+					a.appendChild(b);
+			}
+			});
+			jqxhr.fail(function(jqxhr){
+				console.log(jqxhr.status);
+			});
+			
+		});
+	
+		function addActive(x){
+			if(!x){
+				return false;
+			}
+			removeActive(x);
+			if(currentFocus >= x.length){
+				currentFocus = 0;
+			}
+			if (currentFocus < 0){
+				currentFocus = (x.length - 1);
+			}
+			x[currentFocus].classLists.add("autocomplete-active");
+		}
+
+		function removeActive(x){
+			for(var i = 0 ; i < x.length ; i++){
+				x[i].classList.remove("autocomplete-active");
+			}
+		}
+		function closeAllLists(){
+			var x = document.getElementById("input-brand-name_autocomplete-list");
+			var fc = x.firstChild;
+			while(fc){
+				x.removeChild(x.firstChild);
+				fc = x.firstChild;
+			}
+		}
+		document.addEventListener("click",function(e){
+			closeAllLists(e.target);
+		})
+	}
+
+	/*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
+	autocomplete(document.getElementById("input-brand-name"));
+	</script>
   </body>
 </html>

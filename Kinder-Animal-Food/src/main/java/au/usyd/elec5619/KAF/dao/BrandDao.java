@@ -3,6 +3,7 @@ package au.usyd.elec5619.KAF.dao;
 import java.util.List;
 
 import au.usyd.elec5619.KAF.model.Brand;
+import au.usyd.elec5619.KAF.user.CrmBrandWithRating;
 
 
 public interface BrandDao {
@@ -13,9 +14,11 @@ public interface BrandDao {
 	
 	List<Brand> searchBrand(String brand_name, String brand_category);
 	
-	List<Brand> searchBrandByNameCategoryRating(String brand_name,String brand_category,String brand_rating);
+	List<CrmBrandWithRating> searchBrandByNameCategoryRating(String brand_name,String brand_category,String brand_rating);
 	
 	List<Brand> brandList();
+	
+	List<String> searchDistinctCategory();
 	
 	boolean insertBrand(Brand brand);
 	
