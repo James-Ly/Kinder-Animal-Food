@@ -18,7 +18,7 @@
 	  <!-- Navigation -->
 	  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav" style = "position:relative">
 	    <div class="container">
-	      <a class="navbar-brand js-scroll-trigger" href="#page-top">Kinder-Animal-Food</a>
+	      <a class="navbar-brand js-scroll-trigger" href="${pageContext.request.contextPath}">Kinder-Animal-Food</a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="navbar-toggler-icon"></span>
 	      </button>
@@ -185,6 +185,14 @@
 
 	/*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
 	autocomplete(document.getElementById("input-brand-name"));
+	
+	/******************************
+			LOG OUT BUTTON
+	******************************/
+	$("#logout-button").click(function(event){
+		event.preventDefault();
+		$("#logout-form").submit();
+	})
 	</script>
   </body>
 </html>
