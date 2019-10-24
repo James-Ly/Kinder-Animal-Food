@@ -98,6 +98,28 @@
 					</div>
 				</div>
 			</c:forEach>
+			<div class="pagination-main" id="pagination-main" data-brandName="${queryBrandName}" data-Category="${Categoryquery}" data-Rating="${queryRating}">
+				<c:set var="numberOfPage" scope = "session" value ="${numberOfPage}"/>
+				<c:set var="currentPage" scope = "session" value = "${currentPage}"/>
+				<c:if test="${numberOfPage > 1}">
+					<c:forEach begin = "1" end = "${numberOfPage}" varStatus="loop">
+						<c:choose>
+							<c:when test="${loop.index == currentPage }">
+								<div class = "pagination-button pagination-disabled" data-pagi="${loop.index}">
+									<c:out value="${loop.index}"/>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div class = "pagination-button pagination-active" data-pagi="${loop.index}">
+									<c:out value="${loop.index}"/>
+								</div>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</c:if>
+				
+				
+			</div>
 		  </div>
 	  </div>
 	<script>
@@ -193,6 +215,57 @@
 		event.preventDefault();
 		$("#logout-form").submit();
 	})
+
+	/******************************
+			PAGINATION
+	******************************/
+	$(".pagination-active").click(function(){
+		var page = $(this).attr("data-pagi");
+		var brandName = $("#pagination-main").attr("data-brandName");
+		var category = $("#pagination-main").attr("data-Category");
+		var rating = $("#pagination-main").attr("data-Rating");
+		var params = {
+				brandName : "",
+				category: category,
+				rating: rating,
+				page: page,
+		}
+		if(!(brandName.localeCompare("") == 0)){
+			console.log(brandName.localeCompare("")==0);
+			params.brandName = brandName;
+		}	
+		if(!(category.localeCompare("") == 0)){
+			params.category = category;
+		}
+		if(!(rating.localeCompare("") == 0)){
+			params.rating = rating;
+		}
+		console.log(params);
+		post("http://localhost:8080/Kinder-Animal-Food/client/browse",params,"get");
+	})
+	
+	function post(path, params, method) {
+		method = method || "get"; // Set method to post by default if not specified.
+
+        // The rest of this code assumes you are not using a library.
+        // It can be made less wordy if you use one.
+        var form = document.createElement("form");
+        form.setAttribute("method", method);
+        form.setAttribute("action", path);
+        for (var key in params) {
+	        if (params.hasOwnProperty(key)) {
+    	        var hiddenField = document.createElement("input");
+                hiddenField.setAttribute("type", "hidden");
+                hiddenField.setAttribute("name", key);
+                hiddenField.setAttribute("value", params[key]);
+                form.appendChild(hiddenField);
+            }
+        }
+        document.body.appendChild(form);
+        form.submit();
+        };
+
+	
 	</script>
   </body>
 </html>

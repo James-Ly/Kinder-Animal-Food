@@ -144,3 +144,37 @@ html,body{
   background-color: DodgerBlue !important; 
   color: #ffffff; 
 }
+
+/* STYLE FOR THE PAGINATION */
+
+.pagination-main{
+	display:inline-block;
+	text-align:center;
+	width:100%;
+	height:5%;
+	margin-top: 5%;
+}
+
+.pagination-button{
+	display:inline-block;
+	vertical-align:middle;
+	height:100%;
+	width:5%;
+	box-shadow: 0 2px 4px 0 rgba(50,50,50,0.2);
+	text-align:center;
+	font-weight:bold;
+}
+
+.pagination-active:hover{
+	background-color:rgba(0,0,250,0.2);
+}
+
+.pagination-disabled{
+	cursor:not-allowed;
+	background-color:#0c0b43;
+	color:white;
+}
+
+.pagination-active{
+	cursor:pointer;
+}

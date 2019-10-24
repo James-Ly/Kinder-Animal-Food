@@ -143,7 +143,6 @@ public class BrandDaoImpl implements BrandDao {
 			newCrmBrandWithRating.setAvoidRating(avoidRating);
 			newCrmBrandWithRating.setGoodRating(goodRating);
 			newCrmBrandWithRating.setBestRating(bestRating);
-			System.out.println(newCrmBrandWithRating);
 			crmBrandWithRating.add(newCrmBrandWithRating);
 		}
 		return crmBrandWithRating;
