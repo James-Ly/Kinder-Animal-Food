@@ -174,8 +174,8 @@
 		$("#brand_category").val("");
 		$("#img")
 				.attr("src",
-						"${pageContext.request.contextPath}/resources/system/default-image.jpg");
-		$("#image").val("");
+						"${pageContext.request.contextPath}/resources/system/default-image.png");
+		$("#image").val(defaultImage);
 		$("#imageSelect").val("");
 		$("#accreditation_name").val("");
 		$("#rating").val("best");
