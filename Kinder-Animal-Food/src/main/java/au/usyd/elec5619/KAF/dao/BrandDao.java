@@ -13,6 +13,8 @@ public interface BrandDao {
 	
 	List<Brand> searchBrand(String brand_name, String brand_category);
 	
+	List<Brand> searchBrandByNameCategoryRating(String brand_name,String brand_category,String brand_rating);
+	
 	List<Brand> brandList();
 	
 	boolean insertBrand(Brand brand);

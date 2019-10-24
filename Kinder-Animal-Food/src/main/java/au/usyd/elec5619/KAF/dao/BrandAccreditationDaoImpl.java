@@ -1,21 +1,28 @@
 package au.usyd.elec5619.KAF.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.hibernate.type.BigIntegerType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import au.usyd.elec5619.KAF.model.Accreditation;
 import au.usyd.elec5619.KAF.model.BrandAccreditation;
+import au.usyd.elec5619.KAF.service.AccreditationService;
 
 @Repository
 public class BrandAccreditationDaoImpl implements BrandAccreditationDao {
 	
 	@Autowired
 	private SessionFactory sessionFactory;
+	
+	@Autowired
+	private AccreditationService accreditationService;
 
 	@Override
 	@Transactional
@@ -55,6 +62,35 @@ public class BrandAccreditationDaoImpl implements BrandAccreditationDao {
 		}
 
 		return brandAccreditation;
+	}
+	
+	
+	@Override
+	@Transactional
+	public List<BrandAccreditation> searchBrandAccreditationByRating(String brand_rating) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		List<Accreditation> accList = accreditationService.searchAccreditationByRating(brand_rating);
+		List<Integer> accIdList = new ArrayList<Integer>();
+		for(int i = 0; i < accList.size();i++ ) {
+			accIdList.add(accList.get(i).getAccreditation_id());
+		}
+		String queryString = "from BrandAccreditation";
+		if(accIdList.size() > 0) {
+			queryString += " where accreditation_id in :accIdList";
+		}
+		
+		Query<BrandAccreditation> theQuery = currentSession.createQuery(queryString, BrandAccreditation.class);
+		if(accIdList.size() > 0) {
+			theQuery.setParameterList("accIdList", accIdList);
+		}
+		List<BrandAccreditation> brandAccreditations = null;
+		try {
+			brandAccreditations = theQuery.getResultList();
+		} catch (Exception e) {
+			brandAccreditations = null;
+		}
+
+		return brandAccreditations;
 	}
 
 	@Override

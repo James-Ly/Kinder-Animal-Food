@@ -57,6 +57,25 @@ public class AccreditationDaoImpl implements AccreditationDao {
 		return accreditation;
 	}
 	
+	
+	
+	@Override
+	@Transactional
+	public List<Accreditation> searchAccreditationByRating(String accreditationRating) {
+		Session currentSession = sessionFactory.getCurrentSession();
+
+		Query<Accreditation> theQuery = currentSession.createQuery("from Accreditation where rating=:aRating", Accreditation.class);
+		theQuery.setParameter("aRating", accreditationRating);
+		
+		List<Accreditation> accreditations = null;
+		try {
+			accreditations = theQuery.getResultList();
+		} catch (Exception e) {
+			accreditations = null;
+		}
+		return accreditations;
+	}
+
 	@Override
 	@Transactional
 	public List<Accreditation> accreditationList() {

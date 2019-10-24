@@ -1,5 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
 <!doctype html>
 <html>
@@ -28,6 +29,11 @@
 	      </button>
 	      <div class="collapse navbar-collapse" id="navbarResponsive">
 	        <ul class="navbar-nav ml-auto">
+	        <security:authorize access="hasRole('ADMIN')">  
+	          <li class="nav-item">
+	            <a class="nav-link js-scroll-trigger" href="${pageContext.request.contextPath}/systems/">Admin Page</a>
+	          </li>
+	         </security:authorize>
 	          <li class="nav-item">
 	            <a class="nav-link js-scroll-trigger" href="${pageContext.request.contextPath}">Browse</a>
 	          </li>

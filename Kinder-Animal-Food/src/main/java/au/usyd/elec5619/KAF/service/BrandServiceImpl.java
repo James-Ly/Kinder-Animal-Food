@@ -28,6 +28,12 @@ public class BrandServiceImpl implements BrandService {
 
 		return brandDao.searchBrand(brand_id);
 	}
+	
+	@Override
+	@Transactional
+	public List<Brand> searchBrandByNameCategoryRating(String brand_name,String brand_category,String brand_rating){
+		return brandDao.searchBrandByNameCategoryRating(brand_name, brand_category,brand_rating);
+	}
 
 	@Override
 	@Transactional

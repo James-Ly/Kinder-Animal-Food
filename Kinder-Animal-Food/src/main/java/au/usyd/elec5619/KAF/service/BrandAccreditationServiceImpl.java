@@ -30,6 +30,11 @@ public class BrandAccreditationServiceImpl implements BrandAccreditationService{
 	}
 	
 	@Override
+	public List<BrandAccreditation> searchBrandAccreditationByRating(String brand_rating) {
+		return brandAccreditationDao.searchBrandAccreditationByRating(brand_rating);
+	}
+
+	@Override
 	@Transactional
 	public List<BrandAccreditation> brandAccreditationList(){
 		

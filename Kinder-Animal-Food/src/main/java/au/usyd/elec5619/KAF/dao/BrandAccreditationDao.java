@@ -10,6 +10,8 @@ public interface BrandAccreditationDao {
 	
 	BrandAccreditation searchBrandAccreditation(Integer brand_id, Integer accreditation_id);
 	
+	List<BrandAccreditation> searchBrandAccreditationByRating(String brand_rating);
+	
 	List<BrandAccreditation> brandAccreditationList();
 	
 	List<Integer> searchBrandByAccreditation(Integer accreditation_id);

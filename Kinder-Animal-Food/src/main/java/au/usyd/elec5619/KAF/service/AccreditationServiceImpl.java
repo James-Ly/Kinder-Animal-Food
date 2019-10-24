@@ -22,6 +22,15 @@ public class AccreditationServiceImpl implements AccreditationService {
 		return accreditationDao.searchAccreditation(accreditation_id);
 	}
 	
+	
+	
+	@Override
+	@Transactional
+	public List<Accreditation> searchAccreditationByRating(String accreditationRating) {
+		return accreditationDao.searchAccreditationByRating(accreditationRating);
+	}
+
+
 	@Override
 	@Transactional
 	public Accreditation searchAccreditation(String accreditation_name) {

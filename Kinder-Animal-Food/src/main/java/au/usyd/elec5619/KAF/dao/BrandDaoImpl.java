@@ -1,5 +1,6 @@
 package au.usyd.elec5619.KAF.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -10,12 +11,17 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import au.usyd.elec5619.KAF.model.Brand;
+import au.usyd.elec5619.KAF.model.BrandAccreditation;
+import au.usyd.elec5619.KAF.service.BrandAccreditationService;
 
 @Repository
 public class BrandDaoImpl implements BrandDao {
 
 	@Autowired
 	private SessionFactory sessionFactory;
+	
+	@Autowired
+	private BrandAccreditationService brandAccreditaionService;
 
 	@Override
 	@Transactional
@@ -36,6 +42,77 @@ public class BrandDaoImpl implements BrandDao {
 		return brands;
 	}
 	
+	@Override
+	@Transactional
+	public List<Brand> searchBrandByNameCategoryRating(String brand_name, String brand_category, String brand_rating) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		/***************************
+		 * Handle the Brand query
+		 ***************************/
+		
+		List<BrandAccreditation> baList = brandAccreditaionService.searchBrandAccreditationByRating(brand_rating);
+		System.out.println("BrandDaoImpl================================");
+		for(int i = 0 ; i<baList.size();i++) {
+			System.out.println(baList.get(i));
+		}
+		System.out.println("BrandDaoImpl================================");
+		
+		List<Integer> baIdList = new ArrayList<Integer>();
+		for(int i = 0 ; i < baList.size(); i++) {
+			baIdList.add(baList.get(i).getBrand_id());
+		}
+		
+		boolean nullName = brand_name == null;
+		boolean nullCategory = brand_category == null;
+		boolean nullRating = baIdList.size() == 0;
+		System.out.println("nullRating "+nullRating);
+		String queryString = "";
+		if(nullName && nullCategory && nullRating) {
+			queryString += "from Brand ";
+		} else {
+			queryString += "from Brand where ";
+		}
+		if(!nullName) {
+			queryString += "brand_name LIKE:bName ";
+			if(!nullCategory) {
+				queryString += "AND brand_category LIKE:bCategory ";
+			}
+			if(!nullRating) {
+				queryString += "AND brand_id in :ids ";
+			}
+		} else if (!nullCategory) {
+			queryString += "brand_category LIKE:bCategory ";
+			if(!nullRating) {
+				queryString += "AND brand_id in :ids ";
+			}
+		} else if (!nullRating) {
+			queryString += "brand_id IN :ids ";
+		}
+		Query<Brand> theQuery = currentSession.createQuery(queryString, Brand.class);
+		if(!nullName) {
+			theQuery.setParameter("bName", "%"+brand_name+"%");
+		} 
+		if (!nullCategory) {
+			theQuery.setParameter("bCategory", "%"+brand_category+"%");
+		}
+		if (!nullRating) {
+			theQuery.setParameterList("ids", baIdList);
+		}
+		System.out.println("Query String is "+queryString);
+
+		List<Brand> brands = null;
+		try {
+			brands = theQuery.getResultList();
+		} catch (Exception e) {
+			brands = null;
+		}
+
+		return brands;
+	}
+
+
+
 	@Override
 	@Transactional
 	public Brand searchBrand(Integer brand_id) {

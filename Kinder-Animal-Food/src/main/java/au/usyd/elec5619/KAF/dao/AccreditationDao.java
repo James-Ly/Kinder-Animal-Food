@@ -10,6 +10,8 @@ public interface AccreditationDao {
 	
 	Accreditation searchAccreditation(String accreditation_name);
 	
+	List<Accreditation> searchAccreditationByRating(String accreditationRating);
+	
 	List<Accreditation> accreditationList();
 	
 	boolean insertAccreditation(Accreditation accreditation);
