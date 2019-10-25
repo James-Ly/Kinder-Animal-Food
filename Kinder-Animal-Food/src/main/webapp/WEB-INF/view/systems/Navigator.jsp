@@ -41,23 +41,21 @@
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="defaultNavbar1">
-				<form class="navbar-form navbar-rightBeforeButton" role="search">
-					<div class="form-group">
-						<input type="text" class="form-control" placeholder="Brand Search">
-					</div>
-					<button type="submit" class="btn btn-default">Submit</button>
-				</form>
+
 				<ul class="nav navbar-nav navbar-right">
+					<li class="nav-item"><a href="#"><i
+							class="fab fa-readme fa-fw"></i> Documentation</a></li>
+
 					<li class="dropdown"><a class="dropdown-toggle"
 						data-toggle="dropdown" href="#"> <i class="fa fa-user fa-fw"></i>
 							<i class="fa fa-caret-down"></i>
 					</a>
 						<ul class="dropdown-menu dropdown-user">
-							<li><a href="#"><i class="fab fa-readme fa-fw"></i>
-									Documentation</a></li>
-							<li class="divider"></li>
-							<li><a href="${pageContext.request.contextPath}" id="home-page-button"><i
-									class="fa fa-sign-out-alt fa-fw"></i> Home page</a></li>
+
+
+							<li><a href="${pageContext.request.contextPath}"
+								id="home-page-button"><i class="fas fa-home fa-fw"></i> Home
+									page</a></li>
 							<li class="divider"></li>
 							<li><a href="/" id="logout-button"><i
 									class="fa fa-sign-out-alt fa-fw"></i> Logout</a></li>
