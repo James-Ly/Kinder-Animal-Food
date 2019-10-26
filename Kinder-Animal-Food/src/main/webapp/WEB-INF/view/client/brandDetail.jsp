@@ -54,7 +54,7 @@
 	  	<div class = "body-main-left-panel">
 	  		<a class = "body-main-left-back" href="${pageContext.request.contextPath}">Back</a>
 	  		<a class = "body-main-left-report" href="${pageContext.request.contextPath}/client/report?brand=${brand.brand_name}">Recommend location</a>
-	  		<a class = "body-main-left-locate" href="${pageContext.request.contextPath}/client/locate">Locate this brand</a>
+	  		<a class = "body-main-left-locate" href="${pageContext.request.contextPath}/client/locate?brand=${brand.brand_name}">Locate this brand</a>
 
 	  	</div>
 	  	<div class = "body-main-middle-panel">

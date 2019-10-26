@@ -64,14 +64,13 @@
 				<!-- Brand name -->
 				<div style="margin-bottom: 25px;" class="input-group">
 					<span class="input-group-text" >Brand</span> 
-					<input placeholder="Enter a brand name" class="form-control" id ="input-brand-name" autocomplete="off"/>
+					<input placeholder="Enter a brand name" class="form-control" id ="input-brand-name" value="${brandName}" autocomplete="off"/>
 					<div id = "input-brand-name_autocomplete-list" class="autocomplete-items"></div>
 				</div>
 				<div style="margin-bottom: 25px" class="input-group">
 					<span class="input-group-text" >Location</span> 
 					<input placeholder="Enter a location" class="form-control" id="store_address"/>
-				</div>
-				
+				</div>				
 				<div style="margin-bottom: 25px" class="input-group">
 					<span class="input-group-text">Search radius</span> 
 					<select class = "from-control" id = "search_radius">
@@ -80,7 +79,6 @@
 						<option value = "7500">7.5KM</option>
 					</select>
 				</div>
-				
 				<div style="margin-top: 10px" class="form-group">						
 					<div class="col-sm-6 controls">
 							<button id = "submitButton" class="btn btn-primary">Submit</button>

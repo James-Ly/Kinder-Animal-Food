@@ -53,8 +53,9 @@ public class ClientController {
 	UserService userService;
 		
 	@GetMapping("/locate")
-	public String showLocate(Model theModel) {
-		
+	public String showLocate(Model theModel, HttpServletRequest request) {
+		String brandName = request.getParameter("brand");
+		theModel.addAttribute("brandName",brandName);
 		theModel.addAttribute("crmLocate",new CrmLocate());
 		return "client/locate";
 	}
