@@ -43,6 +43,11 @@
 	          <li class="nav-item">
 	            <a class="nav-link js-scroll-trigger" href="/" id = "logout-button">Logout</a>
 	          </li>
+	          <li class = "nav-item user-Name">
+	          	<a class = "user-NameAnchor" style="color:rgba(255,255,255,.5);">
+	          		<security:authentication property="principal.username" />
+	          	</a>
+	          </li>
 	          <form:form action="${pageContext.request.contextPath}/logout" class="hidden" method="POST" id="logout-form">
 		          	<input type = "submit"  id="logout-button" value = "Logout">
 			  </form:form>

@@ -43,6 +43,16 @@ public class AccreditationServiceImpl implements AccreditationService {
 	public List<Accreditation> accreditationList() {
 		return accreditationDao.accreditationList();
 	}
+	
+	
+
+	@Override
+	@Transactional
+	public List<Accreditation> searchAccreditationByIds(List<Integer> accreditationIds) {
+		return accreditationDao.searchAccreditationByIds(accreditationIds);
+	}
+
+
 
 	@Override
 	@Transactional

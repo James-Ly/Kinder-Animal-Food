@@ -96,6 +96,16 @@ public class AccreditationDaoImpl implements AccreditationDao {
 	
 	@Override
 	@Transactional
+	public List<Accreditation> searchAccreditationByIds(List<Integer> accreditationIds) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query<Accreditation> theQuery = currentSession.createQuery("from Accreditation where accreditation_id in :accIds", Accreditation.class);
+		theQuery.setParameter("accIds", accreditationIds);
+		List<Accreditation> accreditationList = theQuery.getResultList();
+		return accreditationList;
+	}
+
+	@Override
+	@Transactional
 	public boolean insertAccreditation(Accreditation accreditation) {
 		
 		Session currentSession = sessionFactory.getCurrentSession();

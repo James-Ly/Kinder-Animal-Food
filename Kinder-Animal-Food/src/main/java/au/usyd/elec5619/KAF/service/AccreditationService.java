@@ -14,6 +14,8 @@ public interface AccreditationService {
 	
 	List<Accreditation> accreditationList();
 	
+	List<Accreditation> searchAccreditationByIds(List<Integer> accreditationIds);
+	
 	boolean insertAccreditation(Accreditation accreditation);
 	
 	boolean deleteAccreditation(Integer accreditation_id);

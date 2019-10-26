@@ -26,4 +26,6 @@ public interface BrandService {
 	boolean editBrand(Brand brand);
 	
 	Integer countBrand();
+	
+	Brand searchExactBrand(String brand_name);
 }
