@@ -107,6 +107,9 @@
 		var storeState = $("#input-storeState").val();
 		var username = $("#user-NameAnchor").html().trim();
 		console.log(username);
+		if(!required(storeName)){
+			return;
+		}
 		params = {
 				brandName: brandName,
 				storeName: storeName,
@@ -138,7 +141,15 @@
         document.body.appendChild(form);
         form.submit();
         };
-	
+     function required(inputtx) 
+        {
+          if (inputtx.length == 0)
+           { 
+              alert("Please fill out all fields");  	
+              return false; 
+           }  	
+           return true; 
+         } 
 	</script>
   </body>
 </html>
