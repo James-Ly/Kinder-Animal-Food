@@ -99,10 +99,7 @@
 		src="${pageContext.request.contextPath}/resources/system/js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/system/js/dataTables.bootstrap.min.js"></script>
-</body>
-</html>
-
-<script type="text/JavaScript">
+		<script type="text/JavaScript">
 	var reports;
 
 	function getReports() {
@@ -304,3 +301,5 @@
 
 			});
 </script>
+</body>
+</html>

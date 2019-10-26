@@ -112,10 +112,7 @@
 		}
 
 		function addressSearch() {
-			// key for test
-			var api_key = "RK7X3GFB9DVQEL6PNJ8U";
-			// key for submit
-			//var api_key = "U9GBLPQND8YEFC4TR6HJ";
+			var api_key = "U9GBLPQND8YEFC4TR6HJ";
 			var widget, initAF = function() {
 				widget = new AddressFinder.Widget($("#store_address")[0],
 						api_key, 'AU', {

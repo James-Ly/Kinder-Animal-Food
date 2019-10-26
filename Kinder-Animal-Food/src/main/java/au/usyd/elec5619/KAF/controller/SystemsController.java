@@ -590,7 +590,13 @@ public class SystemsController {
 		return "redirect:../../BrandAccreditation/" + brand_id.toString();
 	}
 
-	// report check
+	/**
+	 * Report Check
+	 * 
+	 * @param request HttpServletRequest
+	 * @param response HttpServletResponse
+	 * @return ModelAndView
+	 */
 	@RequestMapping(value = "/CheckReport", method = { RequestMethod.GET })
 	public ModelAndView checkReport(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView("systems/CheckReport");
@@ -607,6 +613,14 @@ public class SystemsController {
 		return mav;
 	}
 
+	/**
+	 * Delete Report
+	 * 
+	 * @param request HttpServletRequest
+	 * @param response HttpServletResponse
+	 * @param delete String[]
+	 * @return String "redirect:CheckReport"
+	 */
 	@RequestMapping(value = "/checkReportDelete", method = RequestMethod.POST)
 	public String checkReportDelete(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(value = "reportDelete") String[] delete) {
@@ -626,6 +640,14 @@ public class SystemsController {
 		return "redirect:CheckReport";
 	}
 
+	/**
+	 * Add new store, new product by Report
+	 * 
+	 * @param request HttpServletRequest
+	 * @param response HttpServletResponse
+	 * @param report Report
+	 * @return ModelAndView
+	 */
 	@RequestMapping(value = "/checkReportUpdate", method = RequestMethod.POST)
 	public ModelAndView checkReportUpdate(HttpServletRequest request, HttpServletResponse response, Report report) {
 		System.out.println(report);
@@ -821,21 +843,6 @@ public class SystemsController {
 				message += String.format("Accreditation exists(id: %d). ", accreditation_id);
 			}
 
-			// 定义文件名
-			// String fileName = "";
-			// 获取原始文件名
-			// String uploadFileName = image.getOriginalFilename();
-			/*
-			 * MultipartFile multipartFile = brand.getImage(); System.out.println(image);
-			 * List<String> fileNames = new ArrayList<String>(); if (null != multipartFile)
-			 * { String fileName = multipartFile.getOriginalFilename();
-			 * fileNames.add(fileName);
-			 * 
-			 * File imageFile = new File(request.getServletContext().getRealPath("/image"),
-			 * fileName); try { multipartFile.transferTo(imageFile); } catch (IOException e)
-			 * { e.printStackTrace(); } }
-			 */
-
 			// Insert new brand
 			if (brandService.insertBrand(brand)) {
 				message += "Brand insert success.";
@@ -861,7 +868,7 @@ public class SystemsController {
 	 */
 	private String[] addressGetCoordinate(String address) {
 		// API KEY
-		String api_key = "56e3b46c-5fcc-4384-858b-40f54bce3976";
+		String api_key = "09b5f6d4-627d-4654-9e77-498a430bdb95";
 		System.out.println("Input store address: " + address);
 		// RestTemplate
 		RestTemplate restTemplate = new RestTemplate();
