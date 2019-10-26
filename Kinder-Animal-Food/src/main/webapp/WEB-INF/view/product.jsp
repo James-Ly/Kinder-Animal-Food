@@ -36,29 +36,43 @@
   
   <body>
 <style>
-.item1 { grid-area: header; }
-.item2 { grid-area: image; width:50$;}
-.item3 { grid-area: description; }
-.item4 { grid-area: store; }
+.item1 { grid-area: header;     border: 1px solid #dfdfdf; text-align: center;  padding: 10px;}
+a{
+color:#000;
+}
+.item2 { grid-area: image; width:50$; border: 1px solid #dfdfdf; text-align: center;}
+.item3 { grid-area: description;  border: 1px solid #dfdfdf; text-align: center;  padding: 10%;}
+.brand-rating { grid-area: rating;  border: 1px solid #dfdfdf; text-align: center;  padding: 10%;}
+.item4 { grid-area: store; border: 1px solid #dfdfdf; display: grid; text-align: center;  padding: 10px;}
 .grid-container > div {
 
   text-align: center;
-  padding: 20px 0;
+
   font-size: 30px;
 }
 
 .grid-container {
   display: grid;
   grid-template-areas:
-    'header header header'
-    'image description store';
+    'image header'
+    'image description'
+    'image rating'
+    'store store';
   grid-gap: 10px;
-  grid-template-columns: 50% 25% 25%;
-
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 20% 20%% 55%;
+width:80%; margin: auto;
   padding: 10px;
 }
-
-
+table, th, td {
+  border: 1px solid #dfdfdf;  
+  font-size: 20px;
+}
+th, td {
+width:50%}
+}
+table{
+height:100%;  padding: 10px;
 }
 </style>
 
@@ -93,27 +107,42 @@
   <div class="grid-container">
 
 <div class="item2">
-  <img src="${product.image}" alt="${product.image}" style="width:30%">
+  <img src="${product.image}" alt="${product.image}" style="width:90%">
   </div>
   <div class="item1">
   <h1><a href= "${pageContext.request.contextPath}/products/${product.brand_id}"> ${product.brand_name}</a></h1>
 	</div>
 	<div class="item3">
-	<h1>Product Description</h1>
+	<div class = "category" style ="margin: auto; ">
+	<h1>Category</h1>
+ 	</div>
  <p>${product.brand_category}<p>
  </div>
-
+	<div class="brand-rating">
+	<h1>Accreditation</h1>
+						<div>Best Rating: ${bestRating}</div>
+						<div>Good Rating: ${goodRating}</div>
+						<div>Avoid Rating: ${avoidRating}</div>
+					</div>
  	<div class="item4">
- 	 <h1>Available at</h1>
- <ul class="store">
+ 	 <h1>Rating</h1>
 
-  	<c:forEach items="${store}" var="store">
-		
-	
-	<li>${store.store_name}</li>
-		
+<table>
+  <tr>
+    <th>Accreditation</th>
+    <th>Rating</th>
+  </tr>
+    	<c:forEach items="${accreditation}" var="accreditation">
+		<tr>
+    <td>${accreditation.accreditation_name}</td>
+    <td>${accreditation.rating}</td>
+  </tr>
+
 </c:forEach>
-	</ul>
+
+  </tr>
+</table>
+
 	</div>
   </div>
  </div>

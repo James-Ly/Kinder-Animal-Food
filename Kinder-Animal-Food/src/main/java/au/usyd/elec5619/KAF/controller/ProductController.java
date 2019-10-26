@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import au.usyd.elec5619.KAF.model.Accreditation;
 import au.usyd.elec5619.KAF.model.Product;
 import au.usyd.elec5619.KAF.model.Store;
+import au.usyd.elec5619.KAF.service.AccreditationService;
+import au.usyd.elec5619.KAF.service.BrandAccreditationService;
 import au.usyd.elec5619.KAF.service.BrandService;
 import au.usyd.elec5619.KAF.service.ProductService;
 import au.usyd.elec5619.KAF.service.StoreService;
@@ -29,7 +32,12 @@ public class ProductController {
 
 	@Autowired
 	private BrandService brandService;
-
+	
+	@Autowired
+	BrandAccreditationService brandAccreditationService;
+	
+	@Autowired
+	AccreditationService accreditationService;
 	
 	@RequestMapping(value = "/products", method = RequestMethod.GET)
 	public String listProducts(Model model) {
@@ -61,14 +69,36 @@ public class ProductController {
 		model.addAttribute("product", this.brandService.searchBrand(id));
 		
 		
-		List<Integer> storeId = this.productService.searchStoreByBrand(id);
-		List<Store> store = new ArrayList<Store>();
-		for (Integer x : storeId) {
-			store.add(this.storeService.searchStore(x));
+		List<Integer> accreditationId = this.brandAccreditationService.searchAccreditationByBrand(id);
+		List<Accreditation> accreditation = new ArrayList<Accreditation>();
+		for (Integer x : accreditationId) {
+			accreditation.add(this.accreditationService.searchAccreditation(x));
 			
 		}
-		model.addAttribute("store", store);
-		model.addAttribute("listProducts", this.brandService.brandList());
+		model.addAttribute("accreditation", accreditation);
+		Integer bestRating = 0 ;
+		Integer goodRating = 0 ;
+		Integer	avoidRating = 0 ;
+		
+		for (Accreditation a:accreditation) {
+			if (a.getRating().equals("good")) {
+				goodRating++;
+			}
+			
+			if (a.getRating().equals("best")) {
+				 bestRating++;
+			}
+			
+			if (a.getRating().equals("avoid")) {
+				avoidRating++;
+			}
+			
+			
+		}
+		model.addAttribute("bestRating", bestRating);
+		model.addAttribute("goodRating", goodRating);
+		model.addAttribute("avoidRating", avoidRating);
+		
 		return "product";
 	}
 	@RequestMapping(value = "/search/{page}")
