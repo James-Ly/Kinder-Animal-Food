@@ -27,31 +27,31 @@
 				<td><form:input path="store_name" name="store_name"
 						id="store_name" value="${store.getStore_name()}" /><span
 					style="margin-left: 10px; display: none; color: red"
-					id="storeNameNull">Please enter the store name！</span></td>
+					id="storeNameNull">Please enter the store name!</span></td>
 			</tr>
 			<tr>
 				<td><form:label path="store_address">Address: </form:label></td>
 				<td><form:input path="store_address" name="store_address"
 						id="store_address" value="${store.getStore_address()}" /><span
 					style="margin-left: 10px; display: none; color: red"
-					id="storeAddressNull">Please enter the store address！</span></td>
+					id="storeAddressNull">Please enter the store address!</span></td>
 			</tr>
 			<tr>
 				<td><form:label path="store_state">State: </form:label></td>
 				<td><form:input path="store_state" name="store_state"
 						id="store_state" value="${store.getStore_state()}" /><span
 					style="margin-left: 10px; display: none; color: red"
-					id="storeStateNull">Please enter the store state！</span></td>
+					id="storeStateNull">Please enter the store state!</span></td>
 			</tr>
 			<tr>
 				<td><form:label path="store_postcode">Postcode: </form:label></td>
 				<td><form:input path="store_postcode" name="store_postcode"
 						id="store_postcode" value="${store.getStore_postcode()}" /><span
 					style="margin-left: 10px; display: none; color: red"
-					id="storePostcodeNull">Please enter the store postcode！</span></td>
+					id="storePostcodeNull">Please enter the store postcode!</span></td>
 			</tr>
 			<tr>
-				<td align="center"><form:button id="storeEdit" name="storeEdit"
+				<td align="center"><form:button type="button" id="storeEdit" name="storeEdit"
 						onclick="editStore()">Confirm Edit</form:button></td>
 			</tr>
 		</table>
