@@ -38,6 +38,11 @@
 	          <li class="nav-item">
 	            <a class="nav-link js-scroll-trigger" href="/" id = "logout-button">Logout</a>
 	          </li>
+	          <li class = "nav-item user-Name">
+	          	<a class = "user-NameAnchor" style="color:rgba(255,255,255,.5);">
+	          		<security:authentication property="principal.username" />
+	          	</a>
+	          </li>
 	          <form:form action="${pageContext.request.contextPath}/logout" class="hidden" method="POST" id="logout-form">
 		          	<input type = "submit"  id="logout-button" value = "Logout">
 			  </form:form>
@@ -87,7 +92,7 @@
 		  <div class = "body-main-middle-panel">
 		  	<%! int i = 0; %>
 		  	<c:forEach var = "temp" items = "${brand}">
-				<div class="brand-card">
+				<div class="brand-card" data-brandId="${temp.brand.brand_id}">
 					<div class = "brand-name">${temp.brand.brand_name}</div>
 					<div class = "brand-category">Category: ${temp.brand.brand_category}</div>
 					<img class = "brand-image" src="${temp.brand.image}" alt="${temp.brand.brand_name}" style="width:100%">
@@ -117,8 +122,6 @@
 						</c:choose>
 					</c:forEach>
 				</c:if>
-				
-				
 			</div>
 		  </div>
 	  </div>
@@ -214,6 +217,17 @@
 	$("#logout-button").click(function(event){
 		event.preventDefault();
 		$("#logout-form").submit();
+	})
+	
+	/******************************
+		BRAND DETAIL PAGE
+	******************************/
+	$(".brand-card").click(function(){
+		var brandId = $(this).attr("data-brandId");
+		var params = {
+				brandId: brandId
+		}
+		post("http://localhost:8080/Kinder-Animal-Food/client/brandDetail",params,"get");
 	})
 
 	/******************************

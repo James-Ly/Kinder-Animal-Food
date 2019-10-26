@@ -1,0 +1,158 @@
+*{
+	box-sizing:border-box;
+	font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;	
+}
+
+html,body{
+	margin:0;
+    padding:0;
+    overflow-x:hidden;
+    width:100%;
+    height:100%;
+    font-size:1vw;
+}
+
+.user-Name a{
+	display:block;
+	vertical-align:middle;
+	padding:.5em 1rem;
+	font-weight:400;
+	line-height:1.5;
+}
+
+.hidden{
+	visibility:hidden;	
+}
+
+.body-main{
+	width:100%;
+	height:90%;
+	padding:1%;
+	display:inline-block;
+}
+
+.body-main-left-panel{
+	width:20%;
+	height:100%;
+	display:inline-block;
+	vertical-align:top;
+	padding:0.5%;
+}
+
+.body-main-left-panel a{
+	width:65%;
+	display:inline-block;
+	vertical-align:middle;
+	height:5%;
+	margin-bottom:2.5%;
+	padding-left:10%;
+	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+	border-radius:25px;
+	text-transformation:none;
+	color:black;
+}
+
+.brand-image{
+	width:80%;
+	position:relative;
+	display:inline-block;
+}
+
+.body-main-middle-panel{
+	width:49%;
+	height:100%;
+	padding:1%;
+	display:inline-block;
+	vertical-align:top;
+}
+
+.brand-name{
+	display:inline-block;
+	height:5%;
+	width:100%;
+	vertical-align:middle;
+	font-size:1.5em;
+	font-weight:900;
+	text-transform:uppercase;
+	color:#001f3f;
+	margin-bottom:2.5%;
+}
+
+.brand-category{
+	display:inline-block;
+	height:5%;
+	width:100%;
+	vertical-align:middle;
+	font-size:1.3em;
+	font-weight:600;
+	font-style:oblique;
+	color:#01FF70;
+	margin-bottom:2.5%;
+}
+
+.accreditation-container{
+	display:inline-block;
+	height:80%;
+	width:100%;
+	font-size:1.0em;
+}
+
+.accreditation-explain{
+	display:inline-block;
+	height:40%;
+	width:90%;
+	margin-bottom:2%;
+	border-left: solid #f5f4f0 1px;
+}
+
+.accreditation-wrapper{
+	display:inline-block;
+	width:100%;
+	border-collapse: collapse;
+	display:table;
+}
+
+table{
+	table-radius:25px;
+	display:table;
+}
+
+th{
+	border-right:1px solid white;
+	text-align:center;
+}
+
+tbody th{
+	background-color:#001f3f;
+	color:white;
+}
+
+tfoot th{
+	background-color: #2ECC40;
+	color:white; 
+}
+
+tbody,tr,tfoot{
+	width:100%;
+}
+
+tr{
+	height:32px;
+}
+
+td{
+	padding:3px;
+}
+
+.table-col-1{
+	width:33%;
+}
+
+.body-main-right-panel{
+	width:30%;
+	height:100%;
+	padding:1%;
+	display:inline-block;
+	vertical-align:top;
+	border-left: solid #f5f4f0 2px;
+}

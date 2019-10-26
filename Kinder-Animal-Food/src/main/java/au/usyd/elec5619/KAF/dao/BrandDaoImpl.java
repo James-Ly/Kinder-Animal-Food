@@ -50,6 +50,24 @@ public class BrandDaoImpl implements BrandDao {
 	
 	@Override
 	@Transactional
+	public Brand searchExactBrand(String brand_name) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+
+		Query<Brand> theQuery = currentSession.createQuery("from Brand where brand_name = :bName", Brand.class);
+		theQuery.setParameter("bName",brand_name);
+
+		Brand brands = null;
+		try {
+			brands = theQuery.getSingleResult();
+		} catch (Exception e) {
+			brands = null;
+		}
+		return brands;
+	}
+	
+	@Override
+	@Transactional
 	public List<CrmBrandWithRating> searchBrandByNameCategoryRating(String brand_name, String brand_category, String brand_rating) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		

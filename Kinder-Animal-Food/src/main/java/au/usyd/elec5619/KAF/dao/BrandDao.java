@@ -25,5 +25,7 @@ public interface BrandDao {
 	boolean deleteBrand(Integer brand_id);
 	
 	boolean editBrand(Brand brand);
+
+	Brand searchExactBrand(String brand_name);
 	 
 }

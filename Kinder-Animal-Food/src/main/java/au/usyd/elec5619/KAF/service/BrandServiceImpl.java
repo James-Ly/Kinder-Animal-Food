@@ -98,4 +98,12 @@ public class BrandServiceImpl implements BrandService {
 
 		return conut;
 	}
+
+	@Override
+	@Transactional
+	public Brand searchExactBrand(String brand_name) {
+		return brandDao.searchExactBrand(brand_name);
+	}
+	
+	
 }
