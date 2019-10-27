@@ -57,9 +57,6 @@ public class DemoAppConfig implements WebMvcConfigurer {
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 	}
 	
-	
-	
-	
 	// define a bean for our security datasource
 	@Bean
 	public DataSource securityDataSource() {
