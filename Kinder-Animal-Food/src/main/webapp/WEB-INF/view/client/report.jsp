@@ -11,7 +11,7 @@
 	  <!-- Bootstrap core CSS -->
 	  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css">
 	  <!-- CSS for this page -->
-	  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/brandDetail.css" rel="stylesheet">
+	  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/browse.css" rel="stylesheet">
 	  
   </head>
   <body>
@@ -63,22 +63,18 @@
 			<div style="margin-bottom: 25px;" class="input-group">
 				<span class="input-group-text" >Store name</span>
 				<input placeholder="Enter the store name" name="storeName" class="form-control" id ="input-storeName" autocomplete="off"/>
-				<div id = "input-brand-name_autocomplete-list" class="autocomplete-items"></div>
 			</div>
 			<div style="margin-bottom: 25px;" class="input-group">
 				<span class="input-group-text" >Store address</span>
 				<input placeholder="Enter the store address" name="storeAddress" class="form-control" id="input-storeAddress" autocomplete="off"/>
-				<div id = "input-brand-name_autocomplete-list" class="autocomplete-items"></div>
 			</div>
 			<div style="margin-bottom: 25px;" class="input-group">
 				<span class="input-group-text" >Store postcode</span>
 				<input placeholder="Enter the postcode" name="storePostCode" class="form-control" id="input-storePostCode" autocomplete="off"/>
-				<div id = "input-brand-name_autocomplete-list" class="autocomplete-items"></div>
 			</div>
 			<div style="margin-bottom: 25px;" class="input-group">
 				<span class="input-group-text" >Store state</span>
 				<input placeholder="Enter the state" name="storeState" class="form-control" id="input-storeState" autocomplete="off"/>
-				<div id = "input-brand-name_autocomplete-list" class="autocomplete-items"></div>
 			</div>
 			<div style="margin-top: 10px" class="form-group">						
 				<div class="col-sm-6 controls">
@@ -95,6 +91,92 @@
 		event.preventDefault();
 		$("#logout-form").submit();
 	})
+	
+	/**********************************
+  	DROP DOWN LIST FOR THE BRAND NAME 
+  	***********************************/
+  	function autocomplete(inp){
+		var currentFocus;
+		inp.addEventListener("input",function(e){
+			var a,b,i,val = this.value;
+			closeAllLists();
+			if(!val){
+				return false;
+			}
+			currentFocus = -1;
+			var parameters = {"query" : val};
+			var jqxhr = $.get("http://localhost:8080/Kinder-Animal-Food/api/brandName",parameters)
+			jqxhr.done(function(result){
+				closeAllLists();
+				var myBrand = result;
+				a = document.getElementById("input-brand-name_autocomplete-list");
+				a.style.position = "absolute";
+				a.style.width = '100%';
+				a.style.boxShadow = '0px 8px 16px 0px rgba(0,0,0,0.2)';
+				for(var i =0; i < myBrand.length ;i++){
+					b=document.createElement("A");
+					b.setAttribute('title',myBrand[i].brand_name);
+					b.innerHTML += myBrand[i].brand_name;	
+
+					b.className = "myInput__autocomplete-item";
+					b.style.display='block';
+					b.style.background = 'white';
+					b.style.cursor = 'pointer';
+					b.style.padding = '2.5% .5%';
+					b.addEventListener("mouseover",function(e){
+						this.style.background = 'rgb(245,245,250)';
+					})
+					b.addEventListener("mouseout",function(e){
+						this.style.background = 'white';
+					})
+
+					b.addEventListener("click",function(e){
+						$("#input-brandName").val(this.innerHTML);
+					});
+					a.appendChild(b);
+			}
+			});
+			jqxhr.fail(function(jqxhr){
+				console.log(jqxhr.status);
+			});
+			
+		});
+	
+		function addActive(x){
+			if(!x){
+				return false;
+			}
+			removeActive(x);
+			if(currentFocus >= x.length){
+				currentFocus = 0;
+			}
+			if (currentFocus < 0){
+				currentFocus = (x.length - 1);
+			}
+			x[currentFocus].classLists.add("autocomplete-active");
+		}
+
+		function removeActive(x){
+			for(var i = 0 ; i < x.length ; i++){
+				x[i].classList.remove("autocomplete-active");
+			}
+		}
+		function closeAllLists(){
+			var x = document.getElementById("input-brand-name_autocomplete-list");
+			var fc = x.firstChild;
+			while(fc){
+				x.removeChild(x.firstChild);
+				fc = x.firstChild;
+			}
+		}
+		document.addEventListener("click",function(e){
+			closeAllLists(e.target);
+		})
+	}
+
+	/*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
+	autocomplete(document.getElementById("input-brandName"));
+	
 	
 	/******************************
 			SUBMIT THE REPORT

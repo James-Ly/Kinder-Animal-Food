@@ -1,6 +1,7 @@
 package au.usyd.elec5619.KAF.dao;
 
 import java.util.Date;
+
 import javax.transaction.Transactional;
 
 import org.junit.Before;
@@ -8,14 +9,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.AnnotationConfigWebContextLoader;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import au.usyd.elec5619.KAF.config.DemoAppConfig;
 import au.usyd.elec5619.KAF.model.Report;
-
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.context.web.AnnotationConfigWebContextLoader;
 import junit.framework.TestCase;
 
 @RunWith(SpringJUnit4ClassRunner.class)
