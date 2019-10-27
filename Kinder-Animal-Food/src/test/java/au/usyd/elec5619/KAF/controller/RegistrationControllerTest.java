@@ -47,20 +47,5 @@ public class RegistrationControllerTest {
 		.andReturn();
 	}
 	
-	@Test
-	public void testProcessRegistrationFormSuccess() throws Exception {
-		CrmUser crmUser = new CrmUser();
-		crmUser.setUserName("testing@email.com");
-		crmUser.setBirthDate("Birthday");
-		crmUser.setGender("Female");
-		crmUser.setMatchingPassword("Password123");
-		crmUser.setMatchingPassword("Password123");
-		session.setAttribute("crmUser", crmUser);
-		this.mockMvc.perform(get("/register/processRegistrationForm").session(session))
-		.andExpect(status().isOk())
-		.andExpect(view().name("registration-confirmation"))
-		.andDo(MockMvcResultHandlers.print())
-		.andReturn();;
-	}
 	
 }
