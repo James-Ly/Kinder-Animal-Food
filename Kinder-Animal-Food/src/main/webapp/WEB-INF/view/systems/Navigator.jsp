@@ -43,7 +43,7 @@
 			<div class="collapse navbar-collapse" id="defaultNavbar1">
 
 				<ul class="nav navbar-nav navbar-right">
-					<li class="nav-item"><a href="#"><i
+					<li class="nav-item"><a href="${pageContext.request.contextPath}/resources/documentation.pdf"><i
 							class="fab fa-readme fa-fw"></i> Documentation</a></li>
 
 					<li class="dropdown"><a class="dropdown-toggle"
