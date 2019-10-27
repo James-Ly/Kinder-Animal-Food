@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="Kinder-Animal-Food">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/Kinder-Animal-Food/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/Kinder-Animal-Food/src/test/java"/>
+        <property name="context-root" value="Kinder-Animal-Food"/>
+        <property name="java-output-path" value="/Kinder-Animal-Food/Kinder-Animal-Food/target/classes"/>
+    </wb-module>
+</project-modules>
