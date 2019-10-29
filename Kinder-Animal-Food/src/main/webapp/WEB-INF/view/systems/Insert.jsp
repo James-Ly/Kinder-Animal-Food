@@ -44,7 +44,7 @@
 				<form:label path="store_address">Store Address</form:label>
 				<br>
 
-				<form:input placeholder="Please enter the store address" size="70"
+				<form:input placeholder="Please enter the store address" size="40"
 					path="store_address" name="store_address" id="store_address" />
 				<br> <span style="display: none; color: red"
 					id="storeAddressNull">Please enter the store address！</span>

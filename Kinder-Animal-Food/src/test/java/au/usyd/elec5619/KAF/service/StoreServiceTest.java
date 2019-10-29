@@ -48,7 +48,7 @@ public class StoreServiceTest extends TestCase{
 	public void testSearchStore()
 	{
 		System.out.println("StoreSearch Service Test");
-		Store teststore = storeservice.searchStore(1);
+		Store teststore = storeservice.searchStore(3);
 		System.out.println("store name:"+teststore.getStore_name()+
 				"-----store address:"+teststore.getStore_address()+
 				"-----store postcode:"+teststore.getStore_postcode()+

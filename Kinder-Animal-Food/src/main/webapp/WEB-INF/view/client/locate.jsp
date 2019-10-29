@@ -426,8 +426,6 @@
 			widget.on("result:select", function(fullAddress, metaData) {
 				console.log("widge is selected");
 				$('#store_address')[0].value = metaData.full_address;
-				$('#store_state')[0].value = metaData.state_territory;
-				$('#store_postcode')[0].value = metaData.postcode;
 			});
 		};
 

@@ -61,7 +61,7 @@ public class StoreTest extends TestCase {
 	}
 	
 	public void testSetandGetStoreBrandsNum() {
-		assertNull(store.getBrands_num());
+		
 		Integer storeBrandsNum = (int) (Math.random() * 100);
 		store.setBrands_num(storeBrandsNum);
 		assertEquals(storeBrandsNum, store.getBrands_num());
